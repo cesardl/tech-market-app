@@ -36,19 +36,19 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanelIngresar = new javax.swing.JPanel();
+        javax.swing.JPanel jPanelIngresar = new javax.swing.JPanel();
         javax.swing.JLabel jLabelProducto = new javax.swing.JLabel();
         javax.swing.JLabel jLabelCantidad = new javax.swing.JLabel();
         jComboBoxProducto = new javax.swing.JComboBox<>();
         jSpinnerCantidad = new javax.swing.JSpinner();
         jButtonComprar = new javax.swing.JButton();
-        jPanelMostrar = new javax.swing.JPanel();
+        javax.swing.JPanel jPanelMostrar = new javax.swing.JPanel();
         javax.swing.JLabel jLabelTotal = new javax.swing.JLabel();
         jTextFieldTotal = new javax.swing.JTextField();
         jScrollPaneProductos = new javax.swing.JScrollPane();
         jTableProductos = new javax.swing.JTable();
-        jButtonGuardar = new javax.swing.JButton();
-        jButtonSalir = new javax.swing.JButton();
+        javax.swing.JButton jButtonGuardar = new javax.swing.JButton();
+        javax.swing.JButton jButtonSalir = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Venta de Productos");
@@ -205,11 +205,7 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonSalirActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonComprar;
-    private javax.swing.JButton jButtonGuardar;
-    private javax.swing.JButton jButtonSalir;
     private javax.swing.JComboBox<Producto> jComboBoxProducto;
-    private javax.swing.JPanel jPanelIngresar;
-    private javax.swing.JPanel jPanelMostrar;
     private javax.swing.JScrollPane jScrollPaneProductos;
     private javax.swing.JSpinner jSpinnerCantidad;
     private javax.swing.JTable jTableProductos;

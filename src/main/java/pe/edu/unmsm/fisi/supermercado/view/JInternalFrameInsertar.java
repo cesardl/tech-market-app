@@ -68,17 +68,17 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel = new javax.swing.JPanel();
-        jLabelCodigo = new javax.swing.JLabel();
-        jLabelNombre = new javax.swing.JLabel();
-        jLabelPrecUnit = new javax.swing.JLabel();
-        jLabelCantidad = new javax.swing.JLabel();
+        javax.swing.JPanel jPanel = new javax.swing.JPanel();
+        javax.swing.JLabel jLabelCodigo = new javax.swing.JLabel();
+        javax.swing.JLabel jLabelNombre = new javax.swing.JLabel();
+        javax.swing.JLabel jLabelPrecUnit = new javax.swing.JLabel();
+        javax.swing.JLabel jLabelCantidad = new javax.swing.JLabel();
         jTextFieldCodigo = new javax.swing.JTextField();
         jTextFieldNombre = new javax.swing.JTextField();
         jTextFieldPrecUnit = new javax.swing.JTextField();
         jSpinnerCantidad = new javax.swing.JSpinner();
-        jButtonAgregar = new javax.swing.JButton();
-        jButtonSalir = new javax.swing.JButton();
+        javax.swing.JButton jButtonAgregar = new javax.swing.JButton();
+        javax.swing.JButton jButtonSalir = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Insercion de Productos");
@@ -105,7 +105,7 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
                     .addGroup(jPanelLayout.createSequentialGroup()
                         .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLayout.createSequentialGroup()
-                                .addComponent(jLabelCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabelCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanelLayout.createSequentialGroup()
@@ -214,13 +214,6 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonAgregar;
-    private javax.swing.JButton jButtonSalir;
-    private javax.swing.JLabel jLabelCantidad;
-    private javax.swing.JLabel jLabelCodigo;
-    private javax.swing.JLabel jLabelNombre;
-    private javax.swing.JLabel jLabelPrecUnit;
-    private javax.swing.JPanel jPanel;
     private javax.swing.JSpinner jSpinnerCantidad;
     private javax.swing.JTextField jTextFieldCodigo;
     private javax.swing.JTextField jTextFieldNombre;

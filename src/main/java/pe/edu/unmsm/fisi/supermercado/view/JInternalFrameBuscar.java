@@ -10,7 +10,6 @@
  */
 package pe.edu.unmsm.fisi.supermercado.view;
 
-import java.awt.event.ItemEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.supermercado.business.ArregloProductos;
@@ -28,6 +27,10 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
     private final ArregloProductos aProductos;
 
     private SearchType searchType;
+
+    private enum SearchType {
+        BY_CODE, BY_NAME
+    }
 
     /**
      * Creates new form JInternalFrameBuscar
@@ -57,16 +60,16 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup = new javax.swing.ButtonGroup();
-        jPanelBuscar = new javax.swing.JPanel();
-        jRadioButtonCodigo = new javax.swing.JRadioButton();
-        jRadioButtonNombre = new javax.swing.JRadioButton();
+        javax.swing.ButtonGroup buttonGroup = new javax.swing.ButtonGroup();
+        javax.swing.JPanel jPanelBuscar = new javax.swing.JPanel();
+        javax.swing.JRadioButton jRadioButtonCodigo = new javax.swing.JRadioButton();
+        javax.swing.JRadioButton jRadioButtonNombre = new javax.swing.JRadioButton();
         jTextFieldBuscar = new javax.swing.JTextField();
-        jButtonBuscar = new javax.swing.JButton();
-        jPanelProducto = new javax.swing.JPanel();
-        jScrollPane = new javax.swing.JScrollPane();
+        javax.swing.JButton jButtonBuscar = new javax.swing.JButton();
+        javax.swing.JPanel jPanelProducto = new javax.swing.JPanel();
+        javax.swing.JScrollPane jScrollPane = new javax.swing.JScrollPane();
         jTableProducto = new javax.swing.JTable();
-        jButtonSalir = new javax.swing.JButton();
+        javax.swing.JButton jButtonSalir = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Busqueda de Productos");
@@ -106,7 +109,7 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
                 .addGroup(jPanelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelBuscarLayout.createSequentialGroup()
                         .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
                         .addComponent(jButtonBuscar))
                     .addGroup(jPanelBuscarLayout.createSequentialGroup()
                         .addComponent(jRadioButtonCodigo)
@@ -138,9 +141,16 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
                 "Codigo", "Nombre", "Precio Unit", "Cantidad"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -153,7 +163,7 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
         jPanelProducto.setLayout(jPanelProductoLayout);
         jPanelProductoLayout.setHorizontalGroup(
             jPanelProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 397, Short.MAX_VALUE)
+            .addGap(0, 437, Short.MAX_VALUE)
             .addGroup(jPanelProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelProductoLayout.createSequentialGroup()
                     .addContainerGap()
@@ -207,7 +217,7 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
         // TODO add your handling code here:
         String str = jTextFieldBuscar.getText().trim();
-        if (str.length() == 0) {
+        if (str.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this,
                     "Ingrese dato a buscar", getTitle(),
                     javax.swing.JOptionPane.WARNING_MESSAGE);
@@ -254,32 +264,20 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
     private void jRadioButtonNombreItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRadioButtonNombreItemStateChanged
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
+        if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
             searchType = SearchType.BY_NAME;
             LOG.debug("Asignando tipo de busqueda por nombre");
         }
     }//GEN-LAST:event_jRadioButtonNombreItemStateChanged
 
     private void jRadioButtonCodigoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jRadioButtonCodigoItemStateChanged
-        if (evt.getStateChange() == ItemEvent.SELECTED) {
+        if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
             searchType = SearchType.BY_CODE;
             LOG.debug("Asignando tipo de busqueda por codigo");
         }
     }//GEN-LAST:event_jRadioButtonCodigoItemStateChanged
 
-    private enum SearchType {
-        BY_CODE, BY_NAME
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup buttonGroup;
-    private javax.swing.JButton jButtonBuscar;
-    private javax.swing.JButton jButtonSalir;
-    private javax.swing.JPanel jPanelBuscar;
-    private javax.swing.JPanel jPanelProducto;
-    private javax.swing.JRadioButton jRadioButtonCodigo;
-    private javax.swing.JRadioButton jRadioButtonNombre;
-    private javax.swing.JScrollPane jScrollPane;
     private javax.swing.JTable jTableProducto;
     private javax.swing.JTextField jTextFieldBuscar;
     // End of variables declaration//GEN-END:variables

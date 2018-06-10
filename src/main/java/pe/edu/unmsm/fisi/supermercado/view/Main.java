@@ -11,9 +11,6 @@
 package pe.edu.unmsm.fisi.supermercado.view;
 
 import pe.edu.unmsm.fisi.supermercado.business.ArregloProductos;
-import pe.edu.unmsm.fisi.supermercado.model.Producto;
-
-import java.util.Vector;
 
 /**
  *
@@ -23,7 +20,6 @@ import java.util.Vector;
 public class Main extends javax.swing.JFrame {
 
     private final ArregloProductos aProductos;
-    private Vector<Producto> vVentas;
 
     /**
      * Creates new form Main
@@ -31,7 +27,6 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         aProductos = ArregloProductos.getInstance();
-        vVentas = new Vector<>();
     }
 
     /**
@@ -44,15 +39,15 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jDesktopPane = new javax.swing.JDesktopPane();
-        jMenuBar = new javax.swing.JMenuBar();
-        jMenuMantenimiento = new javax.swing.JMenu();
-        jMenuItemInsertar = new javax.swing.JMenuItem();
-        jMenuItemBuscar = new javax.swing.JMenuItem();
-        jMenuItemVentas = new javax.swing.JMenuItem();
-        jSeparator = new javax.swing.JSeparator();
-        jMenuItemSalir = new javax.swing.JMenuItem();
-        jMenuAyuda = new javax.swing.JMenu();
-        jMenuItemAcercaDe = new javax.swing.JMenuItem();
+        javax.swing.JMenuBar jMenuBar = new javax.swing.JMenuBar();
+        javax.swing.JMenu jMenuMantenimiento = new javax.swing.JMenu();
+        javax.swing.JMenuItem jMenuItemInsertar = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem jMenuItemBuscar = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem jMenuItemVentas = new javax.swing.JMenuItem();
+        javax.swing.JSeparator jSeparator = new javax.swing.JSeparator();
+        javax.swing.JMenuItem jMenuItemSalir = new javax.swing.JMenuItem();
+        javax.swing.JMenu jMenuAyuda = new javax.swing.JMenu();
+        javax.swing.JMenuItem jMenuItemAcercaDe = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Supermercado");
@@ -79,7 +74,7 @@ public class Main extends javax.swing.JFrame {
         });
         jMenuMantenimiento.add(jMenuItemBuscar);
 
-        jMenuItemVentas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemVentas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItemVentas.setText("Ventas");
         jMenuItemVentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,14 +179,5 @@ public class Main extends javax.swing.JFrame {
     private JInternalFrameInsertar jInternalFrameInsertar;
     private JInternalFrameBuscar jInternalFrameBuscar;
     private JInternalFrameVentas jInternalFrameVentas;
-    private javax.swing.JMenu jMenuAyuda;
-    private javax.swing.JMenuBar jMenuBar;
-    private javax.swing.JMenuItem jMenuItemAcercaDe;
-    private javax.swing.JMenuItem jMenuItemBuscar;
-    private javax.swing.JMenuItem jMenuItemInsertar;
-    private javax.swing.JMenuItem jMenuItemSalir;
-    private javax.swing.JMenuItem jMenuItemVentas;
-    private javax.swing.JMenu jMenuMantenimiento;
-    private javax.swing.JSeparator jSeparator;
     // End of variables declaration//GEN-END:variables
 }

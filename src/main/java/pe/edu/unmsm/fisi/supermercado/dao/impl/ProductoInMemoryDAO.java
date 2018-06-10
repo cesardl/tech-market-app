@@ -1,9 +1,9 @@
 package pe.edu.unmsm.fisi.supermercado.dao.impl;
 
-import java.util.Collection;
 import pe.edu.unmsm.fisi.supermercado.dao.ProductoDAO;
 import pe.edu.unmsm.fisi.supermercado.model.Producto;
 
+import java.util.Collection;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -12,11 +12,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  * @author Cesardl
  */
-public class ProductoInMemoryDAOImpl implements ProductoDAO {
+public class ProductoInMemoryDAO implements ProductoDAO {
 
     private final Vector<Producto> vProductos;
 
-    public ProductoInMemoryDAOImpl() {
+    public ProductoInMemoryDAO() {
         this.vProductos = new Vector<>();
 
         AtomicInteger id = new AtomicInteger(1);
@@ -40,7 +40,7 @@ public class ProductoInMemoryDAOImpl implements ProductoDAO {
     public Collection<Producto> obtenerTodos() {
         return vProductos;
     }
-    
+
     @Override
     public boolean aniadirProducto(Producto p) {
         if (numElementos() == 0) {

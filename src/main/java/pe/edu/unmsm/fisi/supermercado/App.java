@@ -16,6 +16,8 @@ public class App {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+
         java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
     }
 }

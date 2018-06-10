@@ -9,7 +9,8 @@ import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.supermercado.dao.ProductoDAO;
-import pe.edu.unmsm.fisi.supermercado.dao.impl.ProductoInMemoryDAOImpl;
+import pe.edu.unmsm.fisi.supermercado.dao.impl.ProductoDatabaseDAO;
+import pe.edu.unmsm.fisi.supermercado.dao.impl.ProductoInMemoryDAO;
 import pe.edu.unmsm.fisi.supermercado.model.Producto;
 
 /**
@@ -26,7 +27,7 @@ public class ArregloProductos {
 
     //private constructor to avoid client applications to use constructor
     private ArregloProductos() {
-        productoDAO = new ProductoInMemoryDAOImpl();
+        productoDAO = new ProductoDatabaseDAO();
     }
 
     public static ArregloProductos getInstance() {
@@ -37,7 +38,12 @@ public class ArregloProductos {
         LOG.info("Retornando todos los productos");
         return productoDAO.obtenerTodos();
     }
-    
+
+    /**
+     * Obteniendo el total de productos.
+     *
+     * @return total de elementos
+     */
     public int numElementos() {
         LOG.info("Obteniendo el total de productos");
         return productoDAO.numElementos();
