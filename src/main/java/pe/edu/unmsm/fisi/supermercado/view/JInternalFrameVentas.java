@@ -8,11 +8,10 @@
  *
  * Created on 01/07/2009, 09:30:27 PM
  */
-package pe.edu.unmsm.fisi.supermercado;
+package pe.edu.unmsm.fisi.supermercado.view;
 
+import pe.edu.unmsm.fisi.supermercado.business.ArregloProductos;
 import pe.edu.unmsm.fisi.supermercado.model.Producto;
-
-import java.util.Vector;
 
 /**
  *
@@ -20,11 +19,11 @@ import java.util.Vector;
  */
 public class JInternalFrameVentas extends javax.swing.JInternalFrame {
 
-    private ArregloProductos aProductos;
-
+    private final ArregloProductos arregloProductos;
+    
     /** Creates new form JInternalFrameVentas */
-    public JInternalFrameVentas(ArregloProductos ap, Vector<Producto> vv) {
-        aProductos = ap;
+    public JInternalFrameVentas() {
+        arregloProductos = ArregloProductos.getInstance();
         initComponents();
     }
 
@@ -38,13 +37,13 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanelIngresar = new javax.swing.JPanel();
-        jLabelProducto = new javax.swing.JLabel();
-        jLabelCantidad = new javax.swing.JLabel();
-        jComboBoxProducto = new javax.swing.JComboBox();
+        javax.swing.JLabel jLabelProducto = new javax.swing.JLabel();
+        javax.swing.JLabel jLabelCantidad = new javax.swing.JLabel();
+        jComboBoxProducto = new javax.swing.JComboBox<>();
         jSpinnerCantidad = new javax.swing.JSpinner();
         jButtonComprar = new javax.swing.JButton();
         jPanelMostrar = new javax.swing.JPanel();
-        jLabelTotal = new javax.swing.JLabel();
+        javax.swing.JLabel jLabelTotal = new javax.swing.JLabel();
         jTextFieldTotal = new javax.swing.JTextField();
         jScrollPaneProductos = new javax.swing.JScrollPane();
         jTableProductos = new javax.swing.JTable();
@@ -60,11 +59,7 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
 
         jLabelCantidad.setText("Cantidad:");
 
-        for (int i = 0; i < aProductos.numElementos(); i++) {
-            jComboBoxProducto.addItem(aProductos.getProducto(i).getNombre());
-        }
-
-        jSpinnerCantidad.setModel(new javax.swing.SpinnerNumberModel(Integer.valueOf(0), Integer.valueOf(0), null, Integer.valueOf(1)));
+        jSpinnerCantidad.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         jButtonComprar.setText("Comprar");
         jButtonComprar.addActionListener(new java.awt.event.ActionListener() {
@@ -84,11 +79,13 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
                     .addComponent(jLabelProducto, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBoxProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanelIngresarLayout.createSequentialGroup()
                         .addComponent(jSpinnerCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 268, Short.MAX_VALUE)
-                        .addComponent(jButtonComprar))))
+                        .addComponent(jButtonComprar))
+                    .addGroup(jPanelIngresarLayout.createSequentialGroup()
+                        .addComponent(jComboBoxProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanelIngresarLayout.setVerticalGroup(
             jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,6 +102,8 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        arregloProductos.obtenerTodos().forEach(producto -> jComboBoxProducto.addItem(producto));
+
         jPanelMostrar.setBorder(javax.swing.BorderFactory.createTitledBorder("Carrito de compras"));
 
         jLabelTotal.setText("Total:");
@@ -113,9 +112,6 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
 
         jTableProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
                 {null, null, null, null}
             },
             new String [] {
@@ -185,7 +181,7 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
                 .addComponent(jPanelIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelMostrar, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSalir)
                     .addComponent(jButtonGuardar))
@@ -211,10 +207,7 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButtonComprar;
     private javax.swing.JButton jButtonGuardar;
     private javax.swing.JButton jButtonSalir;
-    private javax.swing.JComboBox jComboBoxProducto;
-    private javax.swing.JLabel jLabelCantidad;
-    private javax.swing.JLabel jLabelProducto;
-    private javax.swing.JLabel jLabelTotal;
+    private javax.swing.JComboBox<Producto> jComboBoxProducto;
     private javax.swing.JPanel jPanelIngresar;
     private javax.swing.JPanel jPanelMostrar;
     private javax.swing.JScrollPane jScrollPaneProductos;

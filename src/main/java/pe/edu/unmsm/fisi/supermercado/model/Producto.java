@@ -5,7 +5,6 @@
 package pe.edu.unmsm.fisi.supermercado.model;
 
 /**
- *
  * @author soporte
  */
 public class Producto {
