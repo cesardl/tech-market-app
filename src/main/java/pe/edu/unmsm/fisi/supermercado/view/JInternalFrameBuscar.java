@@ -22,6 +22,8 @@ import pe.edu.unmsm.fisi.supermercado.util.AppUtils;
  */
 public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
 
+    private static final long serialVersionUID = -242730727037805381L;
+
     private static final Logger LOG = LoggerFactory.getLogger(JInternalFrameBuscar.class);
 
     private final ArregloProductos aProductos;

@@ -5,6 +5,7 @@
  */
 package pe.edu.unmsm.fisi.supermercado.util;
 
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +33,15 @@ public class AppUtils {
         } catch (NumberFormatException nfe) {
             LOG.error(nfe.getMessage(), nfe);
             return ERROR_NUMBER;
+        }
+    }
+
+    public static void displayInternalFrame(javax.swing.JDesktopPane jDesktopPane, javax.swing.JInternalFrame jInternalFrame) {
+        if (!jInternalFrame.isVisible()) {
+            if (!Arrays.asList(jDesktopPane.getAllFrames()).contains(jInternalFrame)) {
+                jDesktopPane.add(jInternalFrame);
+            }
+            jInternalFrame.setVisible(true);
         }
     }
 

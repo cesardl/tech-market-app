@@ -97,7 +97,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAcercaDe">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+A"/>
+                  <KeyStroke key="F1"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Acerca de"/>
               </Properties>
@@ -139,12 +139,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jDesktopPane" alignment="0" pref="885" max="32767" attributes="0"/>
+          <Component id="jDesktopPane" alignment="0" pref="944" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jDesktopPane" alignment="0" pref="433" max="32767" attributes="0"/>
+          <Component id="jDesktopPane" alignment="0" pref="544" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -156,6 +156,7 @@
         </Property>
       </Properties>
       <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="jInternalFrameInsertar = new JInternalFrameInsertar();&#xd;&#xa;jInternalFrameBuscar = new JInternalFrameBuscar();&#xd;&#xa;jInternalFrameVentas = new JInternalFrameVentas();"/>
         <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private JInternalFrameInsertar jInternalFrameInsertar;&#xa;private JInternalFrameBuscar jInternalFrameBuscar;&#xa;private JInternalFrameVentas jInternalFrameVentas;"/>
       </AuxValues>
 

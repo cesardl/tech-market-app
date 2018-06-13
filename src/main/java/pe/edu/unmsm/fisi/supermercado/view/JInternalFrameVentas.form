@@ -44,8 +44,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanelIngresar" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanelMostrar" min="-2" pref="274" max="-2" attributes="0"/>
-              <EmptySpace pref="10" max="32767" attributes="0"/>
+              <Component id="jPanelMostrar" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButtonSalir" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButtonGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -72,59 +72,72 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabelCantidad" alignment="1" max="32767" attributes="1"/>
-                      <Component id="jLabelProducto" alignment="1" min="-2" max="-2" attributes="1"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="jSpinnerCantidad" min="-2" pref="74" max="-2" attributes="0"/>
-                          <EmptySpace pref="268" max="32767" attributes="0"/>
-                          <Component id="jButtonComprar" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
-                          <Component id="jComboBoxProducto" min="-2" pref="311" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="jLabelCantidad" alignment="0" min="-2" max="-2" attributes="1"/>
+                      <Component id="jLabelProducto" alignment="0" min="-2" max="-2" attributes="1"/>
+                      <Component id="jLabelCliente" alignment="0" min="-2" pref="55" max="-2" attributes="1"/>
                   </Group>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jComboBoxProducto" pref="330" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jSpinnerCantidad" pref="74" max="32767" attributes="0"/>
+                          <EmptySpace min="256" pref="256" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jComboBoxCliente" pref="330" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="169" max="-2" attributes="0"/>
+                  <Component id="jButtonComprar" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
+              <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabelProducto" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBoxProducto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="jLabelCliente" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="jComboBoxCliente" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabelCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jSpinnerCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonComprar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="jComboBoxProducto" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelProducto" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="jSpinnerCantidad" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelCantidad" alignment="2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <Group type="102" attributes="0">
+                  <EmptySpace min="70" pref="70" max="-2" attributes="0"/>
+                  <Component id="jButtonComprar" min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabelProducto">
+        <Component class="javax.swing.JLabel" name="jLabelCliente">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Producto:"/>
+            <Property name="text" type="java.lang.String" value="Cliente:"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelCantidad">
+        <Component class="javax.swing.JComboBox" name="jComboBoxCliente">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="arregloClientes.obtenerTodos().forEach(cliente -&gt; jComboBoxCliente.addItem(cliente));"/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Cliente&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabelProducto">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cantidad:"/>
+            <Property name="text" type="java.lang.String" value="Producto:"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
@@ -135,6 +148,15 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="arregloProductos.obtenerTodos().forEach(producto -&gt; jComboBoxProducto.addItem(producto));"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Producto&gt;"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabelCantidad">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Cantidad:"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JSpinner" name="jSpinnerCantidad">
@@ -151,6 +173,10 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonComprarActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
@@ -173,12 +199,12 @@
               <Group type="102" attributes="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="381" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="jLabelTotal" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jTextFieldTotal" min="-2" pref="53" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPaneProductos" alignment="0" pref="466" max="32767" attributes="0"/>
+                      <Component id="jScrollPaneProductos" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -188,7 +214,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <Component id="jScrollPaneProductos" min="-2" pref="217" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="30" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jTextFieldTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelTotal" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -215,6 +241,8 @@
         </Component>
         <Container class="javax.swing.JScrollPane" name="jScrollPaneProductos">
           <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
             <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
           </AuxValues>
 

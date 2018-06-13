@@ -5,13 +5,13 @@
  */
 package pe.edu.unmsm.fisi.supermercado.business;
 
-import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.supermercado.dao.ProductoDAO;
 import pe.edu.unmsm.fisi.supermercado.dao.impl.ProductoDatabaseDAO;
-import pe.edu.unmsm.fisi.supermercado.dao.impl.ProductoInMemoryDAO;
 import pe.edu.unmsm.fisi.supermercado.model.Producto;
+
+import java.util.Collection;
 
 /**
  * @author Eliana Zapata

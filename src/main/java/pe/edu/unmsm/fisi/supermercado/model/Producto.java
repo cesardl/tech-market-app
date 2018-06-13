@@ -4,10 +4,14 @@
  */
 package pe.edu.unmsm.fisi.supermercado.model;
 
+import java.io.Serializable;
+
 /**
  * @author soporte
  */
-public class Producto {
+public class Producto implements Serializable {
+
+    private static final long serialVersionUID = 2301296275576073714L;
 
     private int codigo;
     private String nombre;
@@ -77,9 +81,6 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Codigo: " + codigo +
-                "\tNombre: " + nombre +
-                "\tPrecio Unitario: " + precUnit +
-                "\tCantidad: " + cantidad;
+        return this.nombre;
     }
 }

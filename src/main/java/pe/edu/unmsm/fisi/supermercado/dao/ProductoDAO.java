@@ -1,6 +1,5 @@
 package pe.edu.unmsm.fisi.supermercado.dao;
 
-import java.util.Collection;
 import pe.edu.unmsm.fisi.supermercado.model.Producto;
 
 /**
@@ -8,9 +7,7 @@ import pe.edu.unmsm.fisi.supermercado.model.Producto;
  *
  * @author Cesardl
  */
-public interface ProductoDAO {
-
-    Collection<Producto> obtenerTodos();
+public interface ProductoDAO extends crudSimpleDAO<Producto> {
 
     boolean aniadirProducto(Producto p);
 

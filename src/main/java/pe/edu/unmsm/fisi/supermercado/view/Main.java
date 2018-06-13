@@ -10,14 +10,22 @@
  */
 package pe.edu.unmsm.fisi.supermercado.view;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.supermercado.business.ArregloProductos;
 
+import java.util.Arrays;
+import pe.edu.unmsm.fisi.supermercado.util.AppUtils;
+
 /**
- *
  * @author Eliana Zapata
  * @since 2009
  */
 public class Main extends javax.swing.JFrame {
+
+    private static final long serialVersionUID = -7967665231395260595L;
+
+    private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
     private final ArregloProductos aProductos;
 
@@ -39,6 +47,9 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jDesktopPane = new javax.swing.JDesktopPane();
+        jInternalFrameInsertar = new JInternalFrameInsertar();
+        jInternalFrameBuscar = new JInternalFrameBuscar();
+        jInternalFrameVentas = new JInternalFrameVentas();
         javax.swing.JMenuBar jMenuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu jMenuMantenimiento = new javax.swing.JMenu();
         javax.swing.JMenuItem jMenuItemInsertar = new javax.swing.JMenuItem();
@@ -97,7 +108,7 @@ public class Main extends javax.swing.JFrame {
 
         jMenuAyuda.setText("Ayuda");
 
-        jMenuItemAcercaDe.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemAcercaDe.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
         jMenuItemAcercaDe.setText("Acerca de");
         jMenuItemAcercaDe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,11 +125,11 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 885, Short.MAX_VALUE)
+            .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 944, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
+            .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
         );
 
         pack();
@@ -126,36 +137,18 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItemInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInsertarActionPerformed
-        // TODO add your handling code here:
-        jInternalFrameInsertar = new JInternalFrameInsertar();
-        jDesktopPane.add(jInternalFrameInsertar);
-        jInternalFrameInsertar.setVisible(true);
+        LOG.debug("Mostrando frame interno de regisro de productos");
+        AppUtils.displayInternalFrame(jDesktopPane, jInternalFrameInsertar);
     }//GEN-LAST:event_jMenuItemInsertarActionPerformed
 
     private void jMenuItemBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBuscarActionPerformed
-        // TODO add your handling code here:
-        if (aProductos.numElementos() == 0) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "No existen productos para poder iniciar la busqueda",
-                    getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
-        } else {
-            jInternalFrameBuscar = new JInternalFrameBuscar();
-            jDesktopPane.add(jInternalFrameBuscar);
-            jInternalFrameBuscar.setVisible(true);
-        }
+        LOG.debug("Mostrando frame interno de busqueda de productos");
+        AppUtils.displayInternalFrame(jDesktopPane, jInternalFrameBuscar);
     }//GEN-LAST:event_jMenuItemBuscarActionPerformed
 
     private void jMenuItemVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVentasActionPerformed
-        // TODO add your handling code here:
-        if (aProductos.numElementos() == 0) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "No existen productos para poder iniciar la venta",
-                    getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
-        } else {
-            jInternalFrameVentas = new JInternalFrameVentas();
-            jDesktopPane.add(jInternalFrameVentas);
-            jInternalFrameVentas.setVisible(true);
-        }
+        LOG.debug("Mostrando frame interno de venta de productos");
+        AppUtils.displayInternalFrame(jDesktopPane, jInternalFrameVentas);
     }//GEN-LAST:event_jMenuItemVentasActionPerformed
 
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
