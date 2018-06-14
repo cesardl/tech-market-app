@@ -7,8 +7,8 @@ package pe.edu.unmsm.fisi.supermercado.business;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.supermercado.dao.impl.ClienteDatabaseDAO;
-import pe.edu.unmsm.fisi.supermercado.model.Cliente;
+import pe.edu.unmsm.fisi.supermercado.dao.impl.CustomerDAO;
+import pe.edu.unmsm.fisi.supermercado.model.Customer;
 
 import java.util.Collection;
 
@@ -21,19 +21,19 @@ public class ArregloClientes {
 
     private static final ArregloClientes INSTANCE = new ArregloClientes();
 
-    private final ClienteDatabaseDAO clienteDAO;
+    private final CustomerDAO customerDAO;
 
     //private constructor to avoid client applications to use constructor
     private ArregloClientes() {
-        clienteDAO = new ClienteDatabaseDAO();
+        customerDAO = new CustomerDAO();
     }
 
     public static ArregloClientes getInstance() {
         return INSTANCE;
     }
 
-    public Collection<Cliente> obtenerTodos() {
+    public Collection<Customer> obtenerTodos() {
         LOG.info("Retornando todos los clientes");
-        return clienteDAO.obtenerTodos();
+        return customerDAO.obtenerTodos();
     }
 }

@@ -7,8 +7,9 @@ package pe.edu.unmsm.fisi.supermercado.business;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.supermercado.dao.ProductoDAO;
-import pe.edu.unmsm.fisi.supermercado.dao.impl.ProductoDatabaseDAO;
+import pe.edu.unmsm.fisi.supermercado.dao.impl.ProductCodeDAO;
+import pe.edu.unmsm.fisi.supermercado.dao.impl.ProductoDAO;
+import pe.edu.unmsm.fisi.supermercado.model.ProductCode;
 import pe.edu.unmsm.fisi.supermercado.model.Producto;
 
 import java.util.Collection;
@@ -24,17 +25,19 @@ public class ArregloProductos {
     private static final ArregloProductos INSTANCE = new ArregloProductos();
 
     private final ProductoDAO productoDAO;
+    private final ProductCodeDAO productCodeDAO;
 
     //private constructor to avoid client applications to use constructor
     private ArregloProductos() {
-        productoDAO = new ProductoDatabaseDAO();
+        productoDAO = new ProductoDAO();
+        productCodeDAO = new ProductCodeDAO();
     }
 
     public static ArregloProductos getInstance() {
         return INSTANCE;
     }
 
-    public Collection<Producto> obtenerTodos() {
+    public Collection<Producto> obtenerTodosLosProductos() {
         LOG.info("Retornando todos los productos");
         return productoDAO.obtenerTodos();
     }
@@ -44,9 +47,9 @@ public class ArregloProductos {
      *
      * @return total de elementos
      */
-    public int numElementos() {
-        LOG.info("Obteniendo el total de productos");
-        return productoDAO.numElementos();
+    public Collection<ProductCode> obtenerTodosLosCodigosDeProducto() {
+        LOG.info("Obteniendo el total de codigos de producto");
+        return productCodeDAO.obtenerTodos();
     }
 
     public boolean aniadirProducto(Producto producto) {

@@ -2,7 +2,6 @@ package pe.edu.unmsm.fisi.supermercado.dao.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.supermercado.dao.ProductoDAO;
 import pe.edu.unmsm.fisi.supermercado.model.Producto;
 import pe.edu.unmsm.fisi.supermercado.util.ConnectionUtils;
 
@@ -16,15 +15,15 @@ import java.util.Collections;
  *
  * @author Cesardl
  */
-public class ProductoDatabaseDAO implements ProductoDAO {
+public class ProductoDAO implements pe.edu.unmsm.fisi.supermercado.dao.ProductoDAO {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProductoDatabaseDAO.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProductoDAO.class);
 
     @Override
     public Collection<Producto> obtenerTodos() {
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
-            s.execute("SELECT PRODUCT_ID, DESCRIPTION, PURCHASE_COST, QUANTITY_ON_HAND FROM PRODUCT");
+            s.execute("SELECT PRODUCT_ID, DESCRIPTION, PURCHASE_COST, QUANTITY_ON_HAND, AVAILABLE FROM PRODUCT");
 
             try (ResultSet rs = s.getResultSet()) {
                 Collection<Producto> vProductos = new ArrayList<>();
@@ -71,7 +70,7 @@ public class ProductoDatabaseDAO implements ProductoDAO {
     @Override
     public Producto buscarCodigo(int codigo) {
         try (Connection conn = ConnectionUtils.openConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT PRODUCT_ID, DESCRIPTION, PURCHASE_COST, QUANTITY_ON_HAND FROM PRODUCT WHERE PRODUCT_ID = ?")) {
+             PreparedStatement ps = conn.prepareStatement("SELECT PRODUCT_ID, DESCRIPTION, PURCHASE_COST, QUANTITY_ON_HAND, AVAILABLE FROM PRODUCT WHERE PRODUCT_ID = ?")) {
             ps.setInt(1, codigo);
 
             try (ResultSet rs = ps.executeQuery()) {
@@ -90,8 +89,8 @@ public class ProductoDatabaseDAO implements ProductoDAO {
     @Override
     public Producto buscarNombre(String nombre) {
         try (Connection conn = ConnectionUtils.openConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT PRODUCT_ID, DESCRIPTION, PURCHASE_COST, QUANTITY_ON_HAND FROM PRODUCT WHERE DESCRIPTION = ?")) {
-            ps.setString(1, nombre);
+             PreparedStatement ps = conn.prepareStatement("SELECT PRODUCT_ID, DESCRIPTION, PURCHASE_COST, QUANTITY_ON_HAND, AVAILABLE FROM PRODUCT WHERE UPPER(DESCRIPTION) LIKE ?")) {
+            ps.setString(1, "%" + nombre.toUpperCase() + "%");
 
             try (ResultSet rs = ps.executeQuery()) {
 
@@ -109,9 +108,10 @@ public class ProductoDatabaseDAO implements ProductoDAO {
     private Producto parseProducto(ResultSet rs) throws SQLException {
         Producto p = new Producto();
         p.setCodigo(rs.getInt("PRODUCT_ID"));
-        p.setNombre(rs.getString("DESCRIPTION"));
-        p.setPrecUnit(rs.getDouble("PURCHASE_COST"));
-        p.setCantidad(rs.getInt("QUANTITY_ON_HAND"));
+        p.setDescription(rs.getString("DESCRIPTION"));
+        p.setPurchaseCost(rs.getDouble("PURCHASE_COST"));
+        p.setQuantityOnHand(rs.getInt("QUANTITY_ON_HAND"));
+        p.setAvailable(Boolean.parseBoolean(rs.getString("AVAILABLE")));
         return p;
     }
 }

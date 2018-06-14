@@ -12,9 +12,7 @@ package pe.edu.unmsm.fisi.supermercado.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.supermercado.business.ArregloProductos;
 
-import java.util.Arrays;
 import pe.edu.unmsm.fisi.supermercado.util.AppUtils;
 
 /**
@@ -27,14 +25,11 @@ public class Main extends javax.swing.JFrame {
 
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
-    private final ArregloProductos aProductos;
-
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
-        aProductos = ArregloProductos.getInstance();
     }
 
     /**

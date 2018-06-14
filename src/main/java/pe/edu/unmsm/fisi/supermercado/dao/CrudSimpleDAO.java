@@ -5,10 +5,10 @@ import java.util.Collection;
 /**
  * Created on 13/06/2018.
  *
- * @author Cesardl
  * @param <T> entity to define
+ * @author Cesardl
  */
-public interface crudSimpleDAO<T> {
+public interface CrudSimpleDAO<T> {
 
     Collection<T> obtenerTodos();
 }

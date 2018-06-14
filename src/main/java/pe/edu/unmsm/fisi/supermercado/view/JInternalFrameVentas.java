@@ -12,7 +12,7 @@ package pe.edu.unmsm.fisi.supermercado.view;
 
 import pe.edu.unmsm.fisi.supermercado.business.ArregloClientes;
 import pe.edu.unmsm.fisi.supermercado.business.ArregloProductos;
-import pe.edu.unmsm.fisi.supermercado.model.Cliente;
+import pe.edu.unmsm.fisi.supermercado.model.Customer;
 import pe.edu.unmsm.fisi.supermercado.model.Producto;
 
 /**
@@ -65,11 +65,11 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
 
         jPanelIngresar.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Producto"));
 
-        jLabelCliente.setText("Cliente:");
+        jLabelCliente.setText("Cliente");
 
-        jLabelProducto.setText("Producto:");
+        jLabelProducto.setText("Producto");
 
-        jLabelCantidad.setText("Cantidad:");
+        jLabelCantidad.setText("Cantidad");
 
         jSpinnerCantidad.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
@@ -120,8 +120,8 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
                 .addComponent(jButtonComprar))
         );
 
-        arregloClientes.obtenerTodos().forEach(cliente -> jComboBoxCliente.addItem(cliente));
-        arregloProductos.obtenerTodos().forEach(producto -> jComboBoxProducto.addItem(producto));
+        arregloClientes.obtenerTodos().forEach(customer -> jComboBoxCliente.addItem(customer));
+        arregloProductos.obtenerTodosLosProductos().forEach(producto -> jComboBoxProducto.addItem(producto));
 
         jPanelMostrar.setBorder(javax.swing.BorderFactory.createTitledBorder("Carrito de compras"));
 
@@ -156,8 +156,8 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
         jPanelMostrarLayout.setVerticalGroup(
             jPanelMostrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMostrarLayout.createSequentialGroup()
-                .addComponent(jScrollPaneProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(jScrollPaneProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelMostrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelTotal))
@@ -225,7 +225,7 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_jButtonSalirActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<Cliente> jComboBoxCliente;
+    private javax.swing.JComboBox<Customer> jComboBoxCliente;
     private javax.swing.JComboBox<Producto> jComboBoxProducto;
     private javax.swing.JSpinner jSpinnerCantidad;
     private javax.swing.JTable jTableProductos;

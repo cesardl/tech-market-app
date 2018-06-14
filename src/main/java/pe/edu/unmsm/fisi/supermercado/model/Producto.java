@@ -14,30 +14,31 @@ public class Producto implements Serializable {
     private static final long serialVersionUID = 2301296275576073714L;
 
     private int codigo;
-    private String nombre;
-    private double precUnit;
-    private int cantidad;
+    private String description;
+    private double purchaseCost;
+    private int quantityOnHand;
+    private boolean available;
 
     public Producto() {
         codigo = 0;
-        nombre = "";
-        precUnit = 0.0;
-        cantidad = 0;
+        description = "";
+        purchaseCost = 0.0;
+        quantityOnHand = 0;
     }
 
-    public Producto(int codigo, String nombre, double precUnit, int cantidad) {
+    public Producto(int codigo, String description, double purchaseCost, int quantityOnHand) {
         this.codigo = codigo;
-        this.nombre = nombre;
-        this.precUnit = precUnit;
-        this.cantidad = cantidad;
+        this.description = description;
+        this.purchaseCost = purchaseCost;
+        this.quantityOnHand = quantityOnHand;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public int getQuantityOnHand() {
+        return quantityOnHand;
     }
 
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
+    public void setQuantityOnHand(int quantityOnHand) {
+        this.quantityOnHand = quantityOnHand;
     }
 
     public int getCodigo() {
@@ -48,20 +49,28 @@ public class Producto implements Serializable {
         this.codigo = codigo;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getDescription() {
+        return description;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public double getPrecUnit() {
-        return precUnit;
+    public double getPurchaseCost() {
+        return purchaseCost;
     }
 
-    public void setPrecUnit(double precUnit) {
-        this.precUnit = precUnit;
+    public void setPurchaseCost(double purchaseCost) {
+        this.purchaseCost = purchaseCost;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     @Override
@@ -81,6 +90,6 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return this.nombre;
+        return this.description;
     }
 }

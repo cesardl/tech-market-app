@@ -7,7 +7,7 @@ import pe.edu.unmsm.fisi.supermercado.model.Producto;
  *
  * @author Cesardl
  */
-public interface ProductoDAO extends crudSimpleDAO<Producto> {
+public interface ProductoDAO extends CrudSimpleDAO<Producto> {
 
     boolean aniadirProducto(Producto p);
 

@@ -105,7 +105,7 @@ public class ProductoInMemoryDAO implements ProductoDAO {
     @Override
     public Producto buscarNombre(String nombre) {
         return vProductos.stream()
-                .filter(producto -> producto.getNombre().equals(nombre))
+                .filter(producto -> producto.getDescription().equals(nombre))
                 .findFirst()
                 .orElse(null);
     }

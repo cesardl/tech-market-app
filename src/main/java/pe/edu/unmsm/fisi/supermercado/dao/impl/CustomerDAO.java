@@ -7,8 +7,8 @@ package pe.edu.unmsm.fisi.supermercado.dao.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.supermercado.dao.crudSimpleDAO;
-import pe.edu.unmsm.fisi.supermercado.model.Cliente;
+import pe.edu.unmsm.fisi.supermercado.dao.CrudSimpleDAO;
+import pe.edu.unmsm.fisi.supermercado.model.Customer;
 import pe.edu.unmsm.fisi.supermercado.util.ConnectionUtils;
 
 import java.sql.Connection;
@@ -22,28 +22,28 @@ import java.util.Collections;
 /**
  * @author Cesardl
  */
-public class ClienteDatabaseDAO implements crudSimpleDAO<Cliente> {
+public class CustomerDAO implements CrudSimpleDAO<Customer> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ClienteDatabaseDAO.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CustomerDAO.class);
 
     @Override
-    public Collection<Cliente> obtenerTodos() {
+    public Collection<Customer> obtenerTodos() {
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
             s.execute("SELECT CUSTOMER_ID, NAME FROM CUSTOMER");
 
             try (ResultSet rs = s.getResultSet()) {
-                Collection<Cliente> vClientes = new ArrayList<>();
+                Collection<Customer> vCustomers = new ArrayList<>();
 
                 while (rs.next()) {
-                    Cliente c = new Cliente();
+                    Customer c = new Customer();
                     c.setId(rs.getInt("CUSTOMER_ID"));
                     c.setName(rs.getString("NAME"));
 
-                    vClientes.add(c);
+                    vCustomers.add(c);
                 }
-                LOG.info("Se cargaron {} clientes", vClientes.size());
-                return vClientes;
+                LOG.info("Se cargaron {} clientes", vCustomers.size());
+                return vCustomers;
             }
         } catch (SQLException ex) {
             LOG.error(ex.getMessage(), ex);

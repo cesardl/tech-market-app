@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * @author Cesardl
  */
-public class Cliente implements Serializable {
+public class Customer implements Serializable {
 
     private static final long serialVersionUID = 7249939140084269353L;
 

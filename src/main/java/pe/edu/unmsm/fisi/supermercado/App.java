@@ -5,6 +5,8 @@
  */
 package pe.edu.unmsm.fisi.supermercado;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.supermercado.view.Main;
 
 /**
@@ -12,12 +14,22 @@ import pe.edu.unmsm.fisi.supermercado.view.Main;
  */
 public class App {
 
+    private static final Logger LOG = LoggerFactory.getLogger(App.class);
+
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+        try {
+            javax.swing.UIManager.setLookAndFeel(
+                    javax.swing.UIManager.getSystemLookAndFeelClassName());
 
-        java.awt.EventQueue.invokeLater(() -> new Main().setVisible(true));
+            System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
+
+            javax.swing.SwingUtilities.invokeLater(() -> new Main().setVisible(true));
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                javax.swing.UnsupportedLookAndFeelException e) {
+            LOG.error(e.getMessage(), e);
+        }
     }
 }
