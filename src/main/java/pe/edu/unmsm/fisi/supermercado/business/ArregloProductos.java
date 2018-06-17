@@ -9,10 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.supermercado.dao.impl.ProductCodeDAO;
 import pe.edu.unmsm.fisi.supermercado.dao.impl.ProductoDAO;
+import pe.edu.unmsm.fisi.supermercado.model.Product;
 import pe.edu.unmsm.fisi.supermercado.model.ProductCode;
-import pe.edu.unmsm.fisi.supermercado.model.Producto;
 
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * @author Eliana Zapata
@@ -37,7 +38,7 @@ public class ArregloProductos {
         return INSTANCE;
     }
 
-    public Collection<Producto> obtenerTodosLosProductos() {
+    public Collection<Product> obtenerTodosLosProductos() {
         LOG.info("Retornando todos los productos");
         return productoDAO.obtenerTodos();
     }
@@ -52,19 +53,23 @@ public class ArregloProductos {
         return productCodeDAO.obtenerTodos();
     }
 
-    public boolean aniadirProducto(Producto producto) {
-        LOG.info("Agregando producto {}", producto);
-        return productoDAO.aniadirProducto(producto);
+    public boolean aniadirProducto(Product product) {
+        LOG.info("Agregando product {}", product);
+        return productoDAO.aniadirProducto(product);
     }
 
-    public Producto buscarCodigo(int val) {
+    public Collection<Product> buscarCodigo(int val) {
         LOG.info("Realizando busqueda por codigo: {}", val);
-        return productoDAO.buscarCodigo(val);
+        Product product = productoDAO.buscarCodigo(val);
+        if (product == null) {
+            return Collections.emptyList();
+        } else {
+            return Collections.singletonList(product);
+        }
     }
 
-    public Producto buscarNombre(String str) {
+    public Collection<Product> buscarNombre(String str) {
         LOG.info("Realizando busqueda por nombre: {}", str);
         return productoDAO.buscarNombre(str);
     }
-
 }

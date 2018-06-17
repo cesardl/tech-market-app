@@ -10,7 +10,7 @@
  */
 package pe.edu.unmsm.fisi.supermercado.view;
 
-import pe.edu.unmsm.fisi.supermercado.model.Producto;
+import pe.edu.unmsm.fisi.supermercado.model.Product;
 
 import javax.swing.JOptionPane;
 import pe.edu.unmsm.fisi.supermercado.business.ArregloProductos;
@@ -85,6 +85,7 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("Insercion de Productos");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png"))); // NOI18N
 
         jPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Producto"));
 
@@ -157,8 +158,6 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
                 .addContainerGap(137, Short.MAX_VALUE))
         );
 
-        jLabelCodigo.getAccessibleContext().setAccessibleName("Codigo");
-
         jButtonAgregar.setText("Agregar");
         jButtonAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -205,7 +204,7 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
     private void jButtonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgregarActionPerformed
         // TODO add your handling code here:
         if (capturaDatos()) {
-            if (aProductos.aniadirProducto(new Producto(codigo, nombre, precUnit, cant))) {
+            if (aProductos.aniadirProducto(new Product(codigo, nombre, precUnit, cant))) {
                 JOptionPane.showMessageDialog(this,
                         "Se agrego el producto correctamente!",
                         getTitle(), JOptionPane.INFORMATION_MESSAGE);
@@ -224,7 +223,6 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonAgregarActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
-        // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButtonSalirActionPerformed
 

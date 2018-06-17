@@ -12,8 +12,9 @@ package pe.edu.unmsm.fisi.supermercado.view;
 
 import pe.edu.unmsm.fisi.supermercado.business.ArregloClientes;
 import pe.edu.unmsm.fisi.supermercado.business.ArregloProductos;
+import pe.edu.unmsm.fisi.supermercado.business.ArregloVentas;
 import pe.edu.unmsm.fisi.supermercado.model.Customer;
-import pe.edu.unmsm.fisi.supermercado.model.Producto;
+import pe.edu.unmsm.fisi.supermercado.model.Product;
 
 /**
  *
@@ -25,6 +26,7 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
 
     private final ArregloClientes arregloClientes;
     private final ArregloProductos arregloProductos;
+    private final ArregloVentas arregloVentas;
 
     /**
      * Creates new form JInternalFrameVentas
@@ -32,6 +34,7 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
     public JInternalFrameVentas() {
         arregloClientes = ArregloClientes.getInstance();
         arregloProductos = ArregloProductos.getInstance();
+        arregloVentas = ArregloVentas.getInstance();
         initComponents();
     }
 
@@ -62,6 +65,7 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
 
         setClosable(true);
         setTitle("Venta de Productos");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png"))); // NOI18N
 
         jPanelIngresar.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Producto"));
 
@@ -121,22 +125,36 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
         );
 
         arregloClientes.obtenerTodos().forEach(customer -> jComboBoxCliente.addItem(customer));
-        arregloProductos.obtenerTodosLosProductos().forEach(producto -> jComboBoxProducto.addItem(producto));
+        arregloProductos.obtenerTodosLosProductos().forEach(product -> jComboBoxProducto.addItem(product));
 
-        jPanelMostrar.setBorder(javax.swing.BorderFactory.createTitledBorder("Carrito de compras"));
+        jPanelMostrar.setBorder(javax.swing.BorderFactory.createTitledBorder("Ordenes de Compra"));
 
         jLabelTotal.setText("Total:");
 
         jTextFieldTotal.setEditable(false);
+        jTextFieldTotal.setText(String.valueOf(jTableProductos.getModel().getRowCount()));
 
         jTableProductos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null}
-            },
+            arregloVentas.all(),
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Number", "Customer", "Product", "Quantity", "Sales Date"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.util.Date.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPaneProductos.setViewportView(jTableProductos);
 
         javax.swing.GroupLayout jPanelMostrarLayout = new javax.swing.GroupLayout(jPanelMostrar);
@@ -144,19 +162,17 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
         jPanelMostrarLayout.setHorizontalGroup(
             jPanelMostrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelMostrarLayout.createSequentialGroup()
-                .addGroup(jPanelMostrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMostrarLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabelTotal)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPaneProductos))
+                .addContainerGap(554, Short.MAX_VALUE)
+                .addComponent(jLabelTotal)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addComponent(jScrollPaneProductos)
         );
         jPanelMostrarLayout.setVerticalGroup(
             jPanelMostrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMostrarLayout.createSequentialGroup()
-                .addComponent(jScrollPaneProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                .addComponent(jScrollPaneProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelMostrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -226,7 +242,7 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonSalirActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<Customer> jComboBoxCliente;
-    private javax.swing.JComboBox<Producto> jComboBoxProducto;
+    private javax.swing.JComboBox<Product> jComboBoxProducto;
     private javax.swing.JSpinner jSpinnerCantidad;
     private javax.swing.JTable jTableProductos;
     private javax.swing.JTextField jTextFieldTotal;

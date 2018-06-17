@@ -10,10 +10,11 @@
  */
 package pe.edu.unmsm.fisi.supermercado.view;
 
+import java.util.Collection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.supermercado.business.ArregloProductos;
-import pe.edu.unmsm.fisi.supermercado.model.Producto;
+import pe.edu.unmsm.fisi.supermercado.model.Product;
 import pe.edu.unmsm.fisi.supermercado.util.AppUtils;
 
 /**
@@ -43,13 +44,22 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
         initComponents();
     }
 
-    private void mostrarDatos(Producto p) {
+    private void mostrarDatos(Collection<Product> products) {
         javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) jTableProducto.getModel();
-        jTableProducto.setModel(dtm);
-        Object[] rowData = {
-            p.getCodigo(), p.getDescription(), p.getPurchaseCost(), p.getQuantityOnHand(), p.isAvailable()
-        };
-        dtm.addRow(rowData);
+
+        int rowCount = dtm.getRowCount();
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            dtm.removeRow(i);
+        }
+
+        products.forEach(p -> {
+            Object[] rowData = {
+                p.getCodigo(), p.getDescription(), p.getPurchaseCost(), p.getQuantityOnHand(), p.isAvailable()
+            };
+            dtm.addRow(rowData);
+        });
+        jLabelTotalRows.setText(String.valueOf(products.size()));
         jTextFieldBuscar.setText("");
     }
 
@@ -72,9 +82,11 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
         javax.swing.JScrollPane jScrollPane = new javax.swing.JScrollPane();
         jTableProducto = new javax.swing.JTable();
         javax.swing.JButton jButtonSalir = new javax.swing.JButton();
+        jLabelTotalRows = new javax.swing.JLabel();
 
         setClosable(true);
         setTitle("Busqueda de Productos");
+        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png"))); // NOI18N
 
         jPanelBuscar.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar"));
 
@@ -111,7 +123,7 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
                 .addGroup(jPanelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelBuscarLayout.createSequentialGroup()
                         .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
                         .addComponent(jButtonBuscar))
                     .addGroup(jPanelBuscarLayout.createSequentialGroup()
                         .addComponent(jRadioButtonCodigo)
@@ -165,11 +177,11 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
         jPanelProducto.setLayout(jPanelProductoLayout);
         jPanelProductoLayout.setHorizontalGroup(
             jPanelProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 437, Short.MAX_VALUE)
+            .addGap(0, 474, Short.MAX_VALUE)
             .addGroup(jPanelProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelProductoLayout.createSequentialGroup()
+                .addGroup(jPanelProductoLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                    .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                     .addContainerGap()))
         );
         jPanelProductoLayout.setVerticalGroup(
@@ -189,6 +201,8 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabelTotalRows.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -198,7 +212,11 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelProducto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonSalir, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButtonSalir, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelTotalRows, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -208,7 +226,9 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
                 .addComponent(jPanelBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelTotalRows)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButtonSalir)
                 .addContainerGap())
         );
@@ -224,38 +244,43 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
                     "Ingrese dato a buscar", getTitle(),
                     javax.swing.JOptionPane.WARNING_MESSAGE);
         } else {
-            Producto producto = null;
+            Collection<Product> products = null;
 
             switch (searchType) {
                 case BY_CODE:
                     int val = AppUtils.toInteger(str);
                     if (val == AppUtils.ERROR_NUMBER) {
+                        LOG.warn("Ingrese entero si la busquda es por codigo");
+
                         AppUtils.marcarTextField(jTextFieldBuscar);
                         javax.swing.JOptionPane.showMessageDialog(this,
                                 "Ingrese entero si la busquda es por codigo",
-                                getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
+                                getTitle(), javax.swing.JOptionPane.ERROR_MESSAGE);
+                        return;
                     } else {
-                        producto = aProductos.buscarCodigo(val);
+                        LOG.info("Busqueda {}: '{}'", searchType, val);
+                        products = aProductos.buscarCodigo(val);
                     }
-                    LOG.info("Busqueda {}: '{}'", searchType, val);
                     break;
 
                 case BY_NAME:
                     LOG.info("Busqueda {}: '{}'", searchType, str);
-                    producto = aProductos.buscarNombre(str);
+                    products = aProductos.buscarNombre(str);
                     break;
 
                 default:
                     throw new IllegalArgumentException("No hay operacion definida para el tipo: " + searchType);
             }
 
-            if (producto == null) {
+            LOG.info("Mostrando resultado");
+
+            if (products.isEmpty()) {
                 AppUtils.marcarTextField(jTextFieldBuscar);
                 javax.swing.JOptionPane.showMessageDialog(this,
-                        "No se puede encontrar el producto",
-                        getTitle(), javax.swing.JOptionPane.ERROR_MESSAGE);
+                        "No se encontraron productos",
+                        getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
             } else {
-                mostrarDatos(producto);
+                mostrarDatos(products);
             }
         }
     }//GEN-LAST:event_jButtonBuscarActionPerformed
@@ -269,6 +294,7 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
         if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
             searchType = SearchType.BY_NAME;
             LOG.debug("Asignando tipo de busqueda por nombre");
+            jTextFieldBuscar.requestFocus();
         }
     }//GEN-LAST:event_jRadioButtonNombreItemStateChanged
 
@@ -276,10 +302,12 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
         if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
             searchType = SearchType.BY_CODE;
             LOG.debug("Asignando tipo de busqueda por codigo");
+            jTextFieldBuscar.requestFocus();
         }
     }//GEN-LAST:event_jRadioButtonCodigoItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabelTotalRows;
     private javax.swing.JTable jTableProducto;
     private javax.swing.JTextField jTextFieldBuscar;
     // End of variables declaration//GEN-END:variables

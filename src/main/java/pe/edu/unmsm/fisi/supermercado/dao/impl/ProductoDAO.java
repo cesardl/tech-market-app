@@ -2,7 +2,7 @@ package pe.edu.unmsm.fisi.supermercado.dao.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.supermercado.model.Producto;
+import pe.edu.unmsm.fisi.supermercado.model.Product;
 import pe.edu.unmsm.fisi.supermercado.util.ConnectionUtils;
 
 import java.sql.*;
@@ -20,21 +20,21 @@ public class ProductoDAO implements pe.edu.unmsm.fisi.supermercado.dao.ProductoD
     private static final Logger LOG = LoggerFactory.getLogger(ProductoDAO.class);
 
     @Override
-    public Collection<Producto> obtenerTodos() {
+    public Collection<Product> obtenerTodos() {
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
             s.execute("SELECT PRODUCT_ID, DESCRIPTION, PURCHASE_COST, QUANTITY_ON_HAND, AVAILABLE FROM PRODUCT");
 
             try (ResultSet rs = s.getResultSet()) {
-                Collection<Producto> vProductos = new ArrayList<>();
+                Collection<Product> vProducts = new ArrayList<>();
 
                 while (rs.next()) {
-                    Producto p = parseProducto(rs);
+                    Product p = parseProducto(rs);
 
-                    vProductos.add(p);
+                    vProducts.add(p);
                 }
-                LOG.info("Se cargaron {} productos", vProductos.size());
-                return vProductos;
+                LOG.info("Se cargaron {} productos", vProducts.size());
+                return vProducts;
             }
         } catch (SQLException ex) {
             LOG.error(ex.getMessage(), ex);
@@ -43,7 +43,7 @@ public class ProductoDAO implements pe.edu.unmsm.fisi.supermercado.dao.ProductoD
     }
 
     @Override
-    public boolean aniadirProducto(Producto p) {
+    public boolean aniadirProducto(Product p) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -68,7 +68,7 @@ public class ProductoDAO implements pe.edu.unmsm.fisi.supermercado.dao.ProductoD
     }
 
     @Override
-    public Producto buscarCodigo(int codigo) {
+    public Product buscarCodigo(int codigo) {
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement("SELECT PRODUCT_ID, DESCRIPTION, PURCHASE_COST, QUANTITY_ON_HAND, AVAILABLE FROM PRODUCT WHERE PRODUCT_ID = ?")) {
             ps.setInt(1, codigo);
@@ -87,26 +87,29 @@ public class ProductoDAO implements pe.edu.unmsm.fisi.supermercado.dao.ProductoD
     }
 
     @Override
-    public Producto buscarNombre(String nombre) {
+    public Collection<Product> buscarNombre(String nombre) {
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement("SELECT PRODUCT_ID, DESCRIPTION, PURCHASE_COST, QUANTITY_ON_HAND, AVAILABLE FROM PRODUCT WHERE UPPER(DESCRIPTION) LIKE ?")) {
             ps.setString(1, "%" + nombre.toUpperCase() + "%");
 
+            Collection<Product> vProducts = new ArrayList<>();
+
             try (ResultSet rs = ps.executeQuery()) {
 
-                if (rs.next()) {
-                    return parseProducto(rs);
+                while (rs.next()) {
+                    vProducts.add(parseProducto(rs));
                 }
             }
 
+            return vProducts;
         } catch (SQLException ex) {
             LOG.error(ex.getMessage(), ex);
         }
-        return null;
+        return Collections.emptyList();
     }
 
-    private Producto parseProducto(ResultSet rs) throws SQLException {
-        Producto p = new Producto();
+    private Product parseProducto(ResultSet rs) throws SQLException {
+        Product p = new Product();
         p.setCodigo(rs.getInt("PRODUCT_ID"));
         p.setDescription(rs.getString("DESCRIPTION"));
         p.setPurchaseCost(rs.getDouble("PURCHASE_COST"));

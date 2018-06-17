@@ -1,19 +1,21 @@
 package pe.edu.unmsm.fisi.supermercado.dao;
 
-import pe.edu.unmsm.fisi.supermercado.model.Producto;
+import pe.edu.unmsm.fisi.supermercado.model.Product;
+
+import java.util.Collection;
 
 /**
  * Created on 10/06/2018.
  *
  * @author Cesardl
  */
-public interface ProductoDAO extends CrudSimpleDAO<Producto> {
+public interface ProductoDAO extends CrudSimpleDAO<Product> {
 
-    boolean aniadirProducto(Producto p);
+    boolean aniadirProducto(Product p);
 
     int numElementos();
 
-    Producto buscarCodigo(int codigo);
+    Product buscarCodigo(int codigo);
 
-    Producto buscarNombre(String nombre);
+    Collection<Product> buscarNombre(String nombre);
 }

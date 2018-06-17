@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * @author soporte
  */
-public class Producto implements Serializable {
+public class Product implements Serializable {
 
     private static final long serialVersionUID = 2301296275576073714L;
 
@@ -19,14 +19,14 @@ public class Producto implements Serializable {
     private int quantityOnHand;
     private boolean available;
 
-    public Producto() {
+    public Product() {
         codigo = 0;
         description = "";
         purchaseCost = 0.0;
         quantityOnHand = 0;
     }
 
-    public Producto(int codigo, String description, double purchaseCost, int quantityOnHand) {
+    public Product(int codigo, String description, double purchaseCost, int quantityOnHand) {
         this.codigo = codigo;
         this.description = description;
         this.purchaseCost = purchaseCost;
@@ -75,8 +75,8 @@ public class Producto implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Producto) {
-            return codigo == ((Producto) obj).getCodigo();
+        if (obj instanceof Product) {
+            return codigo == ((Product) obj).getCodigo();
         }
         return false;
     }
