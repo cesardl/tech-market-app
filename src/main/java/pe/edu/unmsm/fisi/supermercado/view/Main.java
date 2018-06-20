@@ -42,12 +42,12 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jDesktopPane = new javax.swing.JDesktopPane();
-        jInternalFrameInsertar = new JInternalFrameInsertar();
+        jInternalFrameCustomers = new JInternalFrameCustomers();
         jInternalFrameBuscar = new JInternalFrameBuscar();
         jInternalFrameVentas = new JInternalFrameVentas();
         javax.swing.JMenuBar jMenuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu jMenuMantenimiento = new javax.swing.JMenu();
-        javax.swing.JMenuItem jMenuItemInsertar = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem jMenuItemClientes = new javax.swing.JMenuItem();
         javax.swing.JMenuItem jMenuItemBuscar = new javax.swing.JMenuItem();
         javax.swing.JMenuItem jMenuItemVentas = new javax.swing.JMenuItem();
         javax.swing.JSeparator jSeparator = new javax.swing.JSeparator();
@@ -63,17 +63,17 @@ public class Main extends javax.swing.JFrame {
 
         jMenuMantenimiento.setText("Archivo");
 
-        jMenuItemInsertar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItemInsertar.setText("Insertar");
-        jMenuItemInsertar.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemClientes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItemClientes.setText("Clientes");
+        jMenuItemClientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemInsertarActionPerformed(evt);
+                jMenuItemClientesActionPerformed(evt);
             }
         });
-        jMenuMantenimiento.add(jMenuItemInsertar);
+        jMenuMantenimiento.add(jMenuItemClientes);
 
         jMenuItemBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItemBuscar.setText("Buscar");
+        jMenuItemBuscar.setText("Productos");
         jMenuItemBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemBuscarActionPerformed(evt);
@@ -132,40 +132,44 @@ public class Main extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItemInsertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemInsertarActionPerformed
-        LOG.debug("Mostrando frame interno de regisro de productos");
-        AppUtils.displayInternalFrame(jDesktopPane, jInternalFrameInsertar);
-    }//GEN-LAST:event_jMenuItemInsertarActionPerformed
+    private void jMenuItemClientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemClientesActionPerformed
+        LOG.trace(evt.paramString());
+        AppUtils.displayInternalFrame(jDesktopPane, jInternalFrameCustomers);
+        LOG.debug("Mostrando frame interno de regisro de clientes");
+    }//GEN-LAST:event_jMenuItemClientesActionPerformed
 
     private void jMenuItemBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemBuscarActionPerformed
-        LOG.debug("Mostrando frame interno de busqueda de productos");
+        LOG.trace(evt.paramString());
         AppUtils.displayInternalFrame(jDesktopPane, jInternalFrameBuscar);
+        LOG.debug("Mostrando frame interno de busqueda de productos");
     }//GEN-LAST:event_jMenuItemBuscarActionPerformed
 
     private void jMenuItemVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemVentasActionPerformed
-        LOG.debug("Mostrando frame interno de venta de productos");
+        LOG.trace(evt.paramString());
         AppUtils.displayInternalFrame(jDesktopPane, jInternalFrameVentas);
+        LOG.debug("Mostrando frame interno de venta de productos");
     }//GEN-LAST:event_jMenuItemVentasActionPerformed
 
     private void jMenuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSalirActionPerformed
-        int i = javax.swing.JOptionPane.showConfirmDialog(this,
+        LOG.trace(evt.paramString());
+        int optionChosen = javax.swing.JOptionPane.showConfirmDialog(this,
                 "Seguro que desea salir?", getTitle(),
                 javax.swing.JOptionPane.YES_NO_OPTION,
                 javax.swing.JOptionPane.QUESTION_MESSAGE);
 
-        if (i == javax.swing.JOptionPane.YES_OPTION) {
+        if (javax.swing.JOptionPane.YES_OPTION == optionChosen) {
             System.exit(0);
         }
     }//GEN-LAST:event_jMenuItemSalirActionPerformed
 
     private void jMenuItemAcercaDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAcercaDeActionPerformed
-        // TODO add your handling code here:
+        LOG.trace(evt.paramString());
         new JDialogAcercaDe(this, true).setVisible(true);
     }//GEN-LAST:event_jMenuItemAcercaDeActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane;
-    private JInternalFrameInsertar jInternalFrameInsertar;
+    private JInternalFrameCustomers jInternalFrameCustomers;
     private JInternalFrameBuscar jInternalFrameBuscar;
     private JInternalFrameVentas jInternalFrameVentas;
     // End of variables declaration//GEN-END:variables

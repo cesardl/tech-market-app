@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for simple App.
+ *
+ * @author Cesardl
  */
 public class AppTest {
 

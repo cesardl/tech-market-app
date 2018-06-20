@@ -1,27 +1,25 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
-
- /*
- * JInternalFrameInsertar.java
- *
- * Created on 24/06/2009, 08:47:18 PM
  */
 package pe.edu.unmsm.fisi.supermercado.view;
 
 import pe.edu.unmsm.fisi.supermercado.model.Product;
 
-import javax.swing.JOptionPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.supermercado.business.ArregloProductos;
 import pe.edu.unmsm.fisi.supermercado.model.ProductCode;
 import pe.edu.unmsm.fisi.supermercado.util.AppUtils;
 
 /**
  *
- * @author Eliana Zapata
+ * @author Cesardl
  */
-public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
+public class JDialogProductForm extends javax.swing.JDialog {
+
+    private static final Logger LOG = LoggerFactory.getLogger(JDialogProductForm.class);
 
     private String nombre;
     private double precUnit;
@@ -29,10 +27,13 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
     private final ArregloProductos aProductos;
 
     /**
-     * Creates new form JInternalFrameInsertar
+     * @inheritDoc
      */
-    public JInternalFrameInsertar() {
+    public JDialogProductForm(java.awt.Frame parent, Product product) {
+        super(parent);
+
         aProductos = ArregloProductos.getInstance();
+
         initComponents();
     }
 
@@ -83,9 +84,9 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
         javax.swing.JButton jButtonAgregar = new javax.swing.JButton();
         javax.swing.JButton jButtonSalir = new javax.swing.JButton();
 
-        setClosable(true);
-        setTitle("Insercion de Productos");
-        setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png"))); // NOI18N
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setModal(true);
+        setResizable(false);
 
         jPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Producto"));
 
@@ -93,11 +94,11 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
 
         jLabelTipo.setText("Tipo");
 
-        jLabelNombre.setText("Descripcion:");
+        jLabelNombre.setText("Descripcion");
 
         jLabelPrecUnit.setText("Precio Unitario");
 
-        jLabelCantidad.setText("Cantidad:");
+        jLabelCantidad.setText("Cantidad");
 
         jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new java.util.Vector<>(aProductos.obtenerTodosLosCodigosDeProducto())));
 
@@ -110,52 +111,45 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
             .addGroup(jPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelPrecUnit)
+                    .addComponent(jLabelTipo)
+                    .addComponent(jLabelNombre)
+                    .addComponent(jLabelCodigo)
+                    .addComponent(jLabelCantidad))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSpinnerCantidad)
+                    .addComponent(jTextFieldNombre)
                     .addGroup(jPanelLayout.createSequentialGroup()
-                        .addComponent(jLabelTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanelLayout.createSequentialGroup()
-                        .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanelLayout.createSequentialGroup()
-                                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelCodigo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
-                                    .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(jLabelNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabelPrecUnit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
-                                    .addComponent(jTextFieldPrecUnit)
-                                    .addComponent(jSpinnerCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(20, Short.MAX_VALUE))))
+                        .addComponent(jComboBoxTipo, 0, 191, Short.MAX_VALUE)
+                        .addGap(94, 94, 94))
+                    .addComponent(jTextFieldCodigo)
+                    .addComponent(jTextFieldPrecUnit)))
         );
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelCodigo))
+                    .addComponent(jLabelCodigo)
+                    .addComponent(jTextFieldCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelTipo)
-                    .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jComboBoxTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelTipo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelNombre))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabelNombre)
+                    .addComponent(jTextFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jTextFieldPrecUnit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPrecUnit))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelCantidad)
                     .addComponent(jSpinnerCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jButtonAgregar.setText("Agregar");
@@ -176,11 +170,13 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonAgregar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonSalir)))
@@ -190,8 +186,8 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSalir)
                     .addComponent(jButtonAgregar))
@@ -202,27 +198,28 @@ public class JInternalFrameInsertar extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgregarActionPerformed
-        // TODO add your handling code here:
+        LOG.trace(evt.paramString());
         if (capturaDatos()) {
             if (aProductos.aniadirProducto(new Product(codigo, nombre, precUnit, cant))) {
-                JOptionPane.showMessageDialog(this,
+                javax.swing.JOptionPane.showMessageDialog(this,
                         "Se agrego el producto correctamente!",
-                        getTitle(), JOptionPane.INFORMATION_MESSAGE);
+                        getTitle(), javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 dispose();
             } else {
-                JOptionPane.showMessageDialog(this,
+                javax.swing.JOptionPane.showMessageDialog(this,
                         "No se puede agregar el producto!\nCodigo repetido!",
-                        getTitle(), JOptionPane.ERROR_MESSAGE);
+                        getTitle(), javax.swing.JOptionPane.ERROR_MESSAGE);
                 AppUtils.marcarTextField(jTextFieldCodigo);
             }
         } else {
-            JOptionPane.showMessageDialog(this,
+            javax.swing.JOptionPane.showMessageDialog(this,
                     "Ingrese correctamente los datos",
-                    getTitle(), JOptionPane.WARNING_MESSAGE);
+                    getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jButtonAgregarActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
+        LOG.trace(evt.paramString());
         dispose();
     }//GEN-LAST:event_jButtonSalirActionPerformed
 

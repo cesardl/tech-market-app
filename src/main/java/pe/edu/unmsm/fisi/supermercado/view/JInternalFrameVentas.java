@@ -10,11 +10,13 @@
  */
 package pe.edu.unmsm.fisi.supermercado.view;
 
+import javax.swing.table.DefaultTableModel;
 import pe.edu.unmsm.fisi.supermercado.business.ArregloClientes;
 import pe.edu.unmsm.fisi.supermercado.business.ArregloProductos;
 import pe.edu.unmsm.fisi.supermercado.business.ArregloVentas;
 import pe.edu.unmsm.fisi.supermercado.model.Customer;
 import pe.edu.unmsm.fisi.supermercado.model.Product;
+import pe.edu.unmsm.fisi.supermercado.model.PurchaseOrder;
 
 /**
  *
@@ -155,6 +157,11 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTableProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableProductosMouseClicked(evt);
+            }
+        });
         jScrollPaneProductos.setViewportView(jTableProductos);
 
         javax.swing.GroupLayout jPanelMostrarLayout = new javax.swing.GroupLayout(jPanelMostrar);
@@ -237,9 +244,20 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonGuardarActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
-        // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jButtonSalirActionPerformed
+
+    private void jTableProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProductosMouseClicked
+        if (evt.getClickCount() == 2) {
+            javax.swing.JTable target = (javax.swing.JTable) evt.getSource();
+            int row = target.getSelectedRow();
+            System.out.println(" double click " + row);
+            DefaultTableModel dtm = (DefaultTableModel) target.getModel();
+
+            System.out.println(dtm.getValueAt(row, 0));
+        }
+    }//GEN-LAST:event_jTableProductosMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<Customer> jComboBoxCliente;
     private javax.swing.JComboBox<Product> jComboBoxProducto;

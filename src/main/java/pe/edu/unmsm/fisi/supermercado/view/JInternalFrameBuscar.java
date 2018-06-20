@@ -11,6 +11,8 @@
 package pe.edu.unmsm.fisi.supermercado.view;
 
 import java.util.Collection;
+import java.util.Collections;
+import javax.swing.table.DefaultTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.supermercado.business.ArregloProductos;
@@ -171,6 +173,11 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
             }
         });
         jTableProducto.getTableHeader().setReorderingAllowed(false);
+        jTableProducto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTableProductoMouseClicked(evt);
+            }
+        });
         jScrollPane.setViewportView(jTableProducto);
 
         javax.swing.GroupLayout jPanelProductoLayout = new javax.swing.GroupLayout(jPanelProducto);
@@ -237,14 +244,15 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarActionPerformed
-        // TODO add your handling code here:
+        LOG.trace(evt.paramString());
+
         String str = jTextFieldBuscar.getText().trim();
         if (str.isEmpty()) {
             javax.swing.JOptionPane.showMessageDialog(this,
                     "Ingrese dato a buscar", getTitle(),
                     javax.swing.JOptionPane.WARNING_MESSAGE);
         } else {
-            Collection<Product> products = null;
+            Collection<Product> products;
 
             switch (searchType) {
                 case BY_CODE:
@@ -259,7 +267,11 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
                         return;
                     } else {
                         LOG.info("Busqueda {}: '{}'", searchType, val);
-                        products = aProductos.buscarCodigo(val);
+                        Product product = aProductos.buscarCodigo(val);
+
+                        products = product == null
+                                ? Collections.emptyList()
+                                : Collections.singletonList(product);
                     }
                     break;
 
@@ -286,7 +298,7 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButtonBuscarActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
-        // TODO add your handling code here:
+        LOG.trace(evt.paramString());
         dispose();
     }//GEN-LAST:event_jButtonSalirActionPerformed
 
@@ -305,6 +317,28 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
             jTextFieldBuscar.requestFocus();
         }
     }//GEN-LAST:event_jRadioButtonCodigoItemStateChanged
+
+    private void jTableProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProductoMouseClicked
+        LOG.trace(evt.paramString());
+
+        if (evt.getClickCount() == 2) {
+            javax.swing.JTable target = (javax.swing.JTable) evt.getSource();
+            int row = target.getSelectedRow();
+
+            DefaultTableModel dtm = (DefaultTableModel) target.getModel();
+
+            int productId = (Integer) dtm.getValueAt(row, 0);
+            LOG.debug("Getting product identifier {}", productId);
+
+            Product product = aProductos.buscarCodigo(productId);
+            JDialogProductForm productForm
+                    = new JDialogProductForm(javax.swing.JOptionPane.getFrameForComponent(this), product);
+            
+            System.out.println("Dialog inicializado, a exponer");
+            productForm.setVisible(true);
+            System.out.println("ya se expuso, ahora?");
+        }
+    }//GEN-LAST:event_jTableProductoMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelTotalRows;

@@ -5,9 +5,10 @@
  */
 package pe.edu.unmsm.fisi.supermercado.util;
 
-import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
 
 /**
  * @author Cesardl
@@ -22,7 +23,7 @@ public class AppUtils {
         try {
             return Double.parseDouble(s);
         } catch (NumberFormatException nfe) {
-            LOG.error(nfe.getMessage(), nfe);
+            LOG.error(nfe.getMessage());
             return ERROR_NUMBER;
         }
     }
@@ -31,7 +32,7 @@ public class AppUtils {
         try {
             return Integer.parseInt(s);
         } catch (NumberFormatException nfe) {
-            LOG.error(nfe.getMessage(), nfe);
+            LOG.error(nfe.getMessage());
             return ERROR_NUMBER;
         }
     }
@@ -45,8 +46,8 @@ public class AppUtils {
         }
     }
 
-    public static void marcarTextField(javax.swing.JTextField jtextField) {
-        jtextField.requestFocus();
-        jtextField.selectAll();
+    public static void marcarTextField(javax.swing.JTextField jTextField) {
+        jTextField.requestFocus();
+        jTextField.selectAll();
     }
 }

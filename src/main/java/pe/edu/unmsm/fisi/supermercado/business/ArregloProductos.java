@@ -58,14 +58,9 @@ public class ArregloProductos {
         return productoDAO.aniadirProducto(product);
     }
 
-    public Collection<Product> buscarCodigo(int val) {
+    public Product buscarCodigo(int val) {
         LOG.info("Realizando busqueda por codigo: {}", val);
-        Product product = productoDAO.buscarCodigo(val);
-        if (product == null) {
-            return Collections.emptyList();
-        } else {
-            return Collections.singletonList(product);
-        }
+        return productoDAO.buscarCodigo(val);
     }
 
     public Collection<Product> buscarNombre(String str) {
