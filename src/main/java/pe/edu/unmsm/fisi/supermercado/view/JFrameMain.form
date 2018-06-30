@@ -17,7 +17,7 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemClientes">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCustomers">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+I"/>
@@ -25,14 +25,14 @@
                 <Property name="text" type="java.lang.String" value="Clientes"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemClientesActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemCustomersActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
               </AuxValues>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemBuscar">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemProducts">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+B"/>
@@ -40,14 +40,14 @@
                 <Property name="text" type="java.lang.String" value="Productos"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemBuscarActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemProductsActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
               </AuxValues>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemVentas">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemPurchaseOrders">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+E"/>
@@ -55,7 +55,7 @@
                 <Property name="text" type="java.lang.String" value="Ventas"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemVentasActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemPurchaseOrdersActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
@@ -68,7 +68,7 @@
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
               </AuxValues>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSalir">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemExit">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="Ctrl+S"/>
@@ -76,7 +76,7 @@
                 <Property name="text" type="java.lang.String" value="Salir"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemSalirActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemExitActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
@@ -85,7 +85,7 @@
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenuAyuda">
+        <Menu class="javax.swing.JMenu" name="jMenuHelp">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ayuda"/>
           </Properties>
@@ -94,7 +94,7 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAcercaDe">
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAbout">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
                   <KeyStroke key="F1"/>
@@ -102,7 +102,7 @@
                 <Property name="text" type="java.lang.String" value="Acerca de"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemAcercaDeActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItemAboutActionPerformed"/>
               </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
@@ -159,8 +159,8 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="jInternalFrameCustomers = new pe.edu.unmsm.fisi.supermercado.view.JInternalFrameCustomers();&#xd;&#xa;jInternalFrameBuscar = new JInternalFrameBuscar();&#xd;&#xa;jInternalFrameVentas = new JInternalFrameVentas();"/>
-        <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private pe.edu.unmsm.fisi.supermercado.view.JInternalFrameCustomers jInternalFrameCustomers;&#xa;private JInternalFrameBuscar jInternalFrameBuscar;&#xa;private JInternalFrameVentas jInternalFrameVentas;"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="jInternalFrameCustomers = new pe.edu.unmsm.fisi.supermercado.view.JInternalFrameCustomers();&#xd;&#xa;jInternalFrameBuscar = new pe.edu.unmsm.fisi.supermercado.view.JInternalFrameProducts();&#xd;&#xa;jInternalFrameVentas = new pe.edu.unmsm.fisi.supermercado.view.JInternalFramePurchaseOrders();"/>
+        <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private pe.edu.unmsm.fisi.supermercado.view.JInternalFrameCustomers jInternalFrameCustomers;&#xa;private pe.edu.unmsm.fisi.supermercado.view.JInternalFrameProducts jInternalFrameBuscar;&#xa;private pe.edu.unmsm.fisi.supermercado.view.JInternalFramePurchaseOrders jInternalFrameVentas;"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">

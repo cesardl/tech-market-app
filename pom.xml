@@ -4,11 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>pe.edu.unmsm.fisi</groupId>
-    <artifactId>supermercado</artifactId>
+    <artifactId>tech-market-app</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>supermercado</name>
-    <!-- FIXME change it to the project's website -->
+    <name>Tech Market Application</name>
     <url>http://www.example.com</url>
 
     <properties>
@@ -19,14 +18,10 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <slf4j.version>1.7.5</slf4j.version>
+        <derby.version>10.8.2.2</derby.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -36,9 +31,15 @@
         <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derbyclient</artifactId>
-            <version>10.8.2.2</version>
+            <version>${derby.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>${derby.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

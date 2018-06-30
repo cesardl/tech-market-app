@@ -15,9 +15,9 @@ import java.util.Collections;
  *
  * @author Cesardl
  */
-public class ProductoDAO implements pe.edu.unmsm.fisi.supermercado.dao.ProductoDAO {
+public class ProductDAO implements pe.edu.unmsm.fisi.supermercado.dao.ProductoDAO {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProductoDAO.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProductDAO.class);
 
     @Override
     public Collection<Product> obtenerTodos() {

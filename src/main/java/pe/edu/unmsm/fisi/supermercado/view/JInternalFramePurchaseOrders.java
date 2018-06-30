@@ -4,7 +4,7 @@
  */
 
  /*
- * JInternalFrameVentas.java
+ * JInternalFramePurchaseOrders.java
  *
  * Created on 01/07/2009, 09:30:27 PM
  */
@@ -22,7 +22,7 @@ import pe.edu.unmsm.fisi.supermercado.model.PurchaseOrder;
  *
  * @author Eliana Zapata
  */
-public class JInternalFrameVentas extends javax.swing.JInternalFrame {
+public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
 
     private static final long serialVersionUID = 3611566289002788602L;
 
@@ -33,7 +33,7 @@ public class JInternalFrameVentas extends javax.swing.JInternalFrame {
     /**
      * Creates new form JInternalFrameVentas
      */
-    public JInternalFrameVentas() {
+    public JInternalFramePurchaseOrders() {
         arregloClientes = ArregloClientes.getInstance();
         arregloProductos = ArregloProductos.getInstance();
         arregloVentas = ArregloVentas.getInstance();

@@ -4,7 +4,7 @@
  */
 
  /*
- * JInternalFrameBuscar.java
+ * JInternalFrameProducts.java
  *
  * Created on 24/06/2009, 10:09:09 PM
  */
@@ -23,11 +23,11 @@ import pe.edu.unmsm.fisi.supermercado.util.AppUtils;
  *
  * @author soporte
  */
-public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
+public class JInternalFrameProducts extends javax.swing.JInternalFrame {
 
     private static final long serialVersionUID = -242730727037805381L;
 
-    private static final Logger LOG = LoggerFactory.getLogger(JInternalFrameBuscar.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JInternalFrameProducts.class);
 
     private final ArregloProductos aProductos;
 
@@ -40,7 +40,7 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
     /**
      * Creates new form JInternalFrameBuscar
      */
-    public JInternalFrameBuscar() {
+    public JInternalFrameProducts() {
         aProductos = ArregloProductos.getInstance();
         searchType = SearchType.BY_CODE;
         initComponents();
@@ -332,8 +332,8 @@ public class JInternalFrameBuscar extends javax.swing.JInternalFrame {
 
             Product product = aProductos.buscarCodigo(productId);
             JDialogProductForm productForm
-                    = new JDialogProductForm(javax.swing.JOptionPane.getFrameForComponent(this), product);
-            
+                    = new JDialogProductForm(javax.swing.JOptionPane.getFrameForComponent(this));
+            productForm.setProduct(product);
             System.out.println("Dialog inicializado, a exponer");
             productForm.setVisible(true);
             System.out.println("ya se expuso, ahora?");

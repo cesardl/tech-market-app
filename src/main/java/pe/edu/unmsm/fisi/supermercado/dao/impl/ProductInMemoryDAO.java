@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
  *
  * @author Cesardl
  */
-public class ProductoInMemoryDAO implements ProductoDAO {
+public class ProductInMemoryDAO implements ProductoDAO {
 
     private final Vector<Product> vProducts;
 
-    public ProductoInMemoryDAO() {
+    public ProductInMemoryDAO() {
         this.vProducts = new Vector<>();
 
         AtomicInteger id = new AtomicInteger(1);

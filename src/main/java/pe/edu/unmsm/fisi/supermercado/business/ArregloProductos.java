@@ -8,12 +8,11 @@ package pe.edu.unmsm.fisi.supermercado.business;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.supermercado.dao.impl.ProductCodeDAO;
-import pe.edu.unmsm.fisi.supermercado.dao.impl.ProductoDAO;
+import pe.edu.unmsm.fisi.supermercado.dao.impl.ProductDAO;
 import pe.edu.unmsm.fisi.supermercado.model.Product;
 import pe.edu.unmsm.fisi.supermercado.model.ProductCode;
 
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * @author Eliana Zapata
@@ -25,12 +24,12 @@ public class ArregloProductos {
 
     private static final ArregloProductos INSTANCE = new ArregloProductos();
 
-    private final ProductoDAO productoDAO;
+    private final ProductDAO productDAO;
     private final ProductCodeDAO productCodeDAO;
 
     //private constructor to avoid client applications to use constructor
     private ArregloProductos() {
-        productoDAO = new ProductoDAO();
+        productDAO = new ProductDAO();
         productCodeDAO = new ProductCodeDAO();
     }
 
@@ -40,7 +39,7 @@ public class ArregloProductos {
 
     public Collection<Product> obtenerTodosLosProductos() {
         LOG.info("Retornando todos los productos");
-        return productoDAO.obtenerTodos();
+        return productDAO.obtenerTodos();
     }
 
     /**
@@ -55,16 +54,16 @@ public class ArregloProductos {
 
     public boolean aniadirProducto(Product product) {
         LOG.info("Agregando product {}", product);
-        return productoDAO.aniadirProducto(product);
+        return productDAO.aniadirProducto(product);
     }
 
     public Product buscarCodigo(int val) {
         LOG.info("Realizando busqueda por codigo: {}", val);
-        return productoDAO.buscarCodigo(val);
+        return productDAO.buscarCodigo(val);
     }
 
     public Collection<Product> buscarNombre(String str) {
         LOG.info("Realizando busqueda por nombre: {}", str);
-        return productoDAO.buscarNombre(str);
+        return productDAO.buscarNombre(str);
     }
 }

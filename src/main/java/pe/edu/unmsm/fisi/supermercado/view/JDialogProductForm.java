@@ -24,12 +24,13 @@ public class JDialogProductForm extends javax.swing.JDialog {
     private String nombre;
     private double precUnit;
     private int codigo, cant;
+    private Product product;
     private final ArregloProductos aProductos;
 
     /**
      * @inheritDoc
      */
-    public JDialogProductForm(java.awt.Frame parent, Product product) {
+    public JDialogProductForm(java.awt.Frame parent) {
         super(parent);
 
         aProductos = ArregloProductos.getInstance();
@@ -81,10 +82,11 @@ public class JDialogProductForm extends javax.swing.JDialog {
         jTextFieldNombre = new javax.swing.JTextField();
         jTextFieldPrecUnit = new javax.swing.JTextField();
         jSpinnerCantidad = new javax.swing.JSpinner();
-        javax.swing.JButton jButtonAgregar = new javax.swing.JButton();
+        javax.swing.JButton jButtonAdd = new javax.swing.JButton();
         javax.swing.JButton jButtonSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Producto");
         setModal(true);
         setResizable(false);
 
@@ -152,10 +154,10 @@ public class JDialogProductForm extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButtonAgregar.setText("Agregar");
-        jButtonAgregar.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAdd.setText("Agregar");
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAgregarActionPerformed(evt);
+                jButtonAddActionPerformed(evt);
             }
         });
 
@@ -177,7 +179,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
                         .addComponent(jPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonAgregar)
+                        .addComponent(jButtonAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonSalir)))
                 .addContainerGap())
@@ -190,17 +192,22 @@ public class JDialogProductForm extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonSalir)
-                    .addComponent(jButtonAgregar))
+                    .addComponent(jButtonAdd))
                 .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgregarActionPerformed
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+    
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
         LOG.trace(evt.paramString());
         if (capturaDatos()) {
-            if (aProductos.aniadirProducto(new Product(codigo, nombre, precUnit, cant))) {
+            if (aProductos.aniadirProducto(product)) {
                 javax.swing.JOptionPane.showMessageDialog(this,
                         "Se agrego el producto correctamente!",
                         getTitle(), javax.swing.JOptionPane.INFORMATION_MESSAGE);
@@ -216,7 +223,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
                     "Ingrese correctamente los datos",
                     getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_jButtonAgregarActionPerformed
+    }//GEN-LAST:event_jButtonAddActionPerformed
 
     private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
         LOG.trace(evt.paramString());
