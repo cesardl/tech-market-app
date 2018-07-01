@@ -1,6 +1,7 @@
 target/
-*.log
 !.mvn/wrapper/maven-wrapper.jar
+*.log
+.scannerwork/
 
 ### STS ###
 .apt_generated
@@ -26,5 +27,3 @@ nbdist/
 .nb-gradle/
 nb-configuration.xml
 nbactions.xml
-
-*.bak
