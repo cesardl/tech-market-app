@@ -7,8 +7,10 @@ package pe.edu.unmsm.fisi.market.business;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pe.edu.unmsm.fisi.market.dao.impl.ManufacturerDAO;
 import pe.edu.unmsm.fisi.market.dao.impl.ProductCodeDAO;
 import pe.edu.unmsm.fisi.market.dao.impl.ProductDAO;
+import pe.edu.unmsm.fisi.market.model.Manufacturer;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.ProductCode;
 
@@ -18,28 +20,30 @@ import java.util.Collection;
  * @author Eliana Zapata
  * @since 2009
  */
-public class ArregloProductos {
+public class ProductsBusiness {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ArregloProductos.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProductsBusiness.class);
 
-    private static final ArregloProductos INSTANCE = new ArregloProductos();
+    private static final ProductsBusiness INSTANCE = new ProductsBusiness();
 
     private final ProductDAO productDAO;
     private final ProductCodeDAO productCodeDAO;
+    private final ManufacturerDAO manufacturerDAO;
 
     //private constructor to avoid client applications to use constructor
-    private ArregloProductos() {
+    private ProductsBusiness() {
         productDAO = new ProductDAO();
         productCodeDAO = new ProductCodeDAO();
+        manufacturerDAO = new ManufacturerDAO();
     }
 
-    public static ArregloProductos getInstance() {
+    public static ProductsBusiness getInstance() {
         return INSTANCE;
     }
 
     public Collection<Product> obtenerTodosLosProductos() {
         LOG.info("Retornando todos los productos");
-        return productDAO.obtenerTodos();
+        return productDAO.getAll();
     }
 
     /**
@@ -47,9 +51,14 @@ public class ArregloProductos {
      *
      * @return total de elementos
      */
-    public Collection<ProductCode> obtenerTodosLosCodigosDeProducto() {
-        LOG.info("Obteniendo el total de codigos de producto");
-        return productCodeDAO.obtenerTodos();
+    public Collection<ProductCode> getProductCodes() {
+        LOG.info("Getting all product codes");
+        return productCodeDAO.getAll();
+    }
+
+    public Collection<Manufacturer> getManufacturers() {
+        LOG.info("Getting all manufacturers");
+        return manufacturerDAO.getAll();
     }
 
     public boolean aniadirProducto(Product product) {

@@ -38,7 +38,7 @@ public class ProductInMemoryDAO implements ProductoDAO {
     }
 
     @Override
-    public Collection<Product> obtenerTodos() {
+    public Collection<Product> getAll() {
         return vProducts;
     }
 
@@ -75,7 +75,7 @@ public class ProductInMemoryDAO implements ProductoDAO {
         for (int i = 1; i < numElementos(); i++) {
             aux = vProducts.get(i);
             j = i - 1;
-            while (j >= 0 && vProducts.get(j).getCodigo() > aux.getCodigo()) {
+            while (j >= 0 && vProducts.get(j).getProductId() > aux.getProductId()) {
                 vProducts.set(j + 1, vProducts.get(j));
                 j--;
             }
@@ -92,9 +92,9 @@ public class ProductInMemoryDAO implements ProductoDAO {
         int pos;
         while (inicio <= fin) {
             pos = (inicio + fin) / 2;
-            if (vProducts.get(pos).getCodigo() == codigo) {
+            if (vProducts.get(pos).getProductId() == codigo) {
                 return vProducts.get(pos);
-            } else if (vProducts.get(pos).getCodigo() < codigo) {
+            } else if (vProducts.get(pos).getProductId() < codigo) {
                 inicio = pos + 1;
             } else {
                 fin = pos - 1;

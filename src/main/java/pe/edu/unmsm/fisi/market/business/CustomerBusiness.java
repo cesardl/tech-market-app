@@ -15,25 +15,25 @@ import java.util.Collection;
 /**
  * @author Cesardl
  */
-public class ArregloClientes {
+public class CustomerBusiness {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ArregloClientes.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CustomerBusiness.class);
 
-    private static final ArregloClientes INSTANCE = new ArregloClientes();
+    private static final CustomerBusiness INSTANCE = new CustomerBusiness();
 
     private final CustomerDAO customerDAO;
 
     //private constructor to avoid client applications to use constructor
-    private ArregloClientes() {
+    private CustomerBusiness() {
         customerDAO = new CustomerDAO();
     }
 
-    public static ArregloClientes getInstance() {
+    public static CustomerBusiness getInstance() {
         return INSTANCE;
     }
 
     public Collection<Customer> obtenerTodos() {
         LOG.info("Retornando todos los clientes");
-        return customerDAO.obtenerTodos();
+        return customerDAO.getAll();
     }
 }

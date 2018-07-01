@@ -3,7 +3,7 @@ package pe.edu.unmsm.fisi.market.dao.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.market.dao.CrudSimpleDAO;
-import pe.edu.unmsm.fisi.market.model.ProductCode;
+import pe.edu.unmsm.fisi.market.model.Manufacturer;
 import pe.edu.unmsm.fisi.market.util.ConnectionUtils;
 
 import java.sql.Connection;
@@ -15,32 +15,33 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * Created on 14/06/2018.
+ * Created on 30/06/2018.
  *
  * @author Cesardl
  */
-public class ProductCodeDAO implements CrudSimpleDAO<ProductCode> {
+public class ManufacturerDAO implements CrudSimpleDAO<Manufacturer> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProductCodeDAO.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ManufacturerDAO.class);
 
     @Override
-    public Collection<ProductCode> getAll() {
+    public Collection<Manufacturer> getAll() {
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
-            s.execute("SELECT PROD_CODE, DESCRIPTION FROM PRODUCT_CODE");
+            s.execute("SELECT MANUFACTURER_ID, NAME, EMAIL FROM MANUFACTURER ORDER BY NAME, EMAIL");
 
             try (ResultSet rs = s.getResultSet()) {
-                Collection<ProductCode> productCodes = new ArrayList<>();
+                Collection<Manufacturer> manufacturers = new ArrayList<>();
 
                 while (rs.next()) {
-                    ProductCode c = new ProductCode();
-                    c.setProdCode(rs.getString("PROD_CODE"));
-                    c.setDescription(rs.getString("DESCRIPTION"));
+                    Manufacturer m = new Manufacturer();
+                    m.setManufacturerId(rs.getInt("MANUFACTURER_ID"));
+                    m.setName(rs.getString("NAME"));
+                    m.setEmail(rs.getString("EMAIL"));
 
-                    productCodes.add(c);
+                    manufacturers.add(m);
                 }
-                LOG.info("Loading {} product codes", productCodes.size());
-                return productCodes;
+                LOG.info("Loading {} manufacturers", manufacturers.size());
+                return manufacturers;
             }
         } catch (SQLException ex) {
             LOG.error(ex.getMessage(), ex);

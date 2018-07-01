@@ -11,9 +11,9 @@
 package pe.edu.unmsm.fisi.market.view;
 
 import javax.swing.table.DefaultTableModel;
-import pe.edu.unmsm.fisi.market.business.ArregloClientes;
-import pe.edu.unmsm.fisi.market.business.ArregloProductos;
-import pe.edu.unmsm.fisi.market.business.ArregloVentas;
+import pe.edu.unmsm.fisi.market.business.CustomerBusiness;
+import pe.edu.unmsm.fisi.market.business.ProductsBusiness;
+import pe.edu.unmsm.fisi.market.business.PurchaseOrderBusiness;
 import pe.edu.unmsm.fisi.market.model.Customer;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
@@ -26,17 +26,17 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
 
     private static final long serialVersionUID = 3611566289002788602L;
 
-    private final ArregloClientes arregloClientes;
-    private final ArregloProductos arregloProductos;
-    private final ArregloVentas arregloVentas;
+    private final CustomerBusiness arregloClientes;
+    private final ProductsBusiness arregloProductos;
+    private final PurchaseOrderBusiness arregloVentas;
 
     /**
      * Creates new form JInternalFrameVentas
      */
     public JInternalFramePurchaseOrders() {
-        arregloClientes = ArregloClientes.getInstance();
-        arregloProductos = ArregloProductos.getInstance();
-        arregloVentas = ArregloVentas.getInstance();
+        arregloClientes = CustomerBusiness.getInstance();
+        arregloProductos = ProductsBusiness.getInstance();
+        arregloVentas = PurchaseOrderBusiness.getInstance();
         initComponents();
     }
 

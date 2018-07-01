@@ -12,26 +12,26 @@ import java.util.Collection;
  *
  * @author Cesardl
  */
-public class ArregloVentas {
+public class PurchaseOrderBusiness {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ArregloVentas.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PurchaseOrderBusiness.class);
 
-    private static final ArregloVentas INSTANCE = new ArregloVentas();
+    private static final PurchaseOrderBusiness INSTANCE = new PurchaseOrderBusiness();
 
     private final PurchaseOrderDAO purchaseOrderDAO;
 
     //private constructor to avoid client applications to use constructor
-    private ArregloVentas() {
+    private PurchaseOrderBusiness() {
         purchaseOrderDAO = new PurchaseOrderDAO();
     }
 
-    public static ArregloVentas getInstance() {
+    public static PurchaseOrderBusiness getInstance() {
         return INSTANCE;
     }
 
     public Object[][] all() {
         LOG.info("Retornando todas las ordenes de compra");
-        Collection<PurchaseOrder> purchaseOrders = purchaseOrderDAO.obtenerTodos();
+        Collection<PurchaseOrder> purchaseOrders = purchaseOrderDAO.getAll();
 
         Object[][] data = new Object[purchaseOrders.size()][5];
 

@@ -20,7 +20,7 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
     private static final Logger LOG = LoggerFactory.getLogger(ProductDAO.class);
 
     @Override
-    public Collection<Product> obtenerTodos() {
+    public Collection<Product> getAll() {
         String sql = "SELECT PRODUCT_ID, DESCRIPTION, PURCHASE_COST, QUANTITY_ON_HAND, AVAILABLE FROM PRODUCT";
 
         LOG.debug(sql);
@@ -30,15 +30,15 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
             s.execute(sql);
 
             try (ResultSet rs = s.getResultSet()) {
-                Collection<Product> vProducts = new ArrayList<>();
+                Collection<Product> products = new ArrayList<>();
 
                 while (rs.next()) {
                     Product p = parseProducto(rs);
 
-                    vProducts.add(p);
+                    products.add(p);
                 }
-                LOG.info("Se cargaron {} productos", vProducts.size());
-                return vProducts;
+                LOG.info("Loading {} products", products.size());
+                return products;
             }
         } catch (SQLException ex) {
             LOG.error(ex.getMessage(), ex);
@@ -56,7 +56,7 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setInt(1, product.getCodigo());
+            ps.setInt(1, product.getProductId());
             ps.setDouble(2, product.getPurchaseCost());
             ps.setInt(3, product.getQuantityOnHand());
             ps.setString(4, product.getDescription());
@@ -134,7 +134,7 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
 
     private Product parseProducto(ResultSet rs) throws SQLException {
         Product p = new Product();
-        p.setCodigo(rs.getInt("PRODUCT_ID"));
+        p.setProductId(rs.getInt("PRODUCT_ID"));
         p.setDescription(rs.getString("DESCRIPTION"));
         p.setPurchaseCost(rs.getDouble("PURCHASE_COST"));
         p.setQuantityOnHand(rs.getInt("QUANTITY_ON_HAND"));

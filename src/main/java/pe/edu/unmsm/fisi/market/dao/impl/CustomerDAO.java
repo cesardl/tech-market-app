@@ -27,23 +27,23 @@ public class CustomerDAO implements CrudSimpleDAO<Customer> {
     private static final Logger LOG = LoggerFactory.getLogger(CustomerDAO.class);
 
     @Override
-    public Collection<Customer> obtenerTodos() {
+    public Collection<Customer> getAll() {
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
             s.execute("SELECT CUSTOMER_ID, NAME FROM CUSTOMER");
 
             try (ResultSet rs = s.getResultSet()) {
-                Collection<Customer> vCustomers = new ArrayList<>();
+                Collection<Customer> customers = new ArrayList<>();
 
                 while (rs.next()) {
                     Customer c = new Customer();
                     c.setId(rs.getInt("CUSTOMER_ID"));
                     c.setName(rs.getString("NAME"));
 
-                    vCustomers.add(c);
+                    customers.add(c);
                 }
-                LOG.info("Se cargaron {} clientes", vCustomers.size());
-                return vCustomers;
+                LOG.info("Loading {} customers", customers.size());
+                return customers;
             }
         } catch (SQLException ex) {
             LOG.error(ex.getMessage(), ex);

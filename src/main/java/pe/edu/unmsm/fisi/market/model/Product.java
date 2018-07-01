@@ -13,48 +13,41 @@ public class Product implements Serializable {
 
     private static final long serialVersionUID = 2301296275576073714L;
 
-    private int codigo;
-    private String description;
+    private int productId;
+    private Manufacturer manufacturer;
     private double purchaseCost;
     private int quantityOnHand;
     private boolean available;
+    private String description;
 
     public Product() {
-        codigo = 0;
+        productId = 0;
         description = "";
         purchaseCost = 0.0;
         quantityOnHand = 0;
     }
 
-    public Product(int codigo, String description, double purchaseCost, int quantityOnHand) {
-        this.codigo = codigo;
+    public Product(int productId, String description, double purchaseCost, int quantityOnHand) {
+        this.productId = productId;
         this.description = description;
         this.purchaseCost = purchaseCost;
         this.quantityOnHand = quantityOnHand;
     }
 
-    public int getQuantityOnHand() {
-        return quantityOnHand;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setQuantityOnHand(int quantityOnHand) {
-        this.quantityOnHand = quantityOnHand;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
-    public int getCodigo() {
-        return codigo;
+    public Manufacturer getManufacturer() {
+        return manufacturer;
     }
 
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void setManufacturer(Manufacturer manufacturer) {
+        this.manufacturer = manufacturer;
     }
 
     public double getPurchaseCost() {
@@ -65,6 +58,14 @@ public class Product implements Serializable {
         this.purchaseCost = purchaseCost;
     }
 
+    public int getQuantityOnHand() {
+        return quantityOnHand;
+    }
+
+    public void setQuantityOnHand(int quantityOnHand) {
+        this.quantityOnHand = quantityOnHand;
+    }
+
     public boolean isAvailable() {
         return available;
     }
@@ -73,10 +74,18 @@ public class Product implements Serializable {
         this.available = available;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Product) {
-            return codigo == ((Product) obj).getCodigo();
+            return productId == ((Product) obj).getProductId();
         }
         return false;
     }
@@ -84,7 +93,7 @@ public class Product implements Serializable {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 29 * hash + this.codigo;
+        hash = 29 * hash + this.productId;
         return hash;
     }
 

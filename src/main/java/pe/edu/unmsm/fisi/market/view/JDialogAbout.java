@@ -20,10 +20,9 @@ public class JDialogAbout extends javax.swing.JDialog {
      * Creates new form JDialogAbout.
      *
      * @param parent the parent
-     * @param modal is modality
      */
-    public JDialogAbout(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public JDialogAbout(java.awt.Frame parent) {
+        super(parent);
         initComponents();
     }
 
@@ -40,9 +39,11 @@ public class JDialogAbout extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Supermercado");
+        setModal(true);
+        setResizable(false);
 
         jLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel.setText("<html>\n<h2 align=center>Supermercado<br><i> Mantenimiendo de Productos</i></h2>\n<hr>\nImplementado por:<br>\n<ul><li>\nPablo  C&eacute;sar D&iacute;az Lurita\n</li></ul>\n\n<h5 align=right>CU, julio del 2009</h5>\n</html>");
+        jLabel.setText("<html> <h2 align=center>Tech Market<br><i> Mantenimiento de Productos</i></h2> <hr> Implementado por:<br> <ul><li> Pablo  C&eacute;sar D&iacute;az Lurita </li></ul>  <h5 align=right>CU, julio del 2009</h5> </html>");
         jLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

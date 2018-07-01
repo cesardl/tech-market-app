@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  */
 public class ArregloProductosTest {
 
-    private ArregloProductos productBusiness = ArregloProductos.getInstance();
+    private ProductsBusiness productBusiness = ProductsBusiness.getInstance();
 
     @BeforeClass
     public static void initialize() throws InitializationError {
@@ -42,7 +42,7 @@ public class ArregloProductosTest {
 
     @Test
     public void getProductCodesTest() {
-        Collection<ProductCode> result = productBusiness.obtenerTodosLosCodigosDeProducto();
+        Collection<ProductCode> result = productBusiness.getProductCodes();
         assertTrue(result.isEmpty());
     }
 }

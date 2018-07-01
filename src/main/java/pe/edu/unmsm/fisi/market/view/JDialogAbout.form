@@ -4,6 +4,8 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="title" type="java.lang.String" value="Supermercado"/>
+    <Property name="modal" type="boolean" value="true"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="0"/>
@@ -46,7 +48,7 @@
     <Component class="javax.swing.JLabel" name="jLabel">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;&lt;h2 align=center&gt;Supermercado&lt;br&gt;&lt;i&gt; Mantenimiendo de Productos&lt;/i&gt;&lt;/h2&gt;&#xa;&lt;hr&gt;&#xa;Implementado por:&lt;br&gt;&#xa;&lt;ul&gt;&lt;li&gt;&#xa;Pablo  C&amp;eacute;sar D&amp;iacute;az Lurita&#xa;&lt;/li&gt;&lt;/ul&gt;&#xa;&#xa;&lt;h5 align=right&gt;CU, julio del 2009&lt;/h5&gt;&#xa;&lt;/html&gt;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt; &lt;h2 align=center&gt;Tech Market&lt;br&gt;&lt;i&gt; Mantenimiento de Productos&lt;/i&gt;&lt;/h2&gt; &lt;hr&gt; Implementado por:&lt;br&gt; &lt;ul&gt;&lt;li&gt; Pablo  C&amp;eacute;sar D&amp;iacute;az Lurita &lt;/li&gt;&lt;/ul&gt;  &lt;h5 align=right&gt;CU, julio del 2009&lt;/h5&gt; &lt;/html&gt;"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
             <EtchetBorder/>

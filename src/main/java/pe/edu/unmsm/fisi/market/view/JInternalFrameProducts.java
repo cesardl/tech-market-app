@@ -15,7 +15,7 @@ import java.util.Collections;
 import javax.swing.table.DefaultTableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.market.business.ArregloProductos;
+import pe.edu.unmsm.fisi.market.business.ProductsBusiness;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.util.AppUtils;
 
@@ -29,7 +29,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
 
     private static final Logger LOG = LoggerFactory.getLogger(JInternalFrameProducts.class);
 
-    private final ArregloProductos aProductos;
+    private final ProductsBusiness aProductos;
 
     private SearchType searchType;
 
@@ -41,7 +41,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
      * Creates new form JInternalFrameBuscar
      */
     public JInternalFrameProducts() {
-        aProductos = ArregloProductos.getInstance();
+        aProductos = ProductsBusiness.getInstance();
         searchType = SearchType.BY_CODE;
         initComponents();
     }
@@ -57,7 +57,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
 
         products.forEach(p -> {
             Object[] rowData = {
-                p.getCodigo(), p.getDescription(), p.getPurchaseCost(), p.getQuantityOnHand(), p.isAvailable()
+                p.getProductId(), p.getDescription(), p.getPurchaseCost(), p.getQuantityOnHand(), p.isAvailable()
             };
             dtm.addRow(rowData);
         });
@@ -75,22 +75,23 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         javax.swing.ButtonGroup buttonGroup = new javax.swing.ButtonGroup();
-        javax.swing.JPanel jPanelBuscar = new javax.swing.JPanel();
+        javax.swing.JPanel jPanelSearch = new javax.swing.JPanel();
         javax.swing.JRadioButton jRadioButtonCodigo = new javax.swing.JRadioButton();
         javax.swing.JRadioButton jRadioButtonNombre = new javax.swing.JRadioButton();
         jTextFieldBuscar = new javax.swing.JTextField();
         jButtonSearch = new javax.swing.JButton();
-        javax.swing.JPanel jPanelProducto = new javax.swing.JPanel();
+        javax.swing.JPanel jPanelProduct = new javax.swing.JPanel();
         javax.swing.JScrollPane jScrollPane = new javax.swing.JScrollPane();
         jTableProducto = new javax.swing.JTable();
-        jLabelTotalRows = new javax.swing.JLabel();
         jButtonAdd = new javax.swing.JButton();
+        javax.swing.JLabel jLabelTotal = new javax.swing.JLabel();
+        jLabelTotalRows = new javax.swing.JLabel();
 
         setClosable(true);
         setTitle("Busqueda de Productos");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png"))); // NOI18N
 
-        jPanelBuscar.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar"));
+        jPanelSearch.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar"));
 
         buttonGroup.add(jRadioButtonCodigo);
         jRadioButtonCodigo.setSelected(true);
@@ -116,11 +117,11 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanelBuscarLayout = new javax.swing.GroupLayout(jPanelBuscar);
-        jPanelBuscar.setLayout(jPanelBuscarLayout);
-        jPanelBuscarLayout.setHorizontalGroup(
-            jPanelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelBuscarLayout.createSequentialGroup()
+        javax.swing.GroupLayout jPanelSearchLayout = new javax.swing.GroupLayout(jPanelSearch);
+        jPanelSearch.setLayout(jPanelSearchLayout);
+        jPanelSearchLayout.setHorizontalGroup(
+            jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelSearchLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jRadioButtonCodigo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -131,11 +132,11 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
                 .addComponent(jButtonSearch)
                 .addContainerGap())
         );
-        jPanelBuscarLayout.setVerticalGroup(
-            jPanelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelBuscarLayout.createSequentialGroup()
+        jPanelSearchLayout.setVerticalGroup(
+            jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelSearchLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelBuscarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jRadioButtonCodigo)
                     .addComponent(jRadioButtonNombre)
                     .addComponent(jTextFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -143,7 +144,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        jPanelProducto.setBorder(javax.swing.BorderFactory.createTitledBorder("Productos"));
+        jPanelProduct.setBorder(javax.swing.BorderFactory.createTitledBorder("Productos"));
 
         jTableProducto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -176,28 +177,26 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
         });
         jScrollPane.setViewportView(jTableProducto);
 
-        javax.swing.GroupLayout jPanelProductoLayout = new javax.swing.GroupLayout(jPanelProducto);
-        jPanelProducto.setLayout(jPanelProductoLayout);
-        jPanelProductoLayout.setHorizontalGroup(
-            jPanelProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout jPanelProductLayout = new javax.swing.GroupLayout(jPanelProduct);
+        jPanelProduct.setLayout(jPanelProductLayout);
+        jPanelProductLayout.setHorizontalGroup(
+            jPanelProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 474, Short.MAX_VALUE)
-            .addGroup(jPanelProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelProductoLayout.createSequentialGroup()
+            .addGroup(jPanelProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelProductLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                     .addContainerGap()))
         );
-        jPanelProductoLayout.setVerticalGroup(
-            jPanelProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanelProductLayout.setVerticalGroup(
+            jPanelProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 190, Short.MAX_VALUE)
-            .addGroup(jPanelProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelProductoLayout.createSequentialGroup()
+            .addGroup(jPanelProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelProductLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
                     .addContainerGap()))
         );
-
-        jLabelTotalRows.setText("0");
 
         jButtonAdd.setText("Agregar Producto");
         jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -206,6 +205,11 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabelTotal.setText("Total:");
+
+        jLabelTotalRows.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jLabelTotalRows.setText("0");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -213,11 +217,13 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelProducto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelProduct, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButtonAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabelTotal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelTotalRows)))
                 .addContainerGap())
         );
@@ -225,13 +231,14 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelTotalRows, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonAdd))
+                    .addComponent(jButtonAdd)
+                    .addComponent(jLabelTotal))
                 .addContainerGap())
         );
 

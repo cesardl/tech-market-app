@@ -163,7 +163,7 @@ public class JFrameMain extends javax.swing.JFrame {
 
     private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAboutActionPerformed
         LOG.trace(evt.paramString());
-        new JDialogAbout(this, true).setVisible(true);
+        new JDialogAbout(this).setVisible(true);
     }//GEN-LAST:event_jMenuItemAboutActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

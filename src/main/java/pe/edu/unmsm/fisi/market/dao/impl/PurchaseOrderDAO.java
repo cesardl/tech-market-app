@@ -26,7 +26,7 @@ public class PurchaseOrderDAO implements CrudSimpleDAO<PurchaseOrder> {
     private static final Logger LOG = LoggerFactory.getLogger(PurchaseOrderDAO.class);
 
     @Override
-    public Collection<PurchaseOrder> obtenerTodos() {
+    public Collection<PurchaseOrder> getAll() {
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
             s.execute("SELECT PO.ORDER_NUM, C.NAME, P.DESCRIPTION, PO.QUANTITY, PO.SALES_DATE FROM PURCHASE_ORDER PO " +

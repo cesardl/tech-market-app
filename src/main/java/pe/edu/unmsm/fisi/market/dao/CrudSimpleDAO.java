@@ -10,5 +10,10 @@ import java.util.Collection;
  */
 public interface CrudSimpleDAO<T> {
 
-    Collection<T> obtenerTodos();
+    /**
+     * Obtain all elements
+     *
+     * @return a collections of elements
+     */
+    Collection<T> getAll();
 }
