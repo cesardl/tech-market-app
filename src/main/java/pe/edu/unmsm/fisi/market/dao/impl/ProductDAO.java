@@ -2,7 +2,9 @@ package pe.edu.unmsm.fisi.market.dao.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pe.edu.unmsm.fisi.market.model.Manufacturer;
 import pe.edu.unmsm.fisi.market.model.Product;
+import pe.edu.unmsm.fisi.market.model.ProductCode;
 import pe.edu.unmsm.fisi.market.util.ConnectionUtils;
 
 import java.sql.*;
@@ -21,7 +23,7 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
 
     @Override
     public Collection<Product> getAll() {
-        String sql = "SELECT PRODUCT_ID, DESCRIPTION, PURCHASE_COST, QUANTITY_ON_HAND, AVAILABLE FROM PRODUCT";
+        String sql = "SELECT PRODUCT_ID, DESCRIPTION FROM PRODUCT";
 
         LOG.debug(sql);
 
@@ -33,7 +35,9 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
                 Collection<Product> products = new ArrayList<>();
 
                 while (rs.next()) {
-                    Product p = parseProducto(rs);
+                    Product p = new Product();
+                    p.setProductId(rs.getInt("PRODUCT_ID"));
+                    p.setDescription(rs.getString("DESCRIPTION"));
 
                     products.add(p);
                 }
@@ -48,8 +52,8 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
 
     @Override
     public boolean aniadirProducto(Product product) {
-        String sql = "INSERT INTO PRODUCT(PRODUCT_ID, PURCHASE_COST, QUANTITY_ON_HAND, DESCRIPTION) "
-                + "VALUES(?, ?, ?, ?)";
+        String sql = "INSERT INTO PRODUCT(PRODUCT_ID, MANUFACTURER_ID, PRODUCT_CODE, PURCHASE_COST, QUANTITY_ON_HAND, DESCRIPTION) "
+                + "VALUES(?, ?, ?, ?, ?, ?)";
 
         LOG.debug(sql);
 
@@ -57,9 +61,11 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, product.getProductId());
-            ps.setDouble(2, product.getPurchaseCost());
-            ps.setInt(3, product.getQuantityOnHand());
-            ps.setString(4, product.getDescription());
+            ps.setInt(2, product.getManufacturer().getManufacturerId());
+            ps.setString(3, product.getProductCode().getProdCode());
+            ps.setDouble(4, product.getPurchaseCost());
+            ps.setInt(5, product.getQuantityOnHand());
+            ps.setString(6, product.getDescription());
 
             int result = ps.executeUpdate();
 
@@ -93,14 +99,22 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
 
     @Override
     public Product buscarCodigo(int codigo) {
+        String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE " +
+                "FROM PRODUCT P " +
+                "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID " +
+                "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE " +
+                "WHERE PRODUCT_ID = ?";
+
+        LOG.debug(sql);
+
         try (Connection conn = ConnectionUtils.openConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT PRODUCT_ID, DESCRIPTION, PURCHASE_COST, QUANTITY_ON_HAND, AVAILABLE FROM PRODUCT WHERE PRODUCT_ID = ?")) {
+             PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, codigo);
 
             try (ResultSet rs = ps.executeQuery()) {
 
                 if (rs.next()) {
-                    return parseProducto(rs);
+                    return parseProduct(rs);
                 }
             }
 
@@ -111,17 +125,25 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
     }
 
     @Override
-    public Collection<Product> buscarNombre(String nombre) {
+    public Collection<Product> buscarNombre(String description) {
+        String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE " +
+                "FROM PRODUCT P " +
+                "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID " +
+                "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE " +
+                "WHERE UPPER(P.DESCRIPTION) LIKE ?";
+
+        LOG.debug(sql);
+
         try (Connection conn = ConnectionUtils.openConnection();
-             PreparedStatement ps = conn.prepareStatement("SELECT PRODUCT_ID, DESCRIPTION, PURCHASE_COST, QUANTITY_ON_HAND, AVAILABLE FROM PRODUCT WHERE UPPER(DESCRIPTION) LIKE ?")) {
-            ps.setString(1, "%" + nombre.toUpperCase() + "%");
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "%" + description.toUpperCase() + "%");
 
             Collection<Product> vProducts = new ArrayList<>();
 
             try (ResultSet rs = ps.executeQuery()) {
 
                 while (rs.next()) {
-                    vProducts.add(parseProducto(rs));
+                    vProducts.add(parseProduct(rs));
                 }
             }
 
@@ -132,13 +154,44 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
         return Collections.emptyList();
     }
 
-    private Product parseProducto(ResultSet rs) throws SQLException {
+    @Override
+    public boolean delete(int productId) {
+        String sql = "DELETE FROM PRODUCT WHERE PRODUCT_ID = ?";
+
+        LOG.debug(sql);
+
+        try (Connection connection = ConnectionUtils.openConnection()) {
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            ps.setInt(1, productId);
+
+            int result = ps.executeUpdate();
+
+            LOG.info("A product has been deleted: {}", result);
+            return true;
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            return false;
+        }
+    }
+
+    private Product parseProduct(ResultSet rs) throws SQLException {
         Product p = new Product();
         p.setProductId(rs.getInt("PRODUCT_ID"));
         p.setDescription(rs.getString("DESCRIPTION"));
         p.setPurchaseCost(rs.getDouble("PURCHASE_COST"));
         p.setQuantityOnHand(rs.getInt("QUANTITY_ON_HAND"));
         p.setAvailable(Boolean.parseBoolean(rs.getString("AVAILABLE")));
+
+        Manufacturer m = new Manufacturer();
+        m.setManufacturerId(rs.getInt("MANUFACTURER_ID"));
+        m.setName(rs.getString("NAME"));
+        p.setManufacturer(m);
+
+        ProductCode pc = new ProductCode();
+        pc.setProdCode(rs.getString("PROD_CODE"));
+        p.setProductCode(pc);
+
         return p;
     }
 }

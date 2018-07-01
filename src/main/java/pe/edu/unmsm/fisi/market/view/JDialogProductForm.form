@@ -3,7 +3,7 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
-    <Property name="title" type="java.lang.String" value="Producto"/>
+    <Property name="title" type="java.lang.String" value="Detalle de Producto"/>
     <Property name="modal" type="boolean" value="true"/>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
@@ -56,7 +56,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Datos del Producto"/>
+            <TitledBorder/>
           </Border>
         </Property>
       </Properties>
@@ -82,7 +82,7 @@
                       <Component id="jSpinnerCantidad" alignment="0" max="32767" attributes="0"/>
                       <Component id="jTextFieldPrecUnit" alignment="0" max="32767" attributes="1"/>
                       <Component id="jTextFieldNombre" alignment="0" max="32767" attributes="1"/>
-                      <Component id="jComboBoxTipo" alignment="0" pref="261" max="32767" attributes="0"/>
+                      <Component id="jComboBoxTipo" alignment="0" pref="269" max="32767" attributes="0"/>
                       <Component id="jTextFieldProductId" alignment="0" max="32767" attributes="0"/>
                       <Component id="jComboBoxManufacturer" alignment="0" max="32767" attributes="0"/>
                   </Group>
@@ -91,7 +91,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                   <Component id="jLabelCantidad" max="-2" attributes="1"/>
-                  <EmptySpace pref="315" max="32767" attributes="0"/>
+                  <EmptySpace pref="323" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -195,6 +195,9 @@
           </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="jTextFieldProductId">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="jComboBoxTipo">
           <Properties>

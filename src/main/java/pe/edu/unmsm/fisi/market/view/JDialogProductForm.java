@@ -5,17 +5,15 @@
  */
 package pe.edu.unmsm.fisi.market.view;
 
-import pe.edu.unmsm.fisi.market.model.Product;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.market.business.ProductsBusiness;
 import pe.edu.unmsm.fisi.market.model.Manufacturer;
+import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.ProductCode;
 import pe.edu.unmsm.fisi.market.util.AppUtils;
 
 /**
- *
  * @author Cesardl
  */
 public class JDialogProductForm extends javax.swing.JDialog {
@@ -40,14 +38,10 @@ public class JDialogProductForm extends javax.swing.JDialog {
     }
 
     private boolean capturaDatos() {
-        codigo = AppUtils.toInteger(jTextFieldProductId.getText().trim());
         nombre = jTextFieldNombre.getText().trim();
         precUnit = AppUtils.toDouble(jTextFieldPrecUnit.getText().trim());
         cant = AppUtils.toInteger(String.valueOf(jSpinnerCantidad.getValue()));
-        if (codigo == AppUtils.ERROR_NUMBER) {
-            AppUtils.marcarTextField(jTextFieldProductId);
-            return false;
-        }
+
         if (nombre.length() == 0) {
             AppUtils.marcarTextField(jTextFieldNombre);
             return false;
@@ -74,7 +68,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
 
         javax.swing.JPanel jPanel = new javax.swing.JPanel();
         jLabelManufacturer = new javax.swing.JLabel();
-        javax.swing.JLabel jLabelProductId = new javax.swing.JLabel();
+        jLabelProductId = new javax.swing.JLabel();
         javax.swing.JLabel jLabelTipo = new javax.swing.JLabel();
         javax.swing.JLabel jLabelNombre = new javax.swing.JLabel();
         javax.swing.JLabel jLabelPrecUnit = new javax.swing.JLabel();
@@ -88,11 +82,11 @@ public class JDialogProductForm extends javax.swing.JDialog {
         javax.swing.JButton jButtonAdd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Producto");
+        setTitle("Detalle de Producto");
         setModal(true);
         setResizable(false);
 
-        jPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Producto"));
+        jPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         jLabelManufacturer.setText("Manufacturer");
 
@@ -107,6 +101,8 @@ public class JDialogProductForm extends javax.swing.JDialog {
         jLabelCantidad.setText("Cantidad");
 
         jComboBoxManufacturer.setModel(new javax.swing.DefaultComboBoxModel<>(new java.util.Vector<>(productBusiness.getManufacturers())));
+
+        jTextFieldProductId.setEnabled(false);
 
         jComboBoxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new java.util.Vector<>(productBusiness.getProductCodes())));
 
@@ -129,14 +125,14 @@ public class JDialogProductForm extends javax.swing.JDialog {
                     .addComponent(jSpinnerCantidad)
                     .addComponent(jTextFieldPrecUnit)
                     .addComponent(jTextFieldNombre)
-                    .addComponent(jComboBoxTipo, 0, 261, Short.MAX_VALUE)
+                    .addComponent(jComboBoxTipo, 0, 269, Short.MAX_VALUE)
                     .addComponent(jTextFieldProductId)
                     .addComponent(jComboBoxManufacturer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(jPanelLayout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addComponent(jLabelCantidad)
-                .addContainerGap(315, Short.MAX_VALUE))
+                .addContainerGap(323, Short.MAX_VALUE))
         );
         jPanelLayout.setVerticalGroup(
             jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,7 +201,24 @@ public class JDialogProductForm extends javax.swing.JDialog {
     public void setProduct(Product product) {
         this.product = product;
 
+        for (int index = 0; index < jComboBoxManufacturer.getItemCount(); index++) {
+            Manufacturer m = jComboBoxManufacturer.getItemAt(index);
+            if (m.getManufacturerId().equals(product.getManufacturer().getManufacturerId())) {
+                jComboBoxManufacturer.setSelectedItem(m);
+                break;
+            }
+        }
+
         jTextFieldProductId.setText(String.valueOf(product.getProductId()));
+
+        for (int index = 0; index < jComboBoxTipo.getItemCount(); index++) {
+            ProductCode pc = jComboBoxTipo.getItemAt(index);
+            if (pc.getProdCode().equals(product.getProductCode().getProdCode())) {
+                jComboBoxTipo.setSelectedItem(pc);
+                break;
+            }
+        }
+
         jTextFieldNombre.setText(product.getDescription());
         jTextFieldPrecUnit.setText(String.valueOf(product.getPurchaseCost()));
         jSpinnerCantidad.setValue(product.getQuantityOnHand());
@@ -236,6 +249,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
     private javax.swing.JComboBox<Manufacturer> jComboBoxManufacturer;
     private javax.swing.JComboBox<ProductCode> jComboBoxTipo;
     private javax.swing.JLabel jLabelManufacturer;
+    private javax.swing.JLabel jLabelProductId;
     private javax.swing.JSpinner jSpinnerCantidad;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTextField jTextFieldPrecUnit;

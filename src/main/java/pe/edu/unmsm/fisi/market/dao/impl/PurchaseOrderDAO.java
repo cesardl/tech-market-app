@@ -35,7 +35,7 @@ public class PurchaseOrderDAO implements CrudSimpleDAO<PurchaseOrder> {
                     "ORDER BY PO.SALES_DATE DESC");
 
             try (ResultSet rs = s.getResultSet()) {
-                Collection<PurchaseOrder> vPurchaseOrders = new ArrayList<>();
+                Collection<PurchaseOrder> purchaseOrders = new ArrayList<>();
 
                 while (rs.next()) {
                     PurchaseOrder purchaseOrder = new PurchaseOrder();
@@ -52,10 +52,10 @@ public class PurchaseOrderDAO implements CrudSimpleDAO<PurchaseOrder> {
                     purchaseOrder.setQuantity(rs.getInt(4));
                     purchaseOrder.setSalesDate(rs.getDate(5));
 
-                    vPurchaseOrders.add(purchaseOrder);
+                    purchaseOrders.add(purchaseOrder);
                 }
-                LOG.info("Se cargaron {} ordenes de compra", vPurchaseOrders.size());
-                return vPurchaseOrders;
+                LOG.info("Loading {} purchase orders", purchaseOrders.size());
+                return purchaseOrders;
             }
         } catch (SQLException ex) {
             LOG.error(ex.getMessage(), ex);

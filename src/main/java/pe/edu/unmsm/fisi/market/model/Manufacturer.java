@@ -11,15 +11,15 @@ public class Manufacturer implements Serializable {
 
     private static final long serialVersionUID = -480208850041802221L;
 
-    private int manufacturerId;
+    private Integer manufacturerId;
     private String name;
     private String email;
 
-    public int getManufacturerId() {
+    public Integer getManufacturerId() {
         return manufacturerId;
     }
 
-    public void setManufacturerId(int manufacturerId) {
+    public void setManufacturerId(Integer manufacturerId) {
         this.manufacturerId = manufacturerId;
     }
 

@@ -30,7 +30,7 @@ public class PurchaseOrderBusiness {
     }
 
     public Object[][] all() {
-        LOG.info("Retornando todas las ordenes de compra");
+        LOG.info("Getting all purchase orders");
         Collection<PurchaseOrder> purchaseOrders = purchaseOrderDAO.getAll();
 
         Object[][] data = new Object[purchaseOrders.size()][5];

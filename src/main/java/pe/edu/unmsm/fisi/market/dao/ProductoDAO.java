@@ -17,5 +17,7 @@ public interface ProductoDAO extends CrudSimpleDAO<Product> {
 
     Product buscarCodigo(int codigo);
 
-    Collection<Product> buscarNombre(String nombre);
+    Collection<Product> buscarNombre(String description);
+
+    boolean delete(int productId);
 }

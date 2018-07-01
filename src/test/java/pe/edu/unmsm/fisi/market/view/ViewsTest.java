@@ -42,4 +42,16 @@ public class ViewsTest {
         JInternalFramePurchaseOrders frame = new JInternalFramePurchaseOrders();
         assertFalse(frame.isVisible());
     }
+
+    @Test
+    public void dialogAboutInitializedTest() {
+        JDialogAbout dialog = new JDialogAbout(null);
+        assertFalse(dialog.isVisible());
+    }
+
+    @Test
+    public void dialogProductFormInitializedTest() {
+        JDialogProductForm dialog = new JDialogProductForm(null);
+        assertFalse(dialog.isVisible());
+    }
 }

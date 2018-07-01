@@ -30,7 +30,7 @@ public class DatabaseTestContext {
         }
 
         boolean validDatabaseConnection = ConnectionUtils.initialize();
-        LOG.info("Initialized database connection {}", validDatabaseConnection);
+        LOG.info("Initializing database connection '{}'", validDatabaseConnection);
 
         if (validDatabaseConnection) {
             try {
@@ -55,14 +55,14 @@ public class DatabaseTestContext {
                 int result = connection.prepareStatement(sql).executeUpdate();
                 LOG.debug("{} >>> {}", sql, result);
             } catch (SQLException e) {
-                if (e.getSQLState().equals("X0Y32")) {
+                if (e.getSQLState().equals("X0Y32") || e.getSQLState().equals("23505")) {
                     LOG.debug(e.getMessage());
                 } else {
                     throw e;
                 }
             }
         }
-        LOG.info("Database generation successful");
+        LOG.info("Database generation was successful");
 
         contextAlreadyInitialized = true;
     }

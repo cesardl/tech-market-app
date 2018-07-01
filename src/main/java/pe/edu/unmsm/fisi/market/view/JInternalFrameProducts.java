@@ -42,7 +42,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
      */
     public JInternalFrameProducts() {
         aProductos = ProductsBusiness.getInstance();
-        searchType = SearchType.BY_CODE;
+        searchType = SearchType.BY_NAME;
         initComponents();
     }
 
@@ -57,7 +57,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
 
         products.forEach(p -> {
             Object[] rowData = {
-                p.getProductId(), p.getDescription(), p.getPurchaseCost(), p.getQuantityOnHand(), p.isAvailable()
+                p.getProductId(), p.getDescription(), p.getPurchaseCost(), p.getQuantityOnHand(), p.isAvailable(), p.getManufacturer().getName()
             };
             dtm.addRow(rowData);
         });
@@ -94,8 +94,8 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
         jPanelSearch.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar"));
 
         buttonGroup.add(jRadioButtonCodigo);
-        jRadioButtonCodigo.setSelected(true);
         jRadioButtonCodigo.setText("Codigo");
+        jRadioButtonCodigo.setFocusable(false);
         jRadioButtonCodigo.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jRadioButtonCodigoItemStateChanged(evt);
@@ -103,7 +103,9 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
         });
 
         buttonGroup.add(jRadioButtonNombre);
+        jRadioButtonNombre.setSelected(true);
         jRadioButtonNombre.setText("Nombre");
+        jRadioButtonNombre.setFocusable(false);
         jRadioButtonNombre.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 jRadioButtonNombreItemStateChanged(evt);
@@ -144,6 +146,8 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
+        jTextFieldBuscar.requestFocus();
+
         jPanelProduct.setBorder(javax.swing.BorderFactory.createTitledBorder("Productos"));
 
         jTableProducto.setModel(new javax.swing.table.DefaultTableModel(
@@ -181,7 +185,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
         jPanelProduct.setLayout(jPanelProductLayout);
         jPanelProductLayout.setHorizontalGroup(
             jPanelProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 474, Short.MAX_VALUE)
+            .addGap(0, 792, Short.MAX_VALUE)
             .addGroup(jPanelProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelProductLayout.createSequentialGroup()
                     .addContainerGap()

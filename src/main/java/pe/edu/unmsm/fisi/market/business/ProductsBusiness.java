@@ -42,7 +42,7 @@ public class ProductsBusiness {
     }
 
     public Collection<Product> obtenerTodosLosProductos() {
-        LOG.info("Retornando todos los productos");
+        LOG.info("Getting all products");
         return productDAO.getAll();
     }
 
@@ -62,17 +62,22 @@ public class ProductsBusiness {
     }
 
     public boolean aniadirProducto(Product product) {
-        LOG.info("Agregando product {}", product);
+        LOG.info("Adding product: {}", product);
         return productDAO.aniadirProducto(product);
     }
 
     public Product buscarCodigo(int val) {
-        LOG.info("Realizando busqueda por codigo: {}", val);
+        LOG.info("Searching product by product identifier: {}", val);
         return productDAO.buscarCodigo(val);
     }
 
     public Collection<Product> buscarNombre(String str) {
-        LOG.info("Realizando busqueda por nombre: {}", str);
+        LOG.info("Searching product by description: {}", str);
         return productDAO.buscarNombre(str);
+    }
+
+    public boolean deleteProduct(Product product) {
+        LOG.info("Deleting product: {}", product.getDescription());
+        return productDAO.delete(product.getProductId());
     }
 }

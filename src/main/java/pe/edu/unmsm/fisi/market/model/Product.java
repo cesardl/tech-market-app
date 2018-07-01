@@ -7,38 +7,35 @@ package pe.edu.unmsm.fisi.market.model;
 import java.io.Serializable;
 
 /**
- * @author soporte
+ * @author cesar.diaz
  */
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 2301296275576073714L;
 
-    private int productId;
+    private Integer productId;
     private Manufacturer manufacturer;
-    private double purchaseCost;
-    private int quantityOnHand;
-    private boolean available;
+    private ProductCode productCode;
+    private Double purchaseCost;
+    private Integer quantityOnHand;
+    private Boolean available;
     private String description;
 
     public Product() {
-        productId = 0;
-        description = "";
-        purchaseCost = 0.0;
-        quantityOnHand = 0;
     }
 
-    public Product(int productId, String description, double purchaseCost, int quantityOnHand) {
+    public Product(Integer productId, String description, Double purchaseCost, Integer quantityOnHand) {
         this.productId = productId;
         this.description = description;
         this.purchaseCost = purchaseCost;
         this.quantityOnHand = quantityOnHand;
     }
 
-    public int getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 
@@ -50,27 +47,35 @@ public class Product implements Serializable {
         this.manufacturer = manufacturer;
     }
 
-    public double getPurchaseCost() {
+    public ProductCode getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(ProductCode productCode) {
+        this.productCode = productCode;
+    }
+
+    public Double getPurchaseCost() {
         return purchaseCost;
     }
 
-    public void setPurchaseCost(double purchaseCost) {
+    public void setPurchaseCost(Double purchaseCost) {
         this.purchaseCost = purchaseCost;
     }
 
-    public int getQuantityOnHand() {
+    public Integer getQuantityOnHand() {
         return quantityOnHand;
     }
 
-    public void setQuantityOnHand(int quantityOnHand) {
+    public void setQuantityOnHand(Integer quantityOnHand) {
         this.quantityOnHand = quantityOnHand;
     }
 
-    public boolean isAvailable() {
+    public Boolean isAvailable() {
         return available;
     }
 
-    public void setAvailable(boolean available) {
+    public void setAvailable(Boolean available) {
         this.available = available;
     }
 
@@ -80,21 +85,6 @@ public class Product implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Product) {
-            return productId == ((Product) obj).getProductId();
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 29 * hash + this.productId;
-        return hash;
     }
 
     @Override

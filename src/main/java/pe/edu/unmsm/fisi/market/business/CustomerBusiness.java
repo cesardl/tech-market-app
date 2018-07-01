@@ -33,7 +33,7 @@ public class CustomerBusiness {
     }
 
     public Collection<Customer> obtenerTodos() {
-        LOG.info("Retornando todos los clientes");
+        LOG.info("Getting all customers");
         return customerDAO.getAll();
     }
 }
