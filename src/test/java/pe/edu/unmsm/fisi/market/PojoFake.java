@@ -22,6 +22,7 @@ public class PojoFake {
         p.setDescription("CPU INTEL CORE I5-6500 6M 3.2 GHZ LGA 1151 SIXTH");
         p.setPurchaseCost(238.0);
         p.setQuantityOnHand(100);
+        p.setMarkup(8.8);
         p.setManufacturer(m);
         p.setProductCode(pc);
         return p;

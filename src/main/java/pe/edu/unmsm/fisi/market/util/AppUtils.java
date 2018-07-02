@@ -13,11 +13,14 @@ import java.util.Arrays;
 /**
  * @author Cesardl
  */
-public class AppUtils {
+public final class AppUtils {
 
     public static final int ERROR_NUMBER = -99999;
 
     private static final Logger LOG = LoggerFactory.getLogger(AppUtils.class);
+
+    private AppUtils() {
+    }
 
     public static double toDouble(String s) {
         try {

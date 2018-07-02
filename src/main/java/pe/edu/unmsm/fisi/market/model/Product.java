@@ -18,17 +18,22 @@ public class Product implements Serializable {
     private ProductCode productCode;
     private Double purchaseCost;
     private Integer quantityOnHand;
+    private Double markup;
     private Boolean available;
     private String description;
 
     public Product() {
+        this.quantityOnHand = 0;
+        this.available = false;
+        this.markup = 0.0;
     }
 
-    public Product(Integer productId, String description, Double purchaseCost, Integer quantityOnHand) {
+    public Product(Integer productId, String description, Double purchaseCost, Integer quantityOnHand, Double markup) {
         this.productId = productId;
         this.description = description;
         this.purchaseCost = purchaseCost;
         this.quantityOnHand = quantityOnHand;
+        this.markup = markup;
     }
 
     public Integer getProductId() {
@@ -69,6 +74,14 @@ public class Product implements Serializable {
 
     public void setQuantityOnHand(Integer quantityOnHand) {
         this.quantityOnHand = quantityOnHand;
+    }
+
+    public Double getMarkup() {
+        return markup;
+    }
+
+    public void setMarkup(Double markup) {
+        this.markup = markup;
     }
 
     public Boolean isAvailable() {

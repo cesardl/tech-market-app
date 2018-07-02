@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-/*
+ /*
  * JFrameMain.java
  *
  * Created on 24/06/2009, 08:39:57 PM
@@ -55,7 +55,7 @@ public class JFrameMain extends javax.swing.JFrame {
         javax.swing.JMenuItem jMenuItemAbout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Supermercado");
+        setTitle("Tech market");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png")).getImage());
 
         jDesktopPane.setBackground(new java.awt.Color(26, 185, 241));
@@ -163,7 +163,9 @@ public class JFrameMain extends javax.swing.JFrame {
 
     private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAboutActionPerformed
         LOG.trace(evt.paramString());
-        new JDialogAbout(this).setVisible(true);
+        JDialogAbout dialog = new JDialogAbout(this);
+        dialog.setTitle(getTitle());
+        dialog.setVisible(true);
     }//GEN-LAST:event_jMenuItemAboutActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

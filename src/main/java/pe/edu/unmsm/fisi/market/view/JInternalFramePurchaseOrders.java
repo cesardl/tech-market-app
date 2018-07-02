@@ -102,9 +102,9 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                         .addComponent(jSpinnerCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
                         .addGap(256, 256, 256))
                     .addComponent(jComboBoxCliente, 0, 330, Short.MAX_VALUE))
-                .addGap(169, 169, 169)
+                .addGap(171, 171, 171)
                 .addComponent(jButtonComprar)
-                .addGap(12, 12, 12))
+                .addContainerGap())
         );
         jPanelIngresarLayout.setVerticalGroup(
             jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,10 +120,9 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jSpinnerCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelCantidad)))
-            .addGroup(jPanelIngresarLayout.createSequentialGroup()
-                .addGap(70, 70, 70)
-                .addComponent(jButtonComprar))
+                    .addComponent(jLabelCantidad)
+                    .addComponent(jButtonComprar))
+                .addGap(8, 8, 8))
         );
 
         arregloClientes.obtenerTodos().forEach(customer -> jComboBoxCliente.addItem(customer));
@@ -179,7 +178,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         jPanelMostrarLayout.setVerticalGroup(
             jPanelMostrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMostrarLayout.createSequentialGroup()
-                .addComponent(jScrollPaneProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                .addComponent(jScrollPaneProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelMostrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

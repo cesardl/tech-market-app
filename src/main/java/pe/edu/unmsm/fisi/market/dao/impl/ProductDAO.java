@@ -53,8 +53,8 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
     @Override
     public boolean save(Product product) {
-        String sql = "INSERT INTO PRODUCT(PRODUCT_ID, MANUFACTURER_ID, PRODUCT_CODE, PURCHASE_COST, QUANTITY_ON_HAND, DESCRIPTION, AVAILABLE) "
-                + "VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO PRODUCT(PRODUCT_ID, MANUFACTURER_ID, PRODUCT_CODE, PURCHASE_COST, QUANTITY_ON_HAND, MARKUP, AVAILABLE, DESCRIPTION) "
+                + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         LOG.debug("[SQL] {}", sql);
 
@@ -66,8 +66,9 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
             ps.setString(3, product.getProductCode().getProdCode());
             ps.setDouble(4, product.getPurchaseCost());
             ps.setInt(5, product.getQuantityOnHand());
-            ps.setString(6, product.getDescription());
+            ps.setDouble(6, product.getMarkup());
             ps.setBoolean(7, product.isAvailable());
+            ps.setString(8, product.getDescription());
 
             int result = ps.executeUpdate();
 
@@ -81,7 +82,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
     @Override
     public boolean update(Product product) {
-        String sql = "UPDATE PRODUCT SET MANUFACTURER_ID = ?, PRODUCT_CODE = ?, PURCHASE_COST = ?, QUANTITY_ON_HAND = ?, DESCRIPTION = ?, AVAILABLE = ? WHERE PRODUCT_ID = ?";
+        String sql = "UPDATE PRODUCT SET MANUFACTURER_ID = ?, PRODUCT_CODE = ?, PURCHASE_COST = ?, QUANTITY_ON_HAND = ?, MARKUP = ?, AVAILABLE = ?, DESCRIPTION = ? WHERE PRODUCT_ID = ?";
 
         LOG.debug("[SQL] {}", sql);
 
@@ -92,9 +93,10 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
             ps.setString(2, product.getProductCode().getProdCode());
             ps.setDouble(3, product.getPurchaseCost());
             ps.setInt(4, product.getQuantityOnHand());
-            ps.setString(5, product.getDescription());
+            ps.setDouble(5, product.getMarkup());
             ps.setBoolean(6, product.isAvailable());
-            ps.setInt(7, product.getProductId());
+            ps.setString(7, product.getDescription());
+            ps.setInt(8, product.getProductId());
 
             int result = ps.executeUpdate();
 
@@ -108,7 +110,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
     @Override
     public Product buscarCodigo(int codigo) {
-        String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
+        String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.MARKUP, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
                 + "FROM PRODUCT P "
                 + "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID "
                 + "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE "
@@ -135,7 +137,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
     @Override
     public Collection<Product> buscarNombre(String description) {
-        String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
+        String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.MARKUP, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
                 + "FROM PRODUCT P "
                 + "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID "
                 + "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE "
@@ -190,6 +192,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
         p.setDescription(rs.getString("DESCRIPTION"));
         p.setPurchaseCost(rs.getDouble("PURCHASE_COST"));
         p.setQuantityOnHand(rs.getInt("QUANTITY_ON_HAND"));
+        p.setMarkup(rs.getDouble("MARKUP"));
         p.setAvailable(Boolean.parseBoolean(rs.getString("AVAILABLE")));
 
         Manufacturer m = new Manufacturer();

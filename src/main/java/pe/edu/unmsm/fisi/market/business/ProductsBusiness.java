@@ -86,7 +86,7 @@ public class ProductsBusiness {
         return productId;
     }
 
-    public Product buscarCodigo(int val) {
+    public Product buscarCodigo(Integer val) {
         LOG.info("Searching product by product identifier: {}", val);
         return productDAO.buscarCodigo(val);
     }

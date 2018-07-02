@@ -4,6 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runners.model.InitializationError;
 import pe.edu.unmsm.fisi.market.DatabaseTestContext;
+import pe.edu.unmsm.fisi.market.model.Product;
 
 import static org.junit.Assert.assertFalse;
 
@@ -51,7 +52,7 @@ public class ViewsTest {
 
     @Test
     public void dialogProductFormInitializedTest() {
-        JDialogProductForm dialog = new JDialogProductForm(null);
+        JDialogProductForm dialog = new JDialogProductForm(null, new Product());
         assertFalse(dialog.isVisible());
     }
 }

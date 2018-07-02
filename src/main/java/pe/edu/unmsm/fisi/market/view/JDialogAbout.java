@@ -38,7 +38,6 @@ public class JDialogAbout extends javax.swing.JDialog {
         javax.swing.JLabel jLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Supermercado");
         setModal(true);
         setResizable(false);
 

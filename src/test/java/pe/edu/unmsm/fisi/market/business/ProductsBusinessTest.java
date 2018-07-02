@@ -35,9 +35,10 @@ public class ProductsBusinessTest {
             assertNull(product.getProductCode());
             assertNotNull(product.getDescription());
             assertNull(product.getPurchaseCost());
-            assertNull(product.getQuantityOnHand());
+            assertEquals(0, product.getQuantityOnHand().intValue());
             assertNull(product.getManufacturer());
-            assertNull(product.isAvailable());
+            assertEquals(0, product.getMarkup(), 0);
+            assertFalse(product.isAvailable());
         });
 
         Product fakeProduct = PojoFake.getProduct();
@@ -52,6 +53,7 @@ public class ProductsBusinessTest {
         assertNotNull(product.getPurchaseCost());
         assertNotNull(product.getQuantityOnHand());
         assertNotEquals(0, product.getQuantityOnHand().intValue());
+        assertNotEquals(0, product.getMarkup(), 0);
         assertTrue(product.isAvailable());
         assertNotNull(product.getManufacturer());
         assertNotNull(product.getManufacturer().getManufacturerId());
@@ -75,6 +77,7 @@ public class ProductsBusinessTest {
         assertNotNull(result.getPurchaseCost());
         assertNotNull(result.getQuantityOnHand());
         assertNotEquals(0, result.getQuantityOnHand().intValue());
+        assertNotEquals(0, result.getMarkup(), 0);
         assertTrue(result.isAvailable());
         assertNotNull(result.getManufacturer());
         assertNotNull(result.getManufacturer().getManufacturerId());

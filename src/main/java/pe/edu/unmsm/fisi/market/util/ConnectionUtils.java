@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
  *
  * @author Cesardl
  */
-public class ConnectionUtils {
+public final class ConnectionUtils {
 
     private static final Logger LOG = LoggerFactory.getLogger(ConnectionUtils.class);
 
@@ -23,6 +23,9 @@ public class ConnectionUtils {
     private static String user;
     private static String password;
     private static String schema;
+
+    private ConnectionUtils() {
+    }
 
     public static boolean initialize() {
         try {

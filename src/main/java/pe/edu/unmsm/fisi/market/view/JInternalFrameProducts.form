@@ -37,14 +37,14 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanelSearch" max="32767" attributes="0"/>
-                  <Component id="jPanelProduct" alignment="1" max="32767" attributes="0"/>
+                  <Component id="panelSearch" max="32767" attributes="0"/>
+                  <Component id="panelProduct" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="jButtonAdd" min="-2" max="-2" attributes="0"/>
+                      <Component id="buttonAdd" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jLabelTotal" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelTotal" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabelTotalRows" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelTotalRows" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -55,14 +55,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" max="-2" attributes="0"/>
-              <Component id="jPanelSearch" min="-2" max="-2" attributes="0"/>
+              <Component id="panelSearch" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanelProduct" min="-2" max="-2" attributes="0"/>
+              <Component id="panelProduct" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabelTotalRows" alignment="3" max="32767" attributes="0"/>
-                  <Component id="jButtonAdd" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabelTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelTotalRows" alignment="3" max="32767" attributes="0"/>
+                  <Component id="buttonAdd" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="labelTotal" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -70,7 +70,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanelSearch">
+    <Container class="javax.swing.JPanel" name="panelSearch">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -88,13 +88,13 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jRadioButtonCodigo" min="-2" max="-2" attributes="0"/>
+                  <Component id="radioButtonCodigo" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jRadioButtonNombre" min="-2" max="-2" attributes="0"/>
+                  <Component id="radioButtonNombre" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTextFieldBuscar" max="32767" attributes="0"/>
+                  <Component id="textFieldBuscar" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jButtonSearch" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonSearch" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -104,10 +104,10 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jRadioButtonCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jRadioButtonNombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonSearch" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="radioButtonCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="radioButtonNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="textFieldBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="buttonSearch" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="12" max="32767" attributes="0"/>
               </Group>
@@ -115,7 +115,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JRadioButton" name="jRadioButtonCodigo">
+        <Component class="javax.swing.JRadioButton" name="radioButtonCodigo">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup"/>
@@ -124,14 +124,14 @@
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jRadioButtonCodigoItemStateChanged"/>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="radioButtonCodigoItemStateChanged"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JRadioButton" name="jRadioButtonNombre">
+        <Component class="javax.swing.JRadioButton" name="radioButtonNombre">
           <Properties>
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="buttonGroup"/>
@@ -141,19 +141,19 @@
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="jRadioButtonNombreItemStateChanged"/>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="radioButtonNombreItemStateChanged"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldBuscar">
+        <Component class="javax.swing.JTextField" name="textFieldBuscar">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="jTextFieldBuscar.requestFocus();"/>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="textFieldBuscar.requestFocus();"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonSearch">
+        <Component class="javax.swing.JButton" name="buttonSearch">
           <Properties>
             <Property name="text" type="java.lang.String" value="Buscar"/>
           </Properties>
@@ -163,7 +163,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanelProduct">
+    <Container class="javax.swing.JPanel" name="panelProduct">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -183,7 +183,7 @@
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane" pref="417" max="32767" attributes="0"/>
+                      <Component id="scrollPane" pref="417" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -195,7 +195,7 @@
               <Group type="103" rootIndex="1" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane" pref="168" max="32767" attributes="0"/>
+                      <Component id="scrollPane" pref="168" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -203,7 +203,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane">
+        <Container class="javax.swing.JScrollPane" name="scrollPane">
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -212,7 +212,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTableProducto">
+            <Component class="javax.swing.JTable" name="tableProducts">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                   <Table columnCount="5" rowCount="0">
@@ -257,14 +257,14 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableProductoMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tableProductsMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButtonAdd">
+    <Component class="javax.swing.JButton" name="buttonAdd">
       <Properties>
         <Property name="text" type="java.lang.String" value="Agregar Producto"/>
       </Properties>
@@ -272,7 +272,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="productActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabelTotal">
+    <Component class="javax.swing.JLabel" name="labelTotal">
       <Properties>
         <Property name="text" type="java.lang.String" value="Total:"/>
       </Properties>
@@ -281,7 +281,7 @@
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabelTotalRows">
+    <Component class="javax.swing.JLabel" name="labelTotalRows">
       <Properties>
         <Property name="horizontalAlignment" type="int" value="4"/>
         <Property name="text" type="java.lang.String" value="0"/>

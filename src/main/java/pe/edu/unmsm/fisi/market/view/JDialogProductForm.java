@@ -20,20 +20,19 @@ public class JDialogProductForm extends javax.swing.JDialog {
 
     private static final Logger LOG = LoggerFactory.getLogger(JDialogProductForm.class);
 
-    private Product product;
+    private final Product product;
     private final ProductsBusiness productBusiness;
 
     /**
      * @inheritDoc
      */
-    public JDialogProductForm(java.awt.Frame parent) {
+    public JDialogProductForm(java.awt.Frame parent, Product product) {
         super(parent);
 
         productBusiness = ProductsBusiness.getInstance();
+        this.product = product;
 
         initComponents();
-
-        product = new Product();
     }
 
     /**
@@ -80,10 +79,12 @@ public class JDialogProductForm extends javax.swing.JDialog {
         labelCantidad.setText("Cantidad");
 
         comboBoxManufacturer.setModel(new javax.swing.DefaultComboBoxModel<>(new java.util.Vector<>(productBusiness.getManufacturers())));
+        comboBoxManufacturer.setFocusable(false);
 
         textFieldProductId.setEnabled(false);
 
         comboBoxProductCode.setModel(new javax.swing.DefaultComboBoxModel<>(new java.util.Vector<>(productBusiness.getProductCodes())));
+        comboBoxProductCode.setFocusable(false);
 
         spinnerCantidad.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
@@ -143,6 +144,8 @@ public class JDialogProductForm extends javax.swing.JDialog {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        textFieldDescription.requestFocus();
+
         jButtonSave.setText("Guardar");
         jButtonSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -177,9 +180,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setProduct(Product product) {
-        this.product = product;
-
+    public void showData() {
         for (int index = 0; index < comboBoxManufacturer.getItemCount(); index++) {
             Manufacturer m = comboBoxManufacturer.getItemAt(index);
             if (m.getManufacturerId().equals(product.getManufacturer().getManufacturerId())) {
