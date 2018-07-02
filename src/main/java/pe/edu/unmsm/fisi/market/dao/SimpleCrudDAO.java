@@ -8,10 +8,10 @@ import java.util.Collection;
  * @param <T> entity to define
  * @author Cesardl
  */
-public interface CrudSimpleDAO<T> {
+public interface SimpleCrudDAO<T> {
 
     /**
-     * Obtain all elements
+     * Obtain all elements.
      *
      * @return a collections of elements
      */

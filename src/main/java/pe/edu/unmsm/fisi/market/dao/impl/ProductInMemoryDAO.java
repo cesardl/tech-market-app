@@ -1,6 +1,6 @@
 package pe.edu.unmsm.fisi.market.dao.impl;
 
-import pe.edu.unmsm.fisi.market.dao.ProductoDAO;
+import pe.edu.unmsm.fisi.market.dao.CompleteCrudDAO;
 import pe.edu.unmsm.fisi.market.model.Product;
 
 import java.util.Collection;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  *
  * @author Cesardl
  */
-public class ProductInMemoryDAO implements ProductoDAO {
+public class ProductInMemoryDAO implements CompleteCrudDAO<Product> {
 
     private final Vector<Product> vProducts;
 
@@ -43,7 +43,7 @@ public class ProductInMemoryDAO implements ProductoDAO {
     }
 
     @Override
-    public boolean aniadirProducto(Product p) {
+    public boolean save(Product p) {
         if (numElementos() == 0) {
             vProducts.addElement(p);
             return true;
@@ -65,7 +65,11 @@ public class ProductInMemoryDAO implements ProductoDAO {
     }
 
     @Override
-    public int numElementos() {
+    public boolean update(Product product) {
+        return false;
+    }
+
+    private int numElementos() {
         return vProducts.size();
     }
 
@@ -111,7 +115,7 @@ public class ProductInMemoryDAO implements ProductoDAO {
     }
 
     @Override
-    public boolean delete(int productId) {
+    public boolean delete(Product product) {
         return false;
     }
 }

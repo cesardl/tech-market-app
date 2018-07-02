@@ -29,10 +29,10 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanel" alignment="1" max="32767" attributes="0"/>
+                  <Component id="panel" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="jButtonAdd" min="-2" max="-2" attributes="0"/>
+                      <Component id="jButtonSave" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -43,16 +43,16 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanel" min="-2" max="-2" attributes="0"/>
+              <Component id="panel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jButtonAdd" min="-2" max="-2" attributes="0"/>
+              <Component id="jButtonSave" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanel">
+    <Container class="javax.swing.JPanel" name="panel">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -71,26 +71,26 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabelTipo" alignment="0" max="-2" attributes="0"/>
-                      <Component id="jLabelManufacturer" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelProductId" alignment="0" max="-2" attributes="0"/>
-                      <Component id="jLabelNombre" alignment="0" max="-2" attributes="1"/>
-                      <Component id="jLabelPrecUnit" alignment="0" max="-2" attributes="1"/>
+                      <Component id="labelTipo" alignment="0" max="-2" attributes="0"/>
+                      <Component id="labelManufacturer" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelProductId" alignment="0" max="-2" attributes="0"/>
+                      <Component id="labelDescription" alignment="0" max="-2" attributes="1"/>
+                      <Component id="labelPrecUnit" alignment="0" max="-2" attributes="1"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jSpinnerCantidad" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jTextFieldPrecUnit" alignment="0" max="32767" attributes="1"/>
-                      <Component id="jTextFieldNombre" alignment="0" max="32767" attributes="1"/>
-                      <Component id="jComboBoxTipo" alignment="0" pref="269" max="32767" attributes="0"/>
-                      <Component id="jTextFieldProductId" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jComboBoxManufacturer" alignment="0" max="32767" attributes="0"/>
+                      <Component id="spinnerCantidad" alignment="0" max="32767" attributes="0"/>
+                      <Component id="textFieldPrecUnit" alignment="0" max="32767" attributes="1"/>
+                      <Component id="textFieldDescription" alignment="0" max="32767" attributes="1"/>
+                      <Component id="comboBoxProductCode" alignment="0" pref="269" max="32767" attributes="0"/>
+                      <Component id="textFieldProductId" alignment="0" max="32767" attributes="0"/>
+                      <Component id="comboBoxManufacturer" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                  <Component id="jLabelCantidad" max="-2" attributes="1"/>
+                  <Component id="labelCantidad" max="-2" attributes="1"/>
                   <EmptySpace pref="323" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -100,33 +100,33 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabelManufacturer" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBoxManufacturer" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelManufacturer" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboBoxManufacturer" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="jLabelProductId" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextFieldProductId" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelProductId" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="textFieldProductId" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="jComboBoxTipo" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelTipo" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboBoxProductCode" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelTipo" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="jTextFieldNombre" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelNombre" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="textFieldDescription" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelDescription" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="jTextFieldPrecUnit" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelPrecUnit" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="textFieldPrecUnit" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelPrecUnit" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="jSpinnerCantidad" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelCantidad" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="spinnerCantidad" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelCantidad" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -134,12 +134,16 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabelManufacturer">
+        <Component class="javax.swing.JLabel" name="labelManufacturer">
           <Properties>
             <Property name="text" type="java.lang.String" value="Manufacturer"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelProductId">
+        <Component class="javax.swing.JLabel" name="labelProductId">
           <Properties>
             <Property name="text" type="java.lang.String" value="Codigo"/>
           </Properties>
@@ -148,7 +152,7 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelTipo">
+        <Component class="javax.swing.JLabel" name="labelTipo">
           <Properties>
             <Property name="text" type="java.lang.String" value="Tipo"/>
           </Properties>
@@ -157,7 +161,7 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelNombre">
+        <Component class="javax.swing.JLabel" name="labelDescription">
           <Properties>
             <Property name="text" type="java.lang.String" value="Descripcion"/>
           </Properties>
@@ -166,7 +170,7 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelPrecUnit">
+        <Component class="javax.swing.JLabel" name="labelPrecUnit">
           <Properties>
             <Property name="text" type="java.lang.String" value="Precio Unitario"/>
           </Properties>
@@ -175,7 +179,7 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelCantidad">
+        <Component class="javax.swing.JLabel" name="labelCantidad">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cantidad"/>
           </Properties>
@@ -184,7 +188,7 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBoxManufacturer">
+        <Component class="javax.swing.JComboBox" name="comboBoxManufacturer">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new java.util.Vector&lt;&gt;(productBusiness.getManufacturers()))" type="code"/>
@@ -194,12 +198,12 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Manufacturer&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldProductId">
+        <Component class="javax.swing.JTextField" name="textFieldProductId">
           <Properties>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBoxTipo">
+        <Component class="javax.swing.JComboBox" name="comboBoxProductCode">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new java.util.Vector&lt;&gt;(productBusiness.getProductCodes()))" type="code"/>
@@ -209,11 +213,11 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;ProductCode&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldNombre">
+        <Component class="javax.swing.JTextField" name="textFieldDescription">
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldPrecUnit">
+        <Component class="javax.swing.JTextField" name="textFieldPrecUnit">
         </Component>
-        <Component class="javax.swing.JSpinner" name="jSpinnerCantidad">
+        <Component class="javax.swing.JSpinner" name="spinnerCantidad">
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
               <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
@@ -222,12 +226,12 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButtonAdd">
+    <Component class="javax.swing.JButton" name="jButtonSave">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Agregar"/>
+        <Property name="text" type="java.lang.String" value="Guardar"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAddActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSaveActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>

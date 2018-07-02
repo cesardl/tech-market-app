@@ -10,20 +10,20 @@ public class ProductCode {
     private String prodCode;
     private String description;
 
-    public void setProdCode(String prodCode) {
-        this.prodCode = prodCode;
-    }
-
     public String getProdCode() {
         return prodCode;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setProdCode(String prodCode) {
+        this.prodCode = prodCode;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override

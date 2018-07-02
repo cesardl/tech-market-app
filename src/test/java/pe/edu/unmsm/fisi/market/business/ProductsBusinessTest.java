@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  */
 public class ProductsBusinessTest {
 
-    private ProductsBusiness productBusiness = ProductsBusiness.getInstance();
+    private final ProductsBusiness productBusiness = ProductsBusiness.getInstance();
 
     @BeforeClass
     public static void initialize() throws InitializationError {
@@ -30,13 +30,6 @@ public class ProductsBusinessTest {
     public void addAndReadProductTest() {
         Collection<Product> result = productBusiness.obtenerTodosLosProductos();
         assertEquals(2, result.size());
-
-        Product fakeProduct = PojoFake.getProduct();
-        boolean hasBeenAdded = productBusiness.aniadirProducto(fakeProduct);
-        assertTrue(hasBeenAdded);
-
-        result = productBusiness.obtenerTodosLosProductos();
-        assertEquals(3, result.size());
         result.forEach(product -> {
             assertNotNull(product.getProductId());
             assertNull(product.getProductCode());
@@ -44,13 +37,61 @@ public class ProductsBusinessTest {
             assertNull(product.getPurchaseCost());
             assertNull(product.getQuantityOnHand());
             assertNull(product.getManufacturer());
+            assertNull(product.isAvailable());
         });
+
+        Product fakeProduct = PojoFake.getProduct();
+        boolean hasBeenAdded = productBusiness.saveOrUpdateProduct(fakeProduct);
+        assertTrue(hasBeenAdded);
+
+        Product product = productBusiness.buscarCodigo(fakeProduct.getProductId());
+        assertNotNull(product.getProductId());
+        assertNotNull(product.getProductCode());
+        assertNotNull(product.getProductCode().getProdCode());
+        assertNotNull(product.getDescription());
+        assertNotNull(product.getPurchaseCost());
+        assertNotNull(product.getQuantityOnHand());
+        assertNotEquals(0, product.getQuantityOnHand().intValue());
+        assertTrue(product.isAvailable());
+        assertNotNull(product.getManufacturer());
+        assertNotNull(product.getManufacturer().getManufacturerId());
+        assertNotNull(product.getManufacturer().getName());
 
         boolean hasBeenDeleted = productBusiness.deleteProduct(fakeProduct);
         assertTrue(hasBeenDeleted);
 
         result = productBusiness.obtenerTodosLosProductos();
         assertEquals(2, result.size());
+    }
+
+    @Test
+    public void successSearchByIdAndUpdateProductTest() {
+        Product result = productBusiness.buscarCodigo(980005);
+
+        assertNotNull(result.getProductId());
+        assertNotNull(result.getProductCode());
+        assertNotNull(result.getProductCode().getProdCode());
+        assertNotNull(result.getDescription());
+        assertNotNull(result.getPurchaseCost());
+        assertNotNull(result.getQuantityOnHand());
+        assertNotEquals(0, result.getQuantityOnHand().intValue());
+        assertTrue(result.isAvailable());
+        assertNotNull(result.getManufacturer());
+        assertNotNull(result.getManufacturer().getManufacturerId());
+        assertNotNull(result.getManufacturer().getName());
+
+        result.setQuantityOnHand(0);
+        boolean hasBeenUpdated = productBusiness.saveOrUpdateProduct(result);
+
+        assertTrue(hasBeenUpdated);
+        assertFalse(result.isAvailable());
+        assertEquals(0, result.getQuantityOnHand().intValue());
+    }
+
+    @Test
+    public void failSearchProductByIdTest() {
+        Product result = productBusiness.buscarCodigo(0);
+        assertNull(result);
     }
 
     @Test
@@ -84,27 +125,5 @@ public class ProductsBusinessTest {
     public void failSearchProductByDescriptionTest() {
         Collection<Product> result = productBusiness.buscarNombre("xxx");
         assertTrue(result.isEmpty());
-    }
-
-    @Test
-    public void successSearchProductByIdTest() {
-        Product result = productBusiness.buscarCodigo(980001);
-
-        assertNotNull(result.getProductId());
-        assertNotNull(result.getProductCode());
-        assertNotNull(result.getProductCode().getProdCode());
-        assertNotNull(result.getDescription());
-        assertNotNull(result.getPurchaseCost());
-        assertNotNull(result.getQuantityOnHand());
-        assertTrue(result.isAvailable());
-        assertNotNull(result.getManufacturer());
-        assertNotNull(result.getManufacturer().getManufacturerId());
-        assertNotNull(result.getManufacturer().getName());
-    }
-
-    @Test
-    public void failSearchProductByIdTest() {
-        Product result = productBusiness.buscarCodigo(0);
-        assertNull(result);
     }
 }

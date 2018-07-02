@@ -51,9 +51,10 @@ public class DatabaseTestContext {
         Connection connection = ConnectionUtils.openConnection();
         for (String statement : split) {
             String sql = statement.trim();
+            LOG.debug("[SQL] {}", sql);
             try {
                 int result = connection.prepareStatement(sql).executeUpdate();
-                LOG.debug("{} >>> {}", sql, result);
+                LOG.debug("[RESULT] {}", result);
             } catch (SQLException e) {
                 if (e.getSQLState().equals("X0Y32") || e.getSQLState().equals("23505")) {
                     LOG.debug(e.getMessage());

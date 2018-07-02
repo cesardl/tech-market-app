@@ -15,6 +15,7 @@ import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.ProductCode;
 
 import java.util.Collection;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Eliana Zapata
@@ -61,9 +62,28 @@ public class ProductsBusiness {
         return manufacturerDAO.getAll();
     }
 
-    public boolean aniadirProducto(Product product) {
-        LOG.info("Adding product: {}", product);
-        return productDAO.aniadirProducto(product);
+    public boolean saveOrUpdateProduct(final Product product) {
+        product.setAvailable(product.getQuantityOnHand() != 0);
+
+        if (product.getProductId() == null) {
+            LOG.info("Adding product: {}", product);
+
+            int productId = generateProductId();
+            product.setProductId(productId);
+            return productDAO.save(product);
+        } else {
+            LOG.info("Updating product: {}", product);
+            return productDAO.update(product);
+        }
+    }
+
+    private int generateProductId() {
+        int productId;
+        do {
+            productId = ThreadLocalRandom.current().nextInt(100000, 1000000);
+            LOG.debug("Generating random product identifier {}", productId);
+        } while (productDAO.buscarCodigo(productId) != null);
+        return productId;
     }
 
     public Product buscarCodigo(int val) {
@@ -78,6 +98,6 @@ public class ProductsBusiness {
 
     public boolean deleteProduct(Product product) {
         LOG.info("Deleting product: {}", product.getDescription());
-        return productDAO.delete(product.getProductId());
+        return productDAO.delete(product);
     }
 }

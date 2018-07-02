@@ -2,6 +2,7 @@ package pe.edu.unmsm.fisi.market.dao.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pe.edu.unmsm.fisi.market.dao.CompleteCrudDAO;
 import pe.edu.unmsm.fisi.market.model.Manufacturer;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.ProductCode;
@@ -17,7 +18,7 @@ import java.util.Collections;
  *
  * @author Cesardl
  */
-public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
+public class ProductDAO implements CompleteCrudDAO<Product> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductDAO.class);
 
@@ -25,7 +26,7 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
     public Collection<Product> getAll() {
         String sql = "SELECT PRODUCT_ID, DESCRIPTION FROM PRODUCT";
 
-        LOG.debug(sql);
+        LOG.debug("[SQL] {}", sql);
 
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
@@ -51,11 +52,11 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
     }
 
     @Override
-    public boolean aniadirProducto(Product product) {
-        String sql = "INSERT INTO PRODUCT(PRODUCT_ID, MANUFACTURER_ID, PRODUCT_CODE, PURCHASE_COST, QUANTITY_ON_HAND, DESCRIPTION) "
-                + "VALUES(?, ?, ?, ?, ?, ?)";
+    public boolean save(Product product) {
+        String sql = "INSERT INTO PRODUCT(PRODUCT_ID, MANUFACTURER_ID, PRODUCT_CODE, PURCHASE_COST, QUANTITY_ON_HAND, DESCRIPTION, AVAILABLE) "
+                + "VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-        LOG.debug(sql);
+        LOG.debug("[SQL] {}", sql);
 
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -66,46 +67,54 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
             ps.setDouble(4, product.getPurchaseCost());
             ps.setInt(5, product.getQuantityOnHand());
             ps.setString(6, product.getDescription());
+            ps.setBoolean(7, product.isAvailable());
 
             int result = ps.executeUpdate();
 
             LOG.debug("Total de registros afectados {}", result);
             return true;
         } catch (SQLException e) {
-            LOG.error("Error en la consulta para insertar un product: {}. Estado SQL:{}", e.getMessage(), e.getSQLState(), e);
+            LOG.error(e.getMessage(), e);
             return false;
         }
     }
 
     @Override
-    public int numElementos() {
-        int total = 0;
+    public boolean update(Product product) {
+        String sql = "UPDATE PRODUCT SET MANUFACTURER_ID = ?, PRODUCT_CODE = ?, PURCHASE_COST = ?, QUANTITY_ON_HAND = ?, DESCRIPTION = ?, AVAILABLE = ? WHERE PRODUCT_ID = ?";
 
-        try (Connection conn = ConnectionUtils.openConnection();
-             Statement s = conn.createStatement()) {
-            s.execute("SELECT COUNT(1) FROM PRODUCT");
+        LOG.debug("[SQL] {}", sql);
 
-            try (ResultSet rs = s.getResultSet()) {
+        try (Connection connection = ConnectionUtils.openConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
-                if (rs.next()) {
-                    total = rs.getInt(1);
-                }
-            }
-        } catch (SQLException ex) {
-            LOG.error(ex.getMessage(), ex);
+            ps.setInt(1, product.getManufacturer().getManufacturerId());
+            ps.setString(2, product.getProductCode().getProdCode());
+            ps.setDouble(3, product.getPurchaseCost());
+            ps.setInt(4, product.getQuantityOnHand());
+            ps.setString(5, product.getDescription());
+            ps.setBoolean(6, product.isAvailable());
+            ps.setInt(7, product.getProductId());
+
+            int result = ps.executeUpdate();
+
+            LOG.debug("Total de registros afectados {}", result);
+            return true;
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            return false;
         }
-        return total;
     }
 
     @Override
     public Product buscarCodigo(int codigo) {
-        String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE " +
-                "FROM PRODUCT P " +
-                "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID " +
-                "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE " +
-                "WHERE PRODUCT_ID = ?";
+        String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
+                + "FROM PRODUCT P "
+                + "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID "
+                + "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE "
+                + "WHERE PRODUCT_ID = ?";
 
-        LOG.debug(sql);
+        LOG.debug("[SQL] {}", sql);
 
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -126,13 +135,13 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
 
     @Override
     public Collection<Product> buscarNombre(String description) {
-        String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE " +
-                "FROM PRODUCT P " +
-                "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID " +
-                "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE " +
-                "WHERE UPPER(P.DESCRIPTION) LIKE ?";
+        String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
+                + "FROM PRODUCT P "
+                + "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID "
+                + "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE "
+                + "WHERE UPPER(P.DESCRIPTION) LIKE ?";
 
-        LOG.debug(sql);
+        LOG.debug("[SQL] {}", sql);
 
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -155,15 +164,15 @@ public class ProductDAO implements pe.edu.unmsm.fisi.market.dao.ProductoDAO {
     }
 
     @Override
-    public boolean delete(int productId) {
+    public boolean delete(Product product) {
         String sql = "DELETE FROM PRODUCT WHERE PRODUCT_ID = ?";
 
-        LOG.debug(sql);
+        LOG.debug("[SQL] {}", sql);
 
         try (Connection connection = ConnectionUtils.openConnection()) {
             PreparedStatement ps = connection.prepareStatement(sql);
 
-            ps.setInt(1, productId);
+            ps.setInt(1, product.getProductId());
 
             int result = ps.executeUpdate();
 

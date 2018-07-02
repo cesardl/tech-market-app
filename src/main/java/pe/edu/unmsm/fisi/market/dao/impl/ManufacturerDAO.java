@@ -2,7 +2,7 @@ package pe.edu.unmsm.fisi.market.dao.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.market.dao.CrudSimpleDAO;
+import pe.edu.unmsm.fisi.market.dao.SimpleCrudDAO;
 import pe.edu.unmsm.fisi.market.model.Manufacturer;
 import pe.edu.unmsm.fisi.market.util.ConnectionUtils;
 
@@ -19,7 +19,7 @@ import java.util.Collections;
  *
  * @author Cesardl
  */
-public class ManufacturerDAO implements CrudSimpleDAO<Manufacturer> {
+public class ManufacturerDAO implements SimpleCrudDAO<Manufacturer> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ManufacturerDAO.class);
 

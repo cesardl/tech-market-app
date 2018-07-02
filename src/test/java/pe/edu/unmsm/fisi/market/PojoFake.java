@@ -18,7 +18,10 @@ public class PojoFake {
         ProductCode pc = new ProductCode();
         pc.setProdCode("HW");
 
-        Product p = new Product(1, "CPU INTEL CORE I5-6500 6M 3.2 GHZ LGA 1151 SIXTH", 238.0, 100);
+        Product p = new Product();
+        p.setDescription("CPU INTEL CORE I5-6500 6M 3.2 GHZ LGA 1151 SIXTH");
+        p.setPurchaseCost(238.0);
+        p.setQuantityOnHand(100);
         p.setManufacturer(m);
         p.setProductCode(pc);
         return p;
