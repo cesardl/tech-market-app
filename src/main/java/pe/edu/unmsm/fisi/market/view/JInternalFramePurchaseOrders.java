@@ -214,15 +214,15 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
 
             comboBoxProduct.setModel(
                     new javax.swing.DefaultComboBoxModel<>(
-                            new java.util.Vector<>(productBusiness.obtenerTodosLosProductos())));
+                            new java.util.Vector<>(productBusiness.getAllProductsToSell())));
 
-            mostrarDatos(purchaseOrderBusiness.all());
+            refreshDataTable(purchaseOrderBusiness.all());
         }
 
         super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private void mostrarDatos(Collection<PurchaseOrder> purchaseOrders) {
+    private void refreshDataTable(Collection<PurchaseOrder> purchaseOrders) {
         javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) tablePurchaseOrders.getModel();
 
         int rowCount = dtm.getRowCount();
@@ -244,6 +244,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         System.out.println(comboBoxCustomer.getSelectedItem());
         System.out.println(comboBoxProduct.getSelectedItem());
+        System.out.println(spinnerQuantity.getValue());
     }//GEN-LAST:event_buttonBuyActionPerformed
 
     private void tablePurchaseOrdersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePurchaseOrdersMouseClicked

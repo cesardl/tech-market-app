@@ -10,7 +10,6 @@
  */
 package pe.edu.unmsm.fisi.market.view;
 
-import java.awt.Point;
 import java.util.Collection;
 import java.util.Collections;
 import org.slf4j.Logger;
@@ -29,7 +28,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
 
     private static final Logger LOG = LoggerFactory.getLogger(JInternalFrameProducts.class);
 
-    private final ProductBusiness aProductos;
+    private final ProductBusiness productBusiness;
 
     private SearchType searchType;
 
@@ -38,15 +37,15 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
     }
 
     /**
-     * Creates new form JInternalFrameBuscar
+     * Creates new form JInternalFrameProducts
      */
     public JInternalFrameProducts() {
-        aProductos = ProductBusiness.getInstance();
+        productBusiness = ProductBusiness.getInstance();
         searchType = SearchType.BY_NAME;
         initComponents();
     }
 
-    private void mostrarDatos(Collection<Product> products) {
+    private void refreshDataTable(Collection<Product> products) {
         javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) tableProducts.getModel();
 
         int rowCount = dtm.getRowCount();
@@ -74,13 +73,13 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         javax.swing.ButtonGroup buttonGroup = new javax.swing.ButtonGroup();
-        popupMenu = new javax.swing.JPopupMenu();
+        javax.swing.JPopupMenu popupMenu = new javax.swing.JPopupMenu();
         menuItemShow = new javax.swing.JMenuItem();
         menuItemDelete = new javax.swing.JMenuItem();
         javax.swing.JPanel panelSearch = new javax.swing.JPanel();
-        javax.swing.JRadioButton radioButtonCodigo = new javax.swing.JRadioButton();
-        javax.swing.JRadioButton radioButtonNombre = new javax.swing.JRadioButton();
-        textFieldBuscar = new javax.swing.JTextField();
+        javax.swing.JRadioButton radioButtonByCode = new javax.swing.JRadioButton();
+        javax.swing.JRadioButton radioButtonByName = new javax.swing.JRadioButton();
+        textFieldSearch = new javax.swing.JTextField();
         buttonSearch = new javax.swing.JButton();
         javax.swing.JPanel panelProduct = new javax.swing.JPanel();
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
@@ -90,9 +89,19 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
         labelTotalRows = new javax.swing.JLabel();
 
         menuItemShow.setText("Show details");
+        menuItemShow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemActionPerformed(evt);
+            }
+        });
         popupMenu.add(menuItemShow);
 
         menuItemDelete.setText("Delete");
+        menuItemDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemActionPerformed(evt);
+            }
+        });
         popupMenu.add(menuItemDelete);
 
         setClosable(true);
@@ -101,22 +110,22 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
 
         panelSearch.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar"));
 
-        buttonGroup.add(radioButtonCodigo);
-        radioButtonCodigo.setText("Codigo");
-        radioButtonCodigo.setFocusable(false);
-        radioButtonCodigo.addItemListener(new java.awt.event.ItemListener() {
+        buttonGroup.add(radioButtonByCode);
+        radioButtonByCode.setText("Codigo");
+        radioButtonByCode.setFocusable(false);
+        radioButtonByCode.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                radioButtonCodigoItemStateChanged(evt);
+                radioButtonByCodeItemStateChanged(evt);
             }
         });
 
-        buttonGroup.add(radioButtonNombre);
-        radioButtonNombre.setSelected(true);
-        radioButtonNombre.setText("Nombre");
-        radioButtonNombre.setFocusable(false);
-        radioButtonNombre.addItemListener(new java.awt.event.ItemListener() {
+        buttonGroup.add(radioButtonByName);
+        radioButtonByName.setSelected(true);
+        radioButtonByName.setText("Nombre");
+        radioButtonByName.setFocusable(false);
+        radioButtonByName.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                radioButtonNombreItemStateChanged(evt);
+                radioButtonByNameItemStateChanged(evt);
             }
         });
 
@@ -133,11 +142,11 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
             panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSearchLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(radioButtonCodigo)
+                .addComponent(radioButtonByCode)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(radioButtonNombre)
+                .addComponent(radioButtonByName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textFieldBuscar)
+                .addComponent(textFieldSearch)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buttonSearch)
                 .addContainerGap())
@@ -147,14 +156,14 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
             .addGroup(panelSearchLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(radioButtonCodigo)
-                    .addComponent(radioButtonNombre)
-                    .addComponent(textFieldBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(radioButtonByCode)
+                    .addComponent(radioButtonByName)
+                    .addComponent(textFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buttonSearch))
                 .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        textFieldBuscar.requestFocus();
+        textFieldSearch.requestFocus();
 
         panelProduct.setBorder(javax.swing.BorderFactory.createTitledBorder("Productos"));
 
@@ -187,8 +196,8 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableProductsMouseClicked(evt);
             }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tableProductsMouseReleased(evt);
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tableProductsMousePressed(evt);
             }
         });
         scrollPane.setViewportView(tableProducts);
@@ -273,60 +282,52 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
 
     private void searchProduct() {
         LOG.debug("Searching product");
-        String str = textFieldBuscar.getText().trim();
-        if (str.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "Ingrese dato a buscar", getTitle(),
-                    javax.swing.JOptionPane.WARNING_MESSAGE);
+        String str = textFieldSearch.getText().trim();
+        Collection<Product> products;
 
-            AppUtils.marcarTextField(textFieldBuscar);
-        } else {
-            Collection<Product> products;
+        switch (searchType) {
+            case BY_CODE:
+                int val = AppUtils.toInteger(str);
+                if (val == AppUtils.ERROR_NUMBER) {
+                    LOG.warn("Ingrese entero si la busquda es por codigo");
 
-            switch (searchType) {
-                case BY_CODE:
-                    int val = AppUtils.toInteger(str);
-                    if (val == AppUtils.ERROR_NUMBER) {
-                        LOG.warn("Ingrese entero si la busquda es por codigo");
+                    javax.swing.JOptionPane.showMessageDialog(this,
+                            "Ingrese entero si la busquda es por codigo",
+                            getTitle(), javax.swing.JOptionPane.ERROR_MESSAGE);
 
-                        javax.swing.JOptionPane.showMessageDialog(this,
-                                "Ingrese entero si la busquda es por codigo",
-                                getTitle(), javax.swing.JOptionPane.ERROR_MESSAGE);
+                    AppUtils.marcarTextField(textFieldSearch);
+                    return;
+                } else {
+                    LOG.info("Busqueda {}: '{}'", searchType, val);
+                    Product product = productBusiness.buscarCodigo(val);
 
-                        AppUtils.marcarTextField(textFieldBuscar);
-                        return;
-                    } else {
-                        LOG.info("Busqueda {}: '{}'", searchType, val);
-                        Product product = aProductos.buscarCodigo(val);
+                    products = product == null
+                            ? Collections.emptyList()
+                            : Collections.singletonList(product);
+                }
+                break;
 
-                        products = product == null
-                                ? Collections.emptyList()
-                                : Collections.singletonList(product);
-                    }
-                    break;
+            case BY_NAME:
+                LOG.info("Busqueda {}: '{}'", searchType, str);
+                products = productBusiness.buscarNombre(str);
+                break;
 
-                case BY_NAME:
-                    LOG.info("Busqueda {}: '{}'", searchType, str);
-                    products = aProductos.buscarNombre(str);
-                    break;
-
-                default:
-                    throw new IllegalArgumentException("No hay operacion definida para el tipo: " + searchType);
-            }
-
-            LOG.info("Mostrando resultado");
-
-            if (products.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(this,
-                        "No se encontraron productos",
-                        getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
-
-                AppUtils.marcarTextField(textFieldBuscar);
-            } else {
-                mostrarDatos(products);
-            }
-            AppUtils.marcarTextField(textFieldBuscar);
+            default:
+                throw new IllegalArgumentException("No hay operacion definida para el tipo: " + searchType);
         }
+
+        LOG.info("Mostrando resultado");
+
+        if (products.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "No se encontraron productos",
+                    getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
+
+            AppUtils.marcarTextField(textFieldSearch);
+        } else {
+            refreshDataTable(products);
+        }
+        AppUtils.marcarTextField(textFieldSearch);
     }
 
     private void addProduct() {
@@ -335,56 +336,104 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
                 javax.swing.JOptionPane.getFrameForComponent(this), new Product());
         productForm.setVisible(true);
 
-        Collection<Product> products = aProductos.buscarNombre(textFieldBuscar.getText());
-        LOG.info("Product has been saved, showing data");
-        mostrarDatos(products);
+        if (productForm.isActionPerformed()) {
+            Collection<Product> products = productBusiness.buscarNombre(textFieldSearch.getText());
+            LOG.info("Product has been saved, showing data");
+            refreshDataTable(products);
+        }
     }
 
-    private void radioButtonNombreItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_radioButtonNombreItemStateChanged
+    private void radioButtonByNameItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_radioButtonByNameItemStateChanged
         if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
             searchType = SearchType.BY_NAME;
             LOG.trace("Asignando tipo de busqueda por nombre");
-            textFieldBuscar.requestFocus();
+            textFieldSearch.requestFocus();
         }
-    }//GEN-LAST:event_radioButtonNombreItemStateChanged
+    }//GEN-LAST:event_radioButtonByNameItemStateChanged
 
-    private void radioButtonCodigoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_radioButtonCodigoItemStateChanged
+    private void radioButtonByCodeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_radioButtonByCodeItemStateChanged
         if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
             searchType = SearchType.BY_CODE;
             LOG.trace("Asignando tipo de busqueda por codigo");
-            textFieldBuscar.requestFocus();
+            textFieldSearch.requestFocus();
         }
-    }//GEN-LAST:event_radioButtonCodigoItemStateChanged
+    }//GEN-LAST:event_radioButtonByCodeItemStateChanged
 
     private void tableProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductsMouseClicked
         LOG.trace(evt.paramString());
 
         if (evt.getClickCount() == 2) {
             javax.swing.JTable target = (javax.swing.JTable) evt.getSource();
-            int row = target.getSelectedRow();
+            Integer productId = getProductIdFromJTable(target);
 
-            javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) target.getModel();
-
-            Integer productId = (Integer) dtm.getValueAt(row, 0);
-            LOG.debug("Getting product identifier {}", productId);
-
-            Product product = aProductos.buscarCodigo(productId);
-            JDialogProductForm productForm = new JDialogProductForm(
-                    javax.swing.JOptionPane.getFrameForComponent(this), product);
-            productForm.setVisible(true);
-
-            Collection<Product> products = aProductos.buscarNombre(textFieldBuscar.getText());
-            LOG.info("Product has been updated, showing data");
-            mostrarDatos(products);
+            showProduct(productId);
         }
     }//GEN-LAST:event_tableProductsMouseClicked
 
-    private void tableProductsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductsMouseReleased
+    private void menuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemActionPerformed
+        LOG.trace(evt.paramString());
+
+        Integer productId = getProductIdFromJTable(tableProducts);
+
+        if (evt.getSource().equals(menuItemShow)) {
+            LOG.info("Showing product detail");
+            showProduct(productId);
+        } else if (evt.getSource().equals(menuItemDelete)) {
+            LOG.info("Deleting product");
+            deleteProductAction(productId);
+        }
+    }//GEN-LAST:event_menuItemActionPerformed
+
+    private Integer getProductIdFromJTable(javax.swing.JTable target) {
+        int row = target.getSelectedRow();
+
+        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) target.getModel();
+
+        Integer productId = (Integer) dtm.getValueAt(row, 0);
+        LOG.debug("Getting product identifier {}", productId);
+        return productId;
+    }
+
+    private void tableProductsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductsMousePressed
         // selects the row at which point the mouse is clicked
-        Point point = evt.getPoint();
-        int currentRow = tableProducts.rowAtPoint(point);
+        int currentRow = tableProducts.rowAtPoint(evt.getPoint());
         tableProducts.setRowSelectionInterval(currentRow, currentRow);
-    }//GEN-LAST:event_tableProductsMouseReleased
+    }//GEN-LAST:event_tableProductsMousePressed
+
+    private void showProduct(int productId) {
+        Product product = productBusiness.buscarCodigo(productId);
+
+        JDialogProductForm productForm = new JDialogProductForm(
+                javax.swing.JOptionPane.getFrameForComponent(this), product);
+        productForm.setVisible(true);
+
+        if (productForm.isActionPerformed()) {
+            Collection<Product> products = productBusiness.buscarNombre(textFieldSearch.getText());
+            LOG.info("Product has been updated, showing data");
+            refreshDataTable(products);
+        } else {
+            LOG.debug("No action has performed");
+        }
+    }
+
+    private void deleteProductAction(int productId) {
+        int optionChosen = javax.swing.JOptionPane.showConfirmDialog(this,
+                "Seguro que desea eliminar el producto?", getTitle(),
+                javax.swing.JOptionPane.YES_NO_OPTION,
+                javax.swing.JOptionPane.QUESTION_MESSAGE);
+
+        if (javax.swing.JOptionPane.YES_OPTION == optionChosen) {
+            if (productBusiness.deleteProduct(productId)) {
+                Collection<Product> products = productBusiness.buscarNombre(textFieldSearch.getText());
+                LOG.info("Product has been updated, showing data");
+                refreshDataTable(products);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "No se pudo borrar el producto.", getTitle(),
+                        javax.swing.JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAdd;
@@ -392,8 +441,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelTotalRows;
     private javax.swing.JMenuItem menuItemDelete;
     private javax.swing.JMenuItem menuItemShow;
-    private javax.swing.JPopupMenu popupMenu;
     private javax.swing.JTable tableProducts;
-    private javax.swing.JTextField textFieldBuscar;
+    private javax.swing.JTextField textFieldSearch;
     // End of variables declaration//GEN-END:variables
 }

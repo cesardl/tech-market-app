@@ -78,12 +78,12 @@
                       <Component id="labelManufacturer" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="labelProductId" alignment="0" max="-2" attributes="0"/>
                       <Component id="labelDescription" alignment="0" max="-2" attributes="1"/>
-                      <Component id="labelPrecUnit" alignment="0" max="-2" attributes="1"/>
+                      <Component id="labelPurchaseCost" alignment="0" max="-2" attributes="1"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="spinnerCantidad" alignment="0" max="32767" attributes="0"/>
-                      <Component id="textFieldPrecUnit" alignment="0" max="32767" attributes="1"/>
+                      <Component id="spinnerQuantity" alignment="0" max="32767" attributes="0"/>
+                      <Component id="textFieldPurchaseCost" alignment="0" max="32767" attributes="1"/>
                       <Component id="textFieldDescription" alignment="0" max="32767" attributes="1"/>
                       <Component id="comboBoxProductCode" alignment="0" pref="269" max="32767" attributes="0"/>
                       <Component id="textFieldProductId" alignment="0" max="32767" attributes="0"/>
@@ -93,7 +93,7 @@
               </Group>
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                  <Component id="labelCantidad" max="-2" attributes="1"/>
+                  <Component id="labelQuantity" max="-2" attributes="1"/>
                   <EmptySpace pref="323" max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -123,13 +123,13 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="textFieldPrecUnit" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="labelPrecUnit" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="textFieldPurchaseCost" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelPurchaseCost" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="spinnerCantidad" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="labelCantidad" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="spinnerQuantity" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelQuantity" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -173,7 +173,7 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="labelPrecUnit">
+        <Component class="javax.swing.JLabel" name="labelPurchaseCost">
           <Properties>
             <Property name="text" type="java.lang.String" value="Precio Unitario"/>
           </Properties>
@@ -182,7 +182,7 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="labelCantidad">
+        <Component class="javax.swing.JLabel" name="labelQuantity">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cantidad"/>
           </Properties>
@@ -217,9 +217,9 @@
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="textFieldDescription.requestFocus();"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JTextField" name="textFieldPrecUnit">
+        <Component class="javax.swing.JTextField" name="textFieldPurchaseCost">
         </Component>
-        <Component class="javax.swing.JSpinner" name="spinnerCantidad">
+        <Component class="javax.swing.JSpinner" name="spinnerQuantity">
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
               <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>

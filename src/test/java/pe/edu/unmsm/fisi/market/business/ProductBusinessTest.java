@@ -28,7 +28,7 @@ public class ProductBusinessTest {
 
     @Test
     public void addAndReadProductTest() {
-        Collection<Product> result = productBusiness.obtenerTodosLosProductos();
+        Collection<Product> result = productBusiness.getAllProductsToSell();
         assertEquals(2, result.size());
         result.forEach(product -> {
             assertNotNull(product.getProductId());
@@ -59,10 +59,10 @@ public class ProductBusinessTest {
         assertNotNull(product.getManufacturer().getManufacturerId());
         assertNotNull(product.getManufacturer().getName());
 
-        boolean hasBeenDeleted = productBusiness.deleteProduct(fakeProduct);
+        boolean hasBeenDeleted = productBusiness.deleteProduct(fakeProduct.getProductId());
         assertTrue(hasBeenDeleted);
 
-        result = productBusiness.obtenerTodosLosProductos();
+        result = productBusiness.getAllProductsToSell();
         assertEquals(2, result.size());
     }
 
@@ -106,7 +106,7 @@ public class ProductBusinessTest {
 
     @Test
     public void successSearchProductByDescriptionTest() {
-        Collection<Product> result = productBusiness.buscarNombre("server");
+        Collection<Product> result = productBusiness.buscarNombre("computer");
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
 
@@ -117,7 +117,7 @@ public class ProductBusinessTest {
             assertNotNull(product.getDescription());
             assertNotNull(product.getPurchaseCost());
             assertNotNull(product.getQuantityOnHand());
-            assertTrue(product.isAvailable());
+            assertFalse(product.isAvailable());
             assertNotNull(product.getManufacturer());
             assertNotNull(product.getManufacturer().getManufacturerId());
             assertNotNull(product.getManufacturer().getName());

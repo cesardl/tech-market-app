@@ -24,7 +24,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
     @Override
     public Collection<Product> getAll() {
-        String sql = "SELECT PRODUCT_ID, DESCRIPTION FROM PRODUCT";
+        String sql = "SELECT PRODUCT_ID, DESCRIPTION FROM PRODUCT WHERE QUANTITY_ON_HAND <> 0 AND AVAILABLE = TRUE";
 
         LOG.debug("[SQL] {}", sql);
 

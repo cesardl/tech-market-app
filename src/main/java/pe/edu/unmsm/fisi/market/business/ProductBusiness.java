@@ -42,7 +42,7 @@ public class ProductBusiness {
         return INSTANCE;
     }
 
-    public Collection<Product> obtenerTodosLosProductos() {
+    public Collection<Product> getAllProductsToSell() {
         LOG.info("Getting all products");
         return productDAO.getAll();
     }
@@ -96,8 +96,10 @@ public class ProductBusiness {
         return productDAO.buscarNombre(str);
     }
 
-    public boolean deleteProduct(Product product) {
-        LOG.info("Deleting product: {}", product.getDescription());
+    public boolean deleteProduct(Integer productId) {
+        LOG.info("Deleting product: {}", productId);
+        Product product = new Product();
+        product.setProductId(productId);
         return productDAO.delete(product);
     }
 }
