@@ -12,6 +12,7 @@ package pe.edu.unmsm.fisi.market.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pe.edu.unmsm.fisi.market.business.CustomerBusiness;
 
 /**
  *
@@ -21,10 +22,13 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
 
     private static final Logger LOG = LoggerFactory.getLogger(JInternalFrameCustomers.class);
 
+    private final CustomerBusiness customerBusiness;
+    
     /**
      * Creates new form JInternalFrameInsertar
      */
     public JInternalFrameCustomers() {
+        customerBusiness = CustomerBusiness.getInstance();
         initComponents();
     }
 
@@ -37,24 +41,74 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
+        tableData = new javax.swing.JTable();
+        buttonAdd = new javax.swing.JButton();
+        javax.swing.JLabel labelTotal = new javax.swing.JLabel();
+        labelTotalRows = new javax.swing.JLabel();
+
         setClosable(true);
-        setTitle("Clientes");
+        setTitle("Customers");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png"))); // NOI18N
+
+        tableData.setModel(new javax.swing.table.DefaultTableModel(
+            new String [] {
+                "Id", "Name", "City", "Email"
+            }, 0
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        tableData.getTableHeader().setReorderingAllowed(false);
+        scrollPane.setViewportView(tableData);
+
+        buttonAdd.setText("New customer");
+
+        labelTotal.setText("Total:");
+
+        labelTotalRows.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        labelTotalRows.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 387, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(buttonAdd)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(labelTotal)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labelTotalRows)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 379, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(buttonAdd)
+                    .addComponent(labelTotal)
+                    .addComponent(labelTotalRows))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonAdd;
+    private javax.swing.JLabel labelTotalRows;
+    private javax.swing.JTable tableData;
     // End of variables declaration//GEN-END:variables
 }

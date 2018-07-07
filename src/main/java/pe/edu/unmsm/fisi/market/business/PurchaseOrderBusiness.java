@@ -29,22 +29,8 @@ public class PurchaseOrderBusiness {
         return INSTANCE;
     }
 
-    public Object[][] all() {
+    public Collection<PurchaseOrder> all() {
         LOG.info("Getting all purchase orders");
-        Collection<PurchaseOrder> purchaseOrders = purchaseOrderDAO.getAll();
-
-        Object[][] data = new Object[purchaseOrders.size()][5];
-
-        int index = 0;
-        for (PurchaseOrder purchaseOrder : purchaseOrders) {
-            data[index][0] = purchaseOrder.getOrderNum();
-            data[index][1] = purchaseOrder.getCustomer().getName();
-            data[index][2] = purchaseOrder.getProduct().getDescription();
-            data[index][3] = purchaseOrder.getQuantity();
-            data[index][4] = purchaseOrder.getSalesDate();
-            index++;
-        }
-
-        return data;
+        return purchaseOrderDAO.getAll();
     }
 }

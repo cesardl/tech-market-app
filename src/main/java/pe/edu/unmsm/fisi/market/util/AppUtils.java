@@ -40,12 +40,12 @@ public final class AppUtils {
         }
     }
 
-    public static void displayInternalFrame(javax.swing.JDesktopPane jDesktopPane, javax.swing.JInternalFrame jInternalFrame) {
-        if (!jInternalFrame.isVisible()) {
-            if (!Arrays.asList(jDesktopPane.getAllFrames()).contains(jInternalFrame)) {
-                jDesktopPane.add(jInternalFrame);
+    public static void displayInternalFrame(javax.swing.JDesktopPane desktopPane, javax.swing.JInternalFrame internalFrame) {
+        if (!internalFrame.isVisible()) {
+            if (!Arrays.asList(desktopPane.getAllFrames()).contains(internalFrame)) {
+                desktopPane.add(internalFrame);
             }
-            jInternalFrame.setVisible(true);
+            internalFrame.setVisible(true);
         }
     }
 

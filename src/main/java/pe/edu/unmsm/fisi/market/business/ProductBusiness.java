@@ -21,24 +21,24 @@ import java.util.concurrent.ThreadLocalRandom;
  * @author Eliana Zapata
  * @since 2009
  */
-public class ProductsBusiness {
+public class ProductBusiness {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProductsBusiness.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProductBusiness.class);
 
-    private static final ProductsBusiness INSTANCE = new ProductsBusiness();
+    private static final ProductBusiness INSTANCE = new ProductBusiness();
 
     private final ProductDAO productDAO;
     private final ProductCodeDAO productCodeDAO;
     private final ManufacturerDAO manufacturerDAO;
 
     //private constructor to avoid client applications to use constructor
-    private ProductsBusiness() {
+    private ProductBusiness() {
         productDAO = new ProductDAO();
         productCodeDAO = new ProductCodeDAO();
         manufacturerDAO = new ManufacturerDAO();
     }
 
-    public static ProductsBusiness getInstance() {
+    public static ProductBusiness getInstance() {
         return INSTANCE;
     }
 

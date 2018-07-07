@@ -26,16 +26,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jPanelIngresar" alignment="0" max="32767" attributes="1"/>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="jButtonGuardar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jButtonSalir" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="jPanelMostrar" alignment="0" max="32767" attributes="1"/>
+                  <Component id="panelBuy" alignment="0" max="32767" attributes="1"/>
+                  <Component id="panelPurchaseOrders" alignment="0" max="32767" attributes="1"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -45,21 +40,16 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanelIngresar" min="-2" max="-2" attributes="0"/>
+              <Component id="panelBuy" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jPanelMostrar" max="32767" attributes="0"/>
+              <Component id="panelPurchaseOrders" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButtonSalir" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButtonGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JPanel" name="jPanelIngresar">
+    <Container class="javax.swing.JPanel" name="panelBuy">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -78,20 +68,20 @@
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabelCantidad" alignment="0" min="-2" max="-2" attributes="1"/>
-                      <Component id="jLabelProducto" alignment="0" min="-2" max="-2" attributes="1"/>
-                      <Component id="jLabelCliente" alignment="0" min="-2" pref="55" max="-2" attributes="1"/>
+                      <Component id="labelQuantity" alignment="0" min="-2" max="-2" attributes="1"/>
+                      <Component id="labelProduct" alignment="0" min="-2" max="-2" attributes="1"/>
+                      <Component id="labelCustomer" alignment="0" min="-2" pref="55" max="-2" attributes="1"/>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jComboBoxProducto" pref="330" max="32767" attributes="0"/>
+                      <Component id="comboBoxProduct" pref="377" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="jSpinnerCantidad" pref="74" max="32767" attributes="0"/>
+                          <Component id="spinnerQuantity" pref="121" max="32767" attributes="0"/>
                           <EmptySpace min="256" pref="256" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jComboBoxCliente" pref="330" max="32767" attributes="0"/>
+                      <Component id="comboBoxCustomer" pref="377" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="171" max="-2" attributes="0"/>
-                  <Component id="jButtonComprar" min="-2" max="-2" attributes="0"/>
+                  <Component id="buttonBuy" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -101,19 +91,19 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="jLabelCliente" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBoxCliente" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelCustomer" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboBoxCustomer" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="jComboBoxProducto" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelProducto" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="comboBoxProduct" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelProduct" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="jSpinnerCantidad" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelCantidad" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonComprar" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="spinnerQuantity" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelQuantity" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="buttonBuy" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
               </Group>
@@ -121,7 +111,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabelCliente">
+        <Component class="javax.swing.JLabel" name="labelCustomer">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cliente"/>
           </Properties>
@@ -130,13 +120,12 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBoxCliente">
+        <Component class="javax.swing.JComboBox" name="comboBoxCustomer">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="arregloClientes.obtenerTodos().forEach(customer -&gt; jComboBoxCliente.addItem(customer));"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Customer&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelProducto">
+        <Component class="javax.swing.JLabel" name="labelProduct">
           <Properties>
             <Property name="text" type="java.lang.String" value="Producto"/>
           </Properties>
@@ -145,13 +134,12 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBoxProducto">
+        <Component class="javax.swing.JComboBox" name="comboBoxProduct">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="arregloProductos.obtenerTodosLosProductos().forEach(product -&gt; jComboBoxProducto.addItem(product));"/>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Product&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelCantidad">
+        <Component class="javax.swing.JLabel" name="labelQuantity">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cantidad"/>
           </Properties>
@@ -160,19 +148,19 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JSpinner" name="jSpinnerCantidad">
+        <Component class="javax.swing.JSpinner" name="spinnerQuantity">
           <Properties>
             <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
               <SpinnerModel initial="0" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButtonComprar">
+        <Component class="javax.swing.JButton" name="buttonBuy">
           <Properties>
             <Property name="text" type="java.lang.String" value="Comprar"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonComprarActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonBuyActionPerformed"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
@@ -181,7 +169,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Container class="javax.swing.JPanel" name="jPanelMostrar">
+    <Container class="javax.swing.JPanel" name="panelPurchaseOrders">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
@@ -198,23 +186,23 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace pref="554" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="jLabelTotal" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jTextFieldTotal" min="-2" pref="53" max="-2" attributes="0"/>
+                  <Component id="labelTotalRows" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
-              <Component id="jScrollPaneProductos" alignment="0" max="32767" attributes="0"/>
+              <Component id="scrollPane" alignment="0" pref="696" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <Component id="jScrollPaneProductos" pref="209" max="32767" attributes="0"/>
+                  <Component id="scrollPane" pref="226" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jTextFieldTotal" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabelTotal" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelTotalRows" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -231,15 +219,7 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextFieldTotal">
-          <Properties>
-            <Property name="editable" type="boolean" value="false"/>
-            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="String.valueOf(jTableProductos.getModel().getRowCount())" type="code"/>
-            </Property>
-          </Properties>
-        </Component>
-        <Container class="javax.swing.JScrollPane" name="jScrollPaneProductos">
+        <Container class="javax.swing.JScrollPane" name="scrollPane">
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -248,10 +228,10 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTableProductos">
+            <Component class="javax.swing.JTable" name="tablePurchaseOrders">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    arregloVentas.all(),&#xa;    new String [] {&#xa;        &quot;Number&quot;, &quot;Customer&quot;, &quot;Product&quot;, &quot;Quantity&quot;, &quot;Sales Date&quot;&#xa;    }&#xa;) {&#xa;    Class[] types = new Class [] {&#xa;        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.util.Date.class&#xa;    };&#xa;    boolean[] canEdit = new boolean [] {&#xa;        false, false, false, false, false&#xa;    };&#xa;&#xa;    public Class getColumnClass(int columnIndex) {&#xa;        return types [columnIndex];&#xa;    }&#xa;&#xa;    public boolean isCellEditable(int rowIndex, int columnIndex) {&#xa;        return canEdit [columnIndex];&#xa;    }&#xa;}" type="code"/>
+                  <Connection code="new javax.swing.table.DefaultTableModel(&#xa;    new String [] {&#xa;        &quot;Number&quot;, &quot;Customer&quot;, &quot;Product&quot;, &quot;Quantity&quot;, &quot;Sales Date&quot;&#xa;    }, 0&#xa;) {&#xa;    Class[] types = new Class [] {&#xa;        java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.util.Date.class&#xa;    };&#xa;    boolean[] canEdit = new boolean [] {&#xa;        false, false, false, false, false&#xa;    };&#xa;&#xa;    public Class getColumnClass(int columnIndex) {&#xa;        return types [columnIndex];&#xa;    }&#xa;&#xa;    public boolean isCellEditable(int rowIndex, int columnIndex) {&#xa;        return canEdit [columnIndex];&#xa;    }&#xa;}" type="code"/>
                 </Property>
                 <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                   <TableColumnModel selectionModel="0"/>
@@ -261,36 +241,18 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTableProductosMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tablePurchaseOrdersMouseClicked"/>
               </Events>
             </Component>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JLabel" name="labelTotalRows">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="4"/>
+            <Property name="text" type="java.lang.String" value="0"/>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButtonGuardar">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Guardar"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonGuardarActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JButton" name="jButtonSalir">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Salir"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonSalirActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-      </AuxValues>
-    </Component>
   </SubComponents>
 </Form>

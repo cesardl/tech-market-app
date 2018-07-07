@@ -17,9 +17,9 @@ import static org.junit.Assert.*;
  *
  * @author Cesardl
  */
-public class ProductsBusinessTest {
+public class ProductBusinessTest {
 
-    private final ProductsBusiness productBusiness = ProductsBusiness.getInstance();
+    private final ProductBusiness productBusiness = ProductBusiness.getInstance();
 
     @BeforeClass
     public static void initialize() throws InitializationError {

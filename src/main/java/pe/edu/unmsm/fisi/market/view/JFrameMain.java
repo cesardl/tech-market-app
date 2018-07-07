@@ -40,11 +40,8 @@ public class JFrameMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPane = new javax.swing.JDesktopPane();
-        jInternalFrameCustomers = new pe.edu.unmsm.fisi.market.view.JInternalFrameCustomers();
-        jInternalFrameBuscar = new pe.edu.unmsm.fisi.market.view.JInternalFrameProducts();
-        jInternalFrameVentas = new pe.edu.unmsm.fisi.market.view.JInternalFramePurchaseOrders();
-        javax.swing.JMenuBar jMenuBar = new javax.swing.JMenuBar();
+        desktopPane = new javax.swing.JDesktopPane();
+        javax.swing.JMenuBar menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu jMenuMantenimiento = new javax.swing.JMenu();
         javax.swing.JMenuItem jMenuItemCustomers = new javax.swing.JMenuItem();
         javax.swing.JMenuItem jMenuItemProducts = new javax.swing.JMenuItem();
@@ -58,7 +55,10 @@ public class JFrameMain extends javax.swing.JFrame {
         setTitle("Tech market");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png")).getImage());
 
-        jDesktopPane.setBackground(new java.awt.Color(26, 185, 241));
+        internalFrameCustomers = new JInternalFrameCustomers();
+        internalFrameProducts = new JInternalFrameProducts();
+        internalFramePurchaseOrders = new JInternalFramePurchaseOrders();
+        desktopPane.setBackground(new java.awt.Color(26, 185, 241));
 
         jMenuMantenimiento.setText("Archivo");
 
@@ -99,7 +99,7 @@ public class JFrameMain extends javax.swing.JFrame {
         });
         jMenuMantenimiento.add(jMenuItemExit);
 
-        jMenuBar.add(jMenuMantenimiento);
+        menuBar.add(jMenuMantenimiento);
 
         jMenuHelp.setText("Ayuda");
 
@@ -112,19 +112,19 @@ public class JFrameMain extends javax.swing.JFrame {
         });
         jMenuHelp.add(jMenuItemAbout);
 
-        jMenuBar.add(jMenuHelp);
+        menuBar.add(jMenuHelp);
 
-        setJMenuBar(jMenuBar);
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 944, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 944, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
         );
 
         pack();
@@ -133,19 +133,19 @@ public class JFrameMain extends javax.swing.JFrame {
 
     private void jMenuItemCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCustomersActionPerformed
         LOG.trace(evt.paramString());
-        AppUtils.displayInternalFrame(jDesktopPane, jInternalFrameCustomers);
+        AppUtils.displayInternalFrame(desktopPane, internalFrameCustomers);
         LOG.debug("Mostrando frame interno de regisro de clientes");
     }//GEN-LAST:event_jMenuItemCustomersActionPerformed
 
     private void jMenuItemProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProductsActionPerformed
         LOG.trace(evt.paramString());
-        AppUtils.displayInternalFrame(jDesktopPane, jInternalFrameBuscar);
+        AppUtils.displayInternalFrame(desktopPane, internalFrameProducts);
         LOG.debug("Mostrando frame interno de busqueda de productos");
     }//GEN-LAST:event_jMenuItemProductsActionPerformed
 
     private void jMenuItemPurchaseOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPurchaseOrdersActionPerformed
         LOG.trace(evt.paramString());
-        AppUtils.displayInternalFrame(jDesktopPane, jInternalFrameVentas);
+        AppUtils.displayInternalFrame(desktopPane, internalFramePurchaseOrders);
         LOG.debug("Mostrando frame interno de venta de productos");
     }//GEN-LAST:event_jMenuItemPurchaseOrdersActionPerformed
 
@@ -169,9 +169,9 @@ public class JFrameMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemAboutActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane jDesktopPane;
-    private pe.edu.unmsm.fisi.market.view.JInternalFrameCustomers jInternalFrameCustomers;
-    private pe.edu.unmsm.fisi.market.view.JInternalFrameProducts jInternalFrameBuscar;
-    private pe.edu.unmsm.fisi.market.view.JInternalFramePurchaseOrders jInternalFrameVentas;
+    private javax.swing.JDesktopPane desktopPane;
+    private JInternalFrameCustomers internalFrameCustomers;
+    private JInternalFrameProducts internalFrameProducts;
+    private JInternalFramePurchaseOrders internalFramePurchaseOrders;
     // End of variables declaration//GEN-END:variables
 }

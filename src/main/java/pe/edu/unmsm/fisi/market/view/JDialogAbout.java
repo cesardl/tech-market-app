@@ -38,6 +38,7 @@ public class JDialogAbout extends javax.swing.JDialog {
         javax.swing.JLabel jLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png")).getImage());
         setModal(true);
         setResizable(false);
 

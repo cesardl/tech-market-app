@@ -2,7 +2,7 @@
 
 <Form version="1.4" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Menu class="javax.swing.JMenuBar" name="jMenuBar">
+    <Menu class="javax.swing.JMenuBar" name="menuBar">
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
@@ -122,7 +122,7 @@
     </Property>
   </Properties>
   <SyntheticProperties>
-    <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar"/>
+    <SyntheticProperty name="menuBar" type="java.lang.String" value="menuBar"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="0"/>
     <SyntheticProperty name="generateSize" type="boolean" value="false"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
@@ -142,25 +142,25 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jDesktopPane" alignment="0" pref="944" max="32767" attributes="0"/>
+          <Component id="desktopPane" alignment="0" pref="944" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jDesktopPane" alignment="0" pref="544" max="32767" attributes="0"/>
+          <Component id="desktopPane" alignment="0" pref="544" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JDesktopPane" name="jDesktopPane">
+    <Container class="javax.swing.JDesktopPane" name="desktopPane">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="f1" green="b9" red="1a" type="rgb"/>
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="jInternalFrameCustomers = new pe.edu.unmsm.fisi.market.view.JInternalFrameCustomers();&#xd;&#xa;jInternalFrameBuscar = new pe.edu.unmsm.fisi.market.view.JInternalFrameProducts();&#xd;&#xa;jInternalFrameVentas = new pe.edu.unmsm.fisi.market.view.JInternalFramePurchaseOrders();"/>
-        <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private pe.edu.unmsm.fisi.market.view.JInternalFrameCustomers jInternalFrameCustomers;&#xa;private pe.edu.unmsm.fisi.market.view.JInternalFrameProducts jInternalFrameBuscar;&#xa;private pe.edu.unmsm.fisi.market.view.JInternalFramePurchaseOrders jInternalFrameVentas;"/>
+        <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="private JInternalFrameCustomers internalFrameCustomers;&#xa;private JInternalFrameProducts internalFrameProducts;&#xa;private JInternalFramePurchaseOrders internalFramePurchaseOrders;"/>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="internalFrameCustomers = new JInternalFrameCustomers();&#xa;internalFrameProducts = new JInternalFrameProducts();&#xa;internalFramePurchaseOrders = new JInternalFramePurchaseOrders();"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout">

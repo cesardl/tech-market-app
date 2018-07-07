@@ -10,11 +10,12 @@
  */
 package pe.edu.unmsm.fisi.market.view;
 
+import java.awt.Point;
 import java.util.Collection;
 import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.market.business.ProductsBusiness;
+import pe.edu.unmsm.fisi.market.business.ProductBusiness;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.util.AppUtils;
 
@@ -28,7 +29,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
 
     private static final Logger LOG = LoggerFactory.getLogger(JInternalFrameProducts.class);
 
-    private final ProductsBusiness aProductos;
+    private final ProductBusiness aProductos;
 
     private SearchType searchType;
 
@@ -40,7 +41,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
      * Creates new form JInternalFrameBuscar
      */
     public JInternalFrameProducts() {
-        aProductos = ProductsBusiness.getInstance();
+        aProductos = ProductBusiness.getInstance();
         searchType = SearchType.BY_NAME;
         initComponents();
     }
@@ -73,6 +74,9 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         javax.swing.ButtonGroup buttonGroup = new javax.swing.ButtonGroup();
+        popupMenu = new javax.swing.JPopupMenu();
+        menuItemShow = new javax.swing.JMenuItem();
+        menuItemDelete = new javax.swing.JMenuItem();
         javax.swing.JPanel panelSearch = new javax.swing.JPanel();
         javax.swing.JRadioButton radioButtonCodigo = new javax.swing.JRadioButton();
         javax.swing.JRadioButton radioButtonNombre = new javax.swing.JRadioButton();
@@ -84,6 +88,12 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
         buttonAdd = new javax.swing.JButton();
         javax.swing.JLabel labelTotal = new javax.swing.JLabel();
         labelTotalRows = new javax.swing.JLabel();
+
+        menuItemShow.setText("Show details");
+        popupMenu.add(menuItemShow);
+
+        menuItemDelete.setText("Delete");
+        popupMenu.add(menuItemDelete);
 
         setClosable(true);
         setTitle("Busqueda de Productos");
@@ -171,10 +181,14 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+        tableProducts.setComponentPopupMenu(popupMenu);
         tableProducts.getTableHeader().setReorderingAllowed(false);
         tableProducts.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tableProductsMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                tableProductsMouseReleased(evt);
             }
         });
         scrollPane.setViewportView(tableProducts);
@@ -357,7 +371,6 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
             Product product = aProductos.buscarCodigo(productId);
             JDialogProductForm productForm = new JDialogProductForm(
                     javax.swing.JOptionPane.getFrameForComponent(this), product);
-            productForm.showData();
             productForm.setVisible(true);
 
             Collection<Product> products = aProductos.buscarNombre(textFieldBuscar.getText());
@@ -366,10 +379,20 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tableProductsMouseClicked
 
+    private void tableProductsMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductsMouseReleased
+        // selects the row at which point the mouse is clicked
+        Point point = evt.getPoint();
+        int currentRow = tableProducts.rowAtPoint(point);
+        tableProducts.setRowSelectionInterval(currentRow, currentRow);
+    }//GEN-LAST:event_tableProductsMouseReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAdd;
     private javax.swing.JButton buttonSearch;
     private javax.swing.JLabel labelTotalRows;
+    private javax.swing.JMenuItem menuItemDelete;
+    private javax.swing.JMenuItem menuItemShow;
+    private javax.swing.JPopupMenu popupMenu;
     private javax.swing.JTable tableProducts;
     private javax.swing.JTextField textFieldBuscar;
     // End of variables declaration//GEN-END:variables

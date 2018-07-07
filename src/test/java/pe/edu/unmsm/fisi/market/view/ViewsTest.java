@@ -1,9 +1,6 @@
 package pe.edu.unmsm.fisi.market.view;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runners.model.InitializationError;
-import pe.edu.unmsm.fisi.market.DatabaseTestContext;
 import pe.edu.unmsm.fisi.market.model.Product;
 
 import static org.junit.Assert.assertFalse;
@@ -14,11 +11,6 @@ import static org.junit.Assert.assertFalse;
  * @author Cesardl
  */
 public class ViewsTest {
-
-    @BeforeClass
-    public static void initialize() throws InitializationError {
-        DatabaseTestContext.init();
-    }
 
     @Test
     public void frameMainInitializedTest() {

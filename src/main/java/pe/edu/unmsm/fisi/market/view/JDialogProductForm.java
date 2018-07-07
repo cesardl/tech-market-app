@@ -7,7 +7,7 @@ package pe.edu.unmsm.fisi.market.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.market.business.ProductsBusiness;
+import pe.edu.unmsm.fisi.market.business.ProductBusiness;
 import pe.edu.unmsm.fisi.market.model.Manufacturer;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.ProductCode;
@@ -21,7 +21,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
     private static final Logger LOG = LoggerFactory.getLogger(JDialogProductForm.class);
 
     private final Product product;
-    private final ProductsBusiness productBusiness;
+    private final ProductBusiness productBusiness;
 
     /**
      * @inheritDoc
@@ -29,7 +29,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
     public JDialogProductForm(java.awt.Frame parent, Product product) {
         super(parent);
 
-        productBusiness = ProductsBusiness.getInstance();
+        productBusiness = ProductBusiness.getInstance();
         this.product = product;
 
         initComponents();
@@ -61,6 +61,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Detalle de Producto");
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png")).getImage());
         setModal(true);
         setResizable(false);
 
@@ -78,12 +79,10 @@ public class JDialogProductForm extends javax.swing.JDialog {
 
         labelCantidad.setText("Cantidad");
 
-        comboBoxManufacturer.setModel(new javax.swing.DefaultComboBoxModel<>(new java.util.Vector<>(productBusiness.getManufacturers())));
         comboBoxManufacturer.setFocusable(false);
 
         textFieldProductId.setEnabled(false);
 
-        comboBoxProductCode.setModel(new javax.swing.DefaultComboBoxModel<>(new java.util.Vector<>(productBusiness.getProductCodes())));
         comboBoxProductCode.setFocusable(false);
 
         spinnerCantidad.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
@@ -180,7 +179,25 @@ public class JDialogProductForm extends javax.swing.JDialog {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    public void showData() {
+    @Override
+    public void setVisible(boolean b) {
+        if (b) {
+        comboBoxManufacturer.setModel(
+                new javax.swing.DefaultComboBoxModel<>(
+                        new java.util.Vector<>(productBusiness.getManufacturers())));
+
+        comboBoxProductCode.setModel(
+                new javax.swing.DefaultComboBoxModel<>(
+                        new java.util.Vector<>(productBusiness.getProductCodes())));
+
+        if (product.getProductId() != null) {
+            showData();
+        }
+        }
+        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void showData() {
         for (int index = 0; index < comboBoxManufacturer.getItemCount(); index++) {
             Manufacturer m = comboBoxManufacturer.getItemAt(index);
             if (m.getManufacturerId().equals(product.getManufacturer().getManufacturerId())) {
