@@ -24,7 +24,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
     @Override
     public Collection<Product> getAll() {
-        String sql = "SELECT PRODUCT_ID, DESCRIPTION FROM PRODUCT";
+        String sql = "SELECT PRODUCT_ID, DESCRIPTION FROM PRODUCT WHERE QUANTITY_ON_HAND <> 0 AND AVAILABLE = TRUE";
 
         LOG.debug("[SQL] {}", sql);
 
@@ -52,7 +52,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
     }
 
     @Override
-    public boolean save(Product product) {
+    public boolean save(final Product product) {
         String sql = "INSERT INTO PRODUCT(PRODUCT_ID, MANUFACTURER_ID, PRODUCT_CODE, PURCHASE_COST, QUANTITY_ON_HAND, MARKUP, AVAILABLE, DESCRIPTION) "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -72,7 +72,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
             int result = ps.executeUpdate();
 
-            LOG.debug("Total de registros afectados {}", result);
+            LOG.debug("Number of affected rows {}", result);
             return true;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -81,7 +81,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
     }
 
     @Override
-    public boolean update(Product product) {
+    public boolean update(final Product product) {
         String sql = "UPDATE PRODUCT SET MANUFACTURER_ID = ?, PRODUCT_CODE = ?, PURCHASE_COST = ?, QUANTITY_ON_HAND = ?, MARKUP = ?, AVAILABLE = ?, DESCRIPTION = ? WHERE PRODUCT_ID = ?";
 
         LOG.debug("[SQL] {}", sql);
@@ -100,7 +100,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
             int result = ps.executeUpdate();
 
-            LOG.debug("Total de registros afectados {}", result);
+            LOG.debug("Number of affected rows {}", result);
             return true;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -109,7 +109,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
     }
 
     @Override
-    public Product buscarCodigo(int codigo) {
+    public Product findById(final int identifier) {
         String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.MARKUP, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
                 + "FROM PRODUCT P "
                 + "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID "
@@ -120,7 +120,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, codigo);
+            ps.setInt(1, identifier);
 
             try (ResultSet rs = ps.executeQuery()) {
 
@@ -136,7 +136,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
     }
 
     @Override
-    public Collection<Product> buscarNombre(String description) {
+    public Collection<Product> buscarNombre(final String description) {
         String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.MARKUP, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
                 + "FROM PRODUCT P "
                 + "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID "
@@ -166,13 +166,13 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
     }
 
     @Override
-    public boolean delete(Product product) {
+    public boolean delete(final Product product) {
         String sql = "DELETE FROM PRODUCT WHERE PRODUCT_ID = ?";
 
         LOG.debug("[SQL] {}", sql);
 
-        try (Connection connection = ConnectionUtils.openConnection()) {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (Connection connection = ConnectionUtils.openConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, product.getProductId());
 
@@ -186,7 +186,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
         }
     }
 
-    private Product parseProduct(ResultSet rs) throws SQLException {
+    private Product parseProduct(final ResultSet rs) throws SQLException {
         Product p = new Product();
         p.setProductId(rs.getInt("PRODUCT_ID"));
         p.setDescription(rs.getString("DESCRIPTION"));

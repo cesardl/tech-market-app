@@ -1,9 +1,4 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
- /*
  * JDialogAbout.java
  *
  * Created on 11/07/2009, 09:21:26 PM
@@ -11,7 +6,6 @@
 package pe.edu.unmsm.fisi.market.view;
 
 /**
- *
  * @author Cesardl
  */
 public class JDialogAbout extends javax.swing.JDialog {
@@ -38,6 +32,7 @@ public class JDialogAbout extends javax.swing.JDialog {
         javax.swing.JLabel jLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconImage(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png")).getImage());
         setModal(true);
         setResizable(false);
 

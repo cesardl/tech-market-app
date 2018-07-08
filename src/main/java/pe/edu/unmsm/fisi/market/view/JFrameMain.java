@@ -1,9 +1,4 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
- /*
  * JFrameMain.java
  *
  * Created on 24/06/2009, 08:39:57 PM
@@ -40,116 +35,116 @@ public class JFrameMain extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDesktopPane = new javax.swing.JDesktopPane();
-        jInternalFrameCustomers = new pe.edu.unmsm.fisi.market.view.JInternalFrameCustomers();
-        jInternalFrameBuscar = new pe.edu.unmsm.fisi.market.view.JInternalFrameProducts();
-        jInternalFrameVentas = new pe.edu.unmsm.fisi.market.view.JInternalFramePurchaseOrders();
-        javax.swing.JMenuBar jMenuBar = new javax.swing.JMenuBar();
-        javax.swing.JMenu jMenuMantenimiento = new javax.swing.JMenu();
-        javax.swing.JMenuItem jMenuItemCustomers = new javax.swing.JMenuItem();
-        javax.swing.JMenuItem jMenuItemProducts = new javax.swing.JMenuItem();
-        javax.swing.JMenuItem jMenuItemPurchaseOrders = new javax.swing.JMenuItem();
-        javax.swing.JSeparator jSeparator = new javax.swing.JSeparator();
-        javax.swing.JMenuItem jMenuItemExit = new javax.swing.JMenuItem();
-        javax.swing.JMenu jMenuHelp = new javax.swing.JMenu();
-        javax.swing.JMenuItem jMenuItemAbout = new javax.swing.JMenuItem();
+        desktopPane = new javax.swing.JDesktopPane();
+        javax.swing.JMenuBar menuBar = new javax.swing.JMenuBar();
+        javax.swing.JMenu menuMaintenance = new javax.swing.JMenu();
+        javax.swing.JMenuItem menuItemCustomers = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem menuItemProducts = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem menuItemPurchaseOrders = new javax.swing.JMenuItem();
+        javax.swing.JSeparator separator = new javax.swing.JSeparator();
+        javax.swing.JMenuItem menuItemExit = new javax.swing.JMenuItem();
+        javax.swing.JMenu menuHelp = new javax.swing.JMenu();
+        javax.swing.JMenuItem menuItemAbout = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Tech market");
+        setTitle("Tech Market");
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png")).getImage());
 
-        jDesktopPane.setBackground(new java.awt.Color(26, 185, 241));
+        internalFrameCustomers = new JInternalFrameCustomers();
+        internalFrameProducts = new JInternalFrameProducts();
+        internalFramePurchaseOrders = new JInternalFramePurchaseOrders();
+        desktopPane.setBackground(new java.awt.Color(26, 185, 241));
 
-        jMenuMantenimiento.setText("Archivo");
+        menuMaintenance.setText("Archivo");
 
-        jMenuItemCustomers.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItemCustomers.setText("Clientes");
-        jMenuItemCustomers.addActionListener(new java.awt.event.ActionListener() {
+        menuItemCustomers.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        menuItemCustomers.setText("Clientes");
+        menuItemCustomers.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemCustomersActionPerformed(evt);
+                menuItemCustomersActionPerformed(evt);
             }
         });
-        jMenuMantenimiento.add(jMenuItemCustomers);
+        menuMaintenance.add(menuItemCustomers);
 
-        jMenuItemProducts.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItemProducts.setText("Productos");
-        jMenuItemProducts.addActionListener(new java.awt.event.ActionListener() {
+        menuItemProducts.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_B, java.awt.event.InputEvent.CTRL_MASK));
+        menuItemProducts.setText("Productos");
+        menuItemProducts.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemProductsActionPerformed(evt);
+                menuItemProductsActionPerformed(evt);
             }
         });
-        jMenuMantenimiento.add(jMenuItemProducts);
+        menuMaintenance.add(menuItemProducts);
 
-        jMenuItemPurchaseOrders.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItemPurchaseOrders.setText("Ventas");
-        jMenuItemPurchaseOrders.addActionListener(new java.awt.event.ActionListener() {
+        menuItemPurchaseOrders.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        menuItemPurchaseOrders.setText("Ventas");
+        menuItemPurchaseOrders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemPurchaseOrdersActionPerformed(evt);
+                menuItemPurchaseOrdersActionPerformed(evt);
             }
         });
-        jMenuMantenimiento.add(jMenuItemPurchaseOrders);
-        jMenuMantenimiento.add(jSeparator);
+        menuMaintenance.add(menuItemPurchaseOrders);
+        menuMaintenance.add(separator);
 
-        jMenuItemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItemExit.setText("Salir");
-        jMenuItemExit.addActionListener(new java.awt.event.ActionListener() {
+        menuItemExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        menuItemExit.setText("Salir");
+        menuItemExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemExitActionPerformed(evt);
+                menuItemExitActionPerformed(evt);
             }
         });
-        jMenuMantenimiento.add(jMenuItemExit);
+        menuMaintenance.add(menuItemExit);
 
-        jMenuBar.add(jMenuMantenimiento);
+        menuBar.add(menuMaintenance);
 
-        jMenuHelp.setText("Ayuda");
+        menuHelp.setText("Ayuda");
 
-        jMenuItemAbout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
-        jMenuItemAbout.setText("Acerca de");
-        jMenuItemAbout.addActionListener(new java.awt.event.ActionListener() {
+        menuItemAbout.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        menuItemAbout.setText("Acerca de");
+        menuItemAbout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemAboutActionPerformed(evt);
+                menuItemAboutActionPerformed(evt);
             }
         });
-        jMenuHelp.add(jMenuItemAbout);
+        menuHelp.add(menuItemAbout);
 
-        jMenuBar.add(jMenuHelp);
+        menuBar.add(menuHelp);
 
-        setJMenuBar(jMenuBar);
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 944, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
+            .addComponent(desktopPane, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItemCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemCustomersActionPerformed
+    private void menuItemCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemCustomersActionPerformed
         LOG.trace(evt.paramString());
-        AppUtils.displayInternalFrame(jDesktopPane, jInternalFrameCustomers);
+        AppUtils.displayInternalFrame(desktopPane, internalFrameCustomers);
         LOG.debug("Mostrando frame interno de regisro de clientes");
-    }//GEN-LAST:event_jMenuItemCustomersActionPerformed
+    }//GEN-LAST:event_menuItemCustomersActionPerformed
 
-    private void jMenuItemProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProductsActionPerformed
+    private void menuItemProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemProductsActionPerformed
         LOG.trace(evt.paramString());
-        AppUtils.displayInternalFrame(jDesktopPane, jInternalFrameBuscar);
+        AppUtils.displayInternalFrame(desktopPane, internalFrameProducts);
         LOG.debug("Mostrando frame interno de busqueda de productos");
-    }//GEN-LAST:event_jMenuItemProductsActionPerformed
+    }//GEN-LAST:event_menuItemProductsActionPerformed
 
-    private void jMenuItemPurchaseOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPurchaseOrdersActionPerformed
+    private void menuItemPurchaseOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPurchaseOrdersActionPerformed
         LOG.trace(evt.paramString());
-        AppUtils.displayInternalFrame(jDesktopPane, jInternalFrameVentas);
+        AppUtils.displayInternalFrame(desktopPane, internalFramePurchaseOrders);
         LOG.debug("Mostrando frame interno de venta de productos");
-    }//GEN-LAST:event_jMenuItemPurchaseOrdersActionPerformed
+    }//GEN-LAST:event_menuItemPurchaseOrdersActionPerformed
 
-    private void jMenuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemExitActionPerformed
+    private void menuItemExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemExitActionPerformed
         LOG.trace(evt.paramString());
         int optionChosen = javax.swing.JOptionPane.showConfirmDialog(this,
                 "Seguro que desea salir?", getTitle(),
@@ -159,19 +154,19 @@ public class JFrameMain extends javax.swing.JFrame {
         if (javax.swing.JOptionPane.YES_OPTION == optionChosen) {
             System.exit(0);
         }
-    }//GEN-LAST:event_jMenuItemExitActionPerformed
+    }//GEN-LAST:event_menuItemExitActionPerformed
 
-    private void jMenuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemAboutActionPerformed
+    private void menuItemAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemAboutActionPerformed
         LOG.trace(evt.paramString());
         JDialogAbout dialog = new JDialogAbout(this);
         dialog.setTitle(getTitle());
         dialog.setVisible(true);
-    }//GEN-LAST:event_jMenuItemAboutActionPerformed
+    }//GEN-LAST:event_menuItemAboutActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDesktopPane jDesktopPane;
-    private pe.edu.unmsm.fisi.market.view.JInternalFrameCustomers jInternalFrameCustomers;
-    private pe.edu.unmsm.fisi.market.view.JInternalFrameProducts jInternalFrameBuscar;
-    private pe.edu.unmsm.fisi.market.view.JInternalFramePurchaseOrders jInternalFrameVentas;
+    private javax.swing.JDesktopPane desktopPane;
+    private JInternalFrameCustomers internalFrameCustomers;
+    private JInternalFrameProducts internalFrameProducts;
+    private JInternalFramePurchaseOrders internalFramePurchaseOrders;
     // End of variables declaration//GEN-END:variables
 }

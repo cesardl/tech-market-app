@@ -1,42 +1,44 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
- /*
  * JInternalFramePurchaseOrders.java
  *
  * Created on 01/07/2009, 09:30:27 PM
  */
 package pe.edu.unmsm.fisi.market.view;
 
+import java.util.Collection;
 import javax.swing.table.DefaultTableModel;
-import pe.edu.unmsm.fisi.market.business.CustomerBusiness;
-import pe.edu.unmsm.fisi.market.business.ProductsBusiness;
-import pe.edu.unmsm.fisi.market.business.PurchaseOrderBusiness;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pe.edu.unmsm.fisi.market.business.impl.CustomerBusiness;
+import pe.edu.unmsm.fisi.market.business.impl.ProductBusiness;
+import pe.edu.unmsm.fisi.market.business.impl.PurchaseOrderBusiness;
 import pe.edu.unmsm.fisi.market.model.Customer;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
+import pe.edu.unmsm.fisi.market.util.AppUtils;
 
 /**
- *
  * @author Eliana Zapata
  */
 public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
 
     private static final long serialVersionUID = 3611566289002788602L;
 
-    private final CustomerBusiness arregloClientes;
-    private final ProductsBusiness arregloProductos;
-    private final PurchaseOrderBusiness arregloVentas;
+    private static final Logger LOG = LoggerFactory.getLogger(JInternalFramePurchaseOrders.class);
+
+    private final CustomerBusiness customerBusiness;
+    private final ProductBusiness productBusiness;
+    private final PurchaseOrderBusiness purchaseOrderBusiness;
+    private PurchaseOrder purchaseOrder;
 
     /**
      * Creates new form JInternalFrameVentas
      */
     public JInternalFramePurchaseOrders() {
-        arregloClientes = CustomerBusiness.getInstance();
-        arregloProductos = ProductsBusiness.getInstance();
-        arregloVentas = PurchaseOrderBusiness.getInstance();
+        customerBusiness = CustomerBusiness.getInstance();
+        productBusiness = ProductBusiness.getInstance();
+        purchaseOrderBusiness = PurchaseOrderBusiness.getInstance();
         initComponents();
     }
 
@@ -49,103 +51,92 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.JPanel jPanelIngresar = new javax.swing.JPanel();
-        javax.swing.JLabel jLabelCliente = new javax.swing.JLabel();
-        jComboBoxCliente = new javax.swing.JComboBox<>();
-        javax.swing.JLabel jLabelProducto = new javax.swing.JLabel();
-        jComboBoxProducto = new javax.swing.JComboBox<>();
-        javax.swing.JLabel jLabelCantidad = new javax.swing.JLabel();
-        jSpinnerCantidad = new javax.swing.JSpinner();
-        javax.swing.JButton jButtonComprar = new javax.swing.JButton();
-        javax.swing.JPanel jPanelMostrar = new javax.swing.JPanel();
+        javax.swing.JPanel panelBuy = new javax.swing.JPanel();
+        javax.swing.JLabel labelCustomer = new javax.swing.JLabel();
+        comboBoxCustomer = new javax.swing.JComboBox<>();
+        javax.swing.JLabel labelProduct = new javax.swing.JLabel();
+        comboBoxProduct = new javax.swing.JComboBox<>();
+        javax.swing.JLabel labelQuantity = new javax.swing.JLabel();
+        spinnerQuantity = new javax.swing.JSpinner();
+        javax.swing.JButton buttonBuy = new javax.swing.JButton();
+        javax.swing.JPanel panelPurchaseOrders = new javax.swing.JPanel();
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
+        tablePurchaseOrders = new javax.swing.JTable();
         javax.swing.JLabel jLabelTotal = new javax.swing.JLabel();
-        jTextFieldTotal = new javax.swing.JTextField();
-        javax.swing.JScrollPane jScrollPaneProductos = new javax.swing.JScrollPane();
-        jTableProductos = new javax.swing.JTable();
-        javax.swing.JButton jButtonGuardar = new javax.swing.JButton();
-        javax.swing.JButton jButtonSalir = new javax.swing.JButton();
+        labelTotalRows = new javax.swing.JLabel();
 
         setClosable(true);
         setTitle("Venta de Productos");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png"))); // NOI18N
 
-        jPanelIngresar.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Producto"));
+        panelBuy.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Producto"));
 
-        jLabelCliente.setText("Cliente");
+        labelCustomer.setText("Cliente");
 
-        jLabelProducto.setText("Producto");
+        labelProduct.setText("Producto");
 
-        jLabelCantidad.setText("Cantidad");
+        labelQuantity.setText("Cantidad");
 
-        jSpinnerCantidad.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spinnerQuantity.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
-        jButtonComprar.setText("Comprar");
-        jButtonComprar.addActionListener(new java.awt.event.ActionListener() {
+        buttonBuy.setText("Comprar");
+        buttonBuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonComprarActionPerformed(evt);
+                buttonBuyActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanelIngresarLayout = new javax.swing.GroupLayout(jPanelIngresar);
-        jPanelIngresar.setLayout(jPanelIngresarLayout);
-        jPanelIngresarLayout.setHorizontalGroup(
-            jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelIngresarLayout.createSequentialGroup()
+        javax.swing.GroupLayout panelBuyLayout = new javax.swing.GroupLayout(panelBuy);
+        panelBuy.setLayout(panelBuyLayout);
+        panelBuyLayout.setHorizontalGroup(
+            panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBuyLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelCantidad)
-                    .addComponent(jLabelProducto)
-                    .addComponent(jLabelCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBoxProducto, 0, 330, Short.MAX_VALUE)
-                    .addGroup(jPanelIngresarLayout.createSequentialGroup()
-                        .addComponent(jSpinnerCantidad, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(labelQuantity)
+                    .addComponent(labelProduct)
+                    .addComponent(labelCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(comboBoxProduct, 0, 353, Short.MAX_VALUE)
+                    .addGroup(panelBuyLayout.createSequentialGroup()
+                        .addComponent(spinnerQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
                         .addGap(256, 256, 256))
-                    .addComponent(jComboBoxCliente, 0, 330, Short.MAX_VALUE))
+                    .addComponent(comboBoxCustomer, 0, 353, Short.MAX_VALUE))
                 .addGap(171, 171, 171)
-                .addComponent(jButtonComprar)
+                .addComponent(buttonBuy)
                 .addContainerGap())
         );
-        jPanelIngresarLayout.setVerticalGroup(
-            jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelIngresarLayout.createSequentialGroup()
+        panelBuyLayout.setVerticalGroup(
+            panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBuyLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabelCliente)
-                    .addComponent(jComboBoxCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(labelCustomer)
+                    .addComponent(comboBoxCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jComboBoxProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelProducto))
+                .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(comboBoxProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelProduct))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelIngresarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jSpinnerCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelCantidad)
-                    .addComponent(jButtonComprar))
+                .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(spinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelQuantity)
+                    .addComponent(buttonBuy))
                 .addGap(8, 8, 8))
         );
 
-        arregloClientes.obtenerTodos().forEach(customer -> jComboBoxCliente.addItem(customer));
-        arregloProductos.obtenerTodosLosProductos().forEach(product -> jComboBoxProducto.addItem(product));
+        panelPurchaseOrders.setBorder(javax.swing.BorderFactory.createTitledBorder("Ordenes de Compra"));
 
-        jPanelMostrar.setBorder(javax.swing.BorderFactory.createTitledBorder("Ordenes de Compra"));
-
-        jLabelTotal.setText("Total:");
-
-        jTextFieldTotal.setEditable(false);
-        jTextFieldTotal.setText(String.valueOf(jTableProductos.getModel().getRowCount()));
-
-        jTableProductos.setModel(new javax.swing.table.DefaultTableModel(
-            arregloVentas.all(),
+        tablePurchaseOrders.setModel(new javax.swing.table.DefaultTableModel(
             new String [] {
-                "Number", "Customer", "Product", "Quantity", "Sales Date"
-            }
+                "Number", "Customer", "Product", "Quantity", "Sales Date", "Shipping Date"
+            }, 0
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.util.Date.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.util.Date.class, java.util.Date.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -156,49 +147,34 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTableProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+        tablePurchaseOrders.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTableProductosMouseClicked(evt);
+                tablePurchaseOrdersMouseClicked(evt);
             }
         });
-        jScrollPaneProductos.setViewportView(jTableProductos);
+        scrollPane.setViewportView(tablePurchaseOrders);
 
-        javax.swing.GroupLayout jPanelMostrarLayout = new javax.swing.GroupLayout(jPanelMostrar);
-        jPanelMostrar.setLayout(jPanelMostrarLayout);
-        jPanelMostrarLayout.setHorizontalGroup(
-            jPanelMostrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelMostrarLayout.createSequentialGroup()
-                .addContainerGap(554, Short.MAX_VALUE)
-                .addComponent(jLabelTotal)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+        javax.swing.GroupLayout panelPurchaseOrdersLayout = new javax.swing.GroupLayout(panelPurchaseOrders);
+        panelPurchaseOrders.setLayout(panelPurchaseOrdersLayout);
+        panelPurchaseOrdersLayout.setHorizontalGroup(
+            panelPurchaseOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPurchaseOrdersLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrollPane)
                 .addContainerGap())
-            .addComponent(jScrollPaneProductos)
         );
-        jPanelMostrarLayout.setVerticalGroup(
-            jPanelMostrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMostrarLayout.createSequentialGroup()
-                .addComponent(jScrollPaneProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelMostrarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextFieldTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelTotal))
+        panelPurchaseOrdersLayout.setVerticalGroup(
+            panelPurchaseOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelPurchaseOrdersLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jButtonGuardar.setText("Guardar");
-        jButtonGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuardarActionPerformed(evt);
-            }
-        });
+        jLabelTotal.setText("Total:");
 
-        jButtonSalir.setText("Salir");
-        jButtonSalir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSalirActionPerformed(evt);
-            }
-        });
+        labelTotalRows.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        labelTotalRows.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -207,61 +183,117 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelIngresar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButtonGuardar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonSalir))
-                    .addComponent(jPanelMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelBuy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelPurchaseOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabelTotal)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(labelTotalRows)
+                .addGap(21, 21, 21))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanelIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelBuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelMostrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panelPurchaseOrders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSalir)
-                    .addComponent(jButtonGuardar))
+                    .addComponent(jLabelTotal)
+                    .addComponent(labelTotalRows))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonComprarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonComprarActionPerformed
-        // TODO add your handling code here:
-        System.out.println(jComboBoxCliente.getSelectedItem());
-        System.out.println(jComboBoxProducto.getSelectedItem());
-    }//GEN-LAST:event_jButtonComprarActionPerformed
+    @Override
+    public void setVisible(boolean b) {
+        if (b) {
+            comboBoxCustomer.setModel(
+                    new javax.swing.DefaultComboBoxModel<>(
+                            new java.util.Vector<>(customerBusiness.all())));
 
-    private void jButtonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonGuardarActionPerformed
+            comboBoxProduct.setModel(
+                    new javax.swing.DefaultComboBoxModel<>(
+                            new java.util.Vector<>(productBusiness.all())));
 
-    private void jButtonSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalirActionPerformed
-        dispose();
-    }//GEN-LAST:event_jButtonSalirActionPerformed
+            refreshDataTable(purchaseOrderBusiness.all());
+        }
 
-    private void jTableProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableProductosMouseClicked
+        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void refreshDataTable(Collection<PurchaseOrder> purchaseOrders) {
+        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) tablePurchaseOrders.getModel();
+
+        int rowCount = dtm.getRowCount();
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            dtm.removeRow(i);
+        }
+
+        purchaseOrders.forEach(po -> {
+            Object[] rowData = {
+                po.getOrderNum(), po.getCustomer(), po.getProduct(), po.getQuantity(), po.getSalesDate(), po.getShippingDate()
+            };
+            dtm.addRow(rowData);
+        });
+        labelTotalRows.setText(String.valueOf(purchaseOrders.size()));
+    }
+
+    private void buttonBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuyActionPerformed
+        LOG.trace(evt.paramString());
+
+        if (catchingData()) {
+            boolean result = purchaseOrderBusiness.saveOrUpdate(purchaseOrder);
+            if (result) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "Se registró la orden de compra correctamente!",
+                        getTitle(), javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                refreshDataTable(purchaseOrderBusiness.all());
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Ingrese correctamente los datos de compra",
+                    getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_buttonBuyActionPerformed
+
+    private boolean catchingData() {
+        int quantity = AppUtils.toInteger(String.valueOf(spinnerQuantity.getValue()));
+
+        if (quantity == AppUtils.ERROR_NUMBER || quantity == 0) {
+            spinnerQuantity.requestFocus();
+            return false;
+        }
+        purchaseOrder = new PurchaseOrder();
+        purchaseOrder.setCustomer(comboBoxCustomer.getItemAt(comboBoxCustomer.getSelectedIndex()));
+        purchaseOrder.setProduct(comboBoxProduct.getItemAt(comboBoxProduct.getSelectedIndex()));
+        purchaseOrder.setQuantity(quantity);
+        return true;
+    }
+
+    private void tablePurchaseOrdersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePurchaseOrdersMouseClicked
         if (evt.getClickCount() == 2) {
             javax.swing.JTable target = (javax.swing.JTable) evt.getSource();
             int row = target.getSelectedRow();
             System.out.println(" double click " + row);
             DefaultTableModel dtm = (DefaultTableModel) target.getModel();
 
+            // TODO Complete
             System.out.println(dtm.getValueAt(row, 0));
         }
-    }//GEN-LAST:event_jTableProductosMouseClicked
+    }//GEN-LAST:event_tablePurchaseOrdersMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<Customer> jComboBoxCliente;
-    private javax.swing.JComboBox<Product> jComboBoxProducto;
-    private javax.swing.JSpinner jSpinnerCantidad;
-    private javax.swing.JTable jTableProductos;
-    private javax.swing.JTextField jTextFieldTotal;
+    private javax.swing.JComboBox<Customer> comboBoxCustomer;
+    private javax.swing.JComboBox<Product> comboBoxProduct;
+    private javax.swing.JLabel labelTotalRows;
+    private javax.swing.JSpinner spinnerQuantity;
+    private javax.swing.JTable tablePurchaseOrders;
     // End of variables declaration//GEN-END:variables
 }

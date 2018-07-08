@@ -1,19 +1,18 @@
 package pe.edu.unmsm.fisi.market.dao;
 
-import java.util.Collection;
-
 /**
  * Created on 13/06/2018.
  *
  * @param <T> entity to define
  * @author Cesardl
  */
-public interface SimpleCrudDAO<T> {
+public interface SimpleCrudDAO<T> extends MasterCrudDAO<T> {
 
     /**
-     * Obtain all elements.
+     * Obtain specific element.
      *
-     * @return a collections of elements
+     * @param identifier element identifier
+     * @return an element with code
      */
-    Collection<T> getAll();
+    T findById(int identifier);
 }

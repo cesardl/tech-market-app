@@ -3,7 +3,7 @@ package pe.edu.unmsm.fisi.market.dao.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.market.dao.MasterCrudDAO;
-import pe.edu.unmsm.fisi.market.model.ProductCode;
+import pe.edu.unmsm.fisi.market.model.MicroMarket;
 import pe.edu.unmsm.fisi.market.util.ConnectionUtils;
 
 import java.sql.Connection;
@@ -15,32 +15,31 @@ import java.util.Collection;
 import java.util.Collections;
 
 /**
- * Created on 14/06/2018.
+ * Created on 08/07/2018.
  *
  * @author Cesardl
  */
-public class ProductCodeDAO implements MasterCrudDAO<ProductCode> {
+public class MicroMarketDAO implements MasterCrudDAO<MicroMarket> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ProductCodeDAO.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MicroMarketDAO.class);
 
     @Override
-    public Collection<ProductCode> getAll() {
+    public Collection<MicroMarket> getAll() {
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
-            s.execute("SELECT PROD_CODE, DESCRIPTION FROM PRODUCT_CODE");
+            s.execute("SELECT ZIP_CODE FROM MICRO_MARKET");
 
             try (ResultSet rs = s.getResultSet()) {
-                Collection<ProductCode> productCodes = new ArrayList<>();
+                Collection<MicroMarket> microMarkets = new ArrayList<>();
 
                 while (rs.next()) {
-                    ProductCode c = new ProductCode();
-                    c.setProdCode(rs.getString("PROD_CODE"));
-                    c.setDescription(rs.getString("DESCRIPTION"));
+                    MicroMarket mm = new MicroMarket();
+                    mm.setZipCode(rs.getString("ZIP_CODE"));
 
-                    productCodes.add(c);
+                    microMarkets.add(mm);
                 }
-                LOG.info("Loading {} product codes", productCodes.size());
-                return productCodes;
+                LOG.info("Loading {} micro markets", microMarkets.size());
+                return microMarkets;
             }
         } catch (SQLException ex) {
             LOG.error(ex.getMessage(), ex);

@@ -9,17 +9,18 @@ import java.util.Date;
  */
 public class PurchaseOrder {
 
-    private int orderNum;
+    private Integer orderNum;
     private Customer customer;
     private Product product;
-    private int quantity;
+    private Integer quantity;
     private Date salesDate;
+    private Date shippingDate;
 
-    public int getOrderNum() {
+    public Integer getOrderNum() {
         return orderNum;
     }
 
-    public void setOrderNum(int orderNum) {
+    public void setOrderNum(Integer orderNum) {
         this.orderNum = orderNum;
     }
 
@@ -39,11 +40,11 @@ public class PurchaseOrder {
         this.product = product;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -53,5 +54,13 @@ public class PurchaseOrder {
 
     public void setSalesDate(Date salesDate) {
         this.salesDate = salesDate;
+    }
+
+    public Date getShippingDate() {
+        return shippingDate;
+    }
+
+    public void setShippingDate(Date shippingDate) {
+        this.shippingDate = shippingDate;
     }
 }

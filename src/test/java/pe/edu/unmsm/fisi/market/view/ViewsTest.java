@@ -1,24 +1,17 @@
 package pe.edu.unmsm.fisi.market.view;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runners.model.InitializationError;
-import pe.edu.unmsm.fisi.market.DatabaseTestContext;
+import pe.edu.unmsm.fisi.market.model.Customer;
 import pe.edu.unmsm.fisi.market.model.Product;
 
 import static org.junit.Assert.assertFalse;
 
 /**
- * Unit test for simple App.
+ * Unit test for simple TechMarketApp.
  *
  * @author Cesardl
  */
 public class ViewsTest {
-
-    @BeforeClass
-    public static void initialize() throws InitializationError {
-        DatabaseTestContext.init();
-    }
 
     @Test
     public void frameMainInitializedTest() {
@@ -47,6 +40,12 @@ public class ViewsTest {
     @Test
     public void dialogAboutInitializedTest() {
         JDialogAbout dialog = new JDialogAbout(null);
+        assertFalse(dialog.isVisible());
+    }
+
+    @Test
+    public void dialogCustomerFormInitializedTest() {
+        JDialogCustomerForm dialog = new JDialogCustomerForm(null, new Customer());
         assertFalse(dialog.isVisible());
     }
 
