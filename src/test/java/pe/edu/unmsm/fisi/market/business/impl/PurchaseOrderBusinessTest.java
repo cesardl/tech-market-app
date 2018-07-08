@@ -29,7 +29,7 @@ public class PurchaseOrderBusinessTest {
 
     @Test
     public void addReadAndDeletePurchaseOrderTest() {
-        Collection<PurchaseOrder> result = purchaseOrderBusiness.obtenerTodos();
+        Collection<PurchaseOrder> result = purchaseOrderBusiness.all();
 
         assertFalse(result.isEmpty());
         assertEquals(1, result.size());
@@ -42,10 +42,10 @@ public class PurchaseOrderBusinessTest {
         });
 
         PurchaseOrder fakePurchaseOrder = PojoFake.purchaseOrder();
-        boolean hasBeenAdded = purchaseOrderBusiness.saveOrUpdateProduct(fakePurchaseOrder);
+        boolean hasBeenAdded = purchaseOrderBusiness.saveOrUpdate(fakePurchaseOrder);
         assertTrue(hasBeenAdded);
 
-        PurchaseOrder purchaseOrder = purchaseOrderBusiness.buscarCodigo(fakePurchaseOrder.getOrderNum());
+        PurchaseOrder purchaseOrder = purchaseOrderBusiness.findById(fakePurchaseOrder.getOrderNum());
         assertNotNull(purchaseOrder.getOrderNum());
 
         Date salesDate = purchaseOrder.getSalesDate();
@@ -65,7 +65,7 @@ public class PurchaseOrderBusinessTest {
         boolean hasBeenDeleted = purchaseOrderBusiness.delete(fakePurchaseOrder.getOrderNum());
         assertTrue(hasBeenDeleted);
 
-        result = purchaseOrderBusiness.obtenerTodos();
+        result = purchaseOrderBusiness.all();
         assertEquals(1, result.size());
     }
 }

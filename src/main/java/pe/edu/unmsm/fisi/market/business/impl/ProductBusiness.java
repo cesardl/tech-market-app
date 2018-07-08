@@ -35,6 +35,7 @@ public class ProductBusiness extends TemplateBusiness<Product> {
         setDao(new ProductDAO());
         productCodeDAO = new ProductCodeDAO();
         manufacturerDAO = new ManufacturerDAO();
+        setIdentifierSize(6);
     }
 
     public static ProductBusiness getInstance() {
@@ -42,16 +43,11 @@ public class ProductBusiness extends TemplateBusiness<Product> {
     }
 
     @Override
-    public Collection<Product> obtenerTodos() {
+    public Collection<Product> all() {
         LOG.info("Getting all products");
         return dao.getAll();
     }
 
-    /**
-     * Obteniendo el total de productos.
-     *
-     * @return total de elementos
-     */
     public Collection<ProductCode> getProductCodes() {
         LOG.info("Getting all product codes");
         return productCodeDAO.getAll();
@@ -63,7 +59,7 @@ public class ProductBusiness extends TemplateBusiness<Product> {
     }
 
     @Override
-    public boolean saveOrUpdateProduct(final Product product) {
+    public boolean saveOrUpdate(final Product product) {
         product.setAvailable(product.getQuantityOnHand() != 0);
 
         if (product.getProductId() == null) {
@@ -79,9 +75,9 @@ public class ProductBusiness extends TemplateBusiness<Product> {
     }
 
     @Override
-    public Product buscarCodigo(Integer identifier) {
+    public Product findById(final Integer identifier) {
         LOG.info("Searching product by identifier: {}", identifier);
-        return dao.buscarCodigo(identifier);
+        return dao.findById(identifier);
     }
 
     public Collection<Product> buscarNombre(String str) {
@@ -90,7 +86,7 @@ public class ProductBusiness extends TemplateBusiness<Product> {
     }
 
     @Override
-    public boolean delete(Integer identifier) {
+    public boolean delete(final Integer identifier) {
         LOG.info("Deleting product: {}", identifier);
         Product product = new Product();
         product.setProductId(identifier);

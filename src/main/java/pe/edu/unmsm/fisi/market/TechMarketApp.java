@@ -13,9 +13,9 @@ import pe.edu.unmsm.fisi.market.view.JFrameMain;
 /**
  * @author Cesardl
  */
-public class App {
+public class TechMarketApp {
 
-    private static final Logger LOG = LoggerFactory.getLogger(App.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TechMarketApp.class);
 
     /**
      * @param args the command line arguments

@@ -9,6 +9,28 @@ import pe.edu.unmsm.fisi.market.model.*;
  */
 public class PojoFake {
 
+    public static Customer getCustomer() {
+        DiscountCode dc = new DiscountCode();
+        dc.setDiscountCode('M');
+
+        MicroMarket mm = new MicroMarket();
+        mm.setZipCode("95117");
+
+        Customer c = new Customer();
+        c.setDiscountCode(dc);
+        c.setMicroMarket(mm);
+        c.setName("ENTELGY PERÚ S.A.C.");
+        c.setAddressLine1("Av. Alfredo Benavides 768");
+        c.setAddressLine2("Edif. Gerpal – Oficina 405");
+        c.setCity("Lima");
+        c.setState("LI");
+        c.setPhone("999-666-333");
+        c.setFax("888-444-222");
+        c.setEmail("cesar.diaz@entelgy.com");
+        c.setCreditLimit(100000L);
+        return c;
+    }
+
     public static Product getProduct() {
         Manufacturer m = new Manufacturer();
         m.setManufacturerId(19985678);

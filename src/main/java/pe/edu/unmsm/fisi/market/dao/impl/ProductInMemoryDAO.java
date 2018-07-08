@@ -94,7 +94,7 @@ public class ProductInMemoryDAO implements CompleteCrudDAO<Product> {
     }
 
     @Override
-    public Product buscarCodigo(int codigo) {
+    public Product findById(int identifier) {
         ordenar();
 
         int inicio = 0;
@@ -102,9 +102,9 @@ public class ProductInMemoryDAO implements CompleteCrudDAO<Product> {
         int pos;
         while (inicio <= fin) {
             pos = (inicio + fin) / 2;
-            if (vProducts.get(pos).getProductId() == codigo) {
+            if (vProducts.get(pos).getProductId() == identifier) {
                 return vProducts.get(pos);
-            } else if (vProducts.get(pos).getProductId() < codigo) {
+            } else if (vProducts.get(pos).getProductId() < identifier) {
                 inicio = pos + 1;
             } else {
                 fin = pos - 1;

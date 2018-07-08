@@ -46,7 +46,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
     }
 
     private void refreshDataTable(Collection<Product> products) {
-        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) tableProducts.getModel();
+        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) tableData.getModel();
 
         int rowCount = dtm.getRowCount();
         //Remove rows one by one from the end of the table
@@ -83,7 +83,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
         buttonSearch = new javax.swing.JButton();
         javax.swing.JPanel panelProduct = new javax.swing.JPanel();
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
-        tableProducts = new javax.swing.JTable();
+        tableData = new javax.swing.JTable();
         buttonAdd = new javax.swing.JButton();
         javax.swing.JLabel labelTotal = new javax.swing.JLabel();
         labelTotalRows = new javax.swing.JLabel();
@@ -167,7 +167,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
 
         panelProduct.setBorder(javax.swing.BorderFactory.createTitledBorder("Productos"));
 
-        tableProducts.setModel(new javax.swing.table.DefaultTableModel(
+        tableData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -190,17 +190,17 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        tableProducts.setComponentPopupMenu(popupMenu);
-        tableProducts.getTableHeader().setReorderingAllowed(false);
-        tableProducts.addMouseListener(new java.awt.event.MouseAdapter() {
+        tableData.setComponentPopupMenu(popupMenu);
+        tableData.getTableHeader().setReorderingAllowed(false);
+        tableData.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableProductsMouseClicked(evt);
+                tableDataMouseClicked(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                tableProductsMousePressed(evt);
+                tableDataMousePressed(evt);
             }
         });
-        scrollPane.setViewportView(tableProducts);
+        scrollPane.setViewportView(tableData);
 
         javax.swing.GroupLayout panelProductLayout = new javax.swing.GroupLayout(panelProduct);
         panelProduct.setLayout(panelProductLayout);
@@ -215,11 +215,11 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
         );
         panelProductLayout.setVerticalGroup(
             panelProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 190, Short.MAX_VALUE)
+            .addGap(0, 262, Short.MAX_VALUE)
             .addGroup(panelProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelProductLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
@@ -299,7 +299,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
                     return;
                 } else {
                     LOG.info("Busqueda {}: '{}'", searchType, val);
-                    Product product = productBusiness.buscarCodigo(val);
+                    Product product = productBusiness.findById(val);
 
                     products = product == null
                             ? Collections.emptyList()
@@ -359,7 +359,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_radioButtonByCodeItemStateChanged
 
-    private void tableProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductsMouseClicked
+    private void tableDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDataMouseClicked
         LOG.trace(evt.paramString());
 
         if (evt.getClickCount() == 2) {
@@ -368,12 +368,12 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
 
             showProduct(productId);
         }
-    }//GEN-LAST:event_tableProductsMouseClicked
+    }//GEN-LAST:event_tableDataMouseClicked
 
     private void menuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemActionPerformed
         LOG.trace(evt.paramString());
 
-        Integer productId = getProductIdFromJTable(tableProducts);
+        Integer productId = getProductIdFromJTable(tableData);
 
         if (evt.getSource().equals(menuItemShow)) {
             LOG.info("Showing product detail");
@@ -394,14 +394,14 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
         return productId;
     }
 
-    private void tableProductsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableProductsMousePressed
+    private void tableDataMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDataMousePressed
         // selects the row at which point the mouse is clicked
-        int currentRow = tableProducts.rowAtPoint(evt.getPoint());
-        tableProducts.setRowSelectionInterval(currentRow, currentRow);
-    }//GEN-LAST:event_tableProductsMousePressed
+        int currentRow = tableData.rowAtPoint(evt.getPoint());
+        tableData.setRowSelectionInterval(currentRow, currentRow);
+    }//GEN-LAST:event_tableDataMousePressed
 
     private void showProduct(int productId) {
-        Product product = productBusiness.buscarCodigo(productId);
+        Product product = productBusiness.findById(productId);
 
         JDialogProductForm productForm = new JDialogProductForm(
                 javax.swing.JOptionPane.getFrameForComponent(this), product);
@@ -441,7 +441,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
     private javax.swing.JLabel labelTotalRows;
     private javax.swing.JMenuItem menuItemDelete;
     private javax.swing.JMenuItem menuItemShow;
-    private javax.swing.JTable tableProducts;
+    private javax.swing.JTable tableData;
     private javax.swing.JTextField textFieldSearch;
     // End of variables declaration//GEN-END:variables
 }

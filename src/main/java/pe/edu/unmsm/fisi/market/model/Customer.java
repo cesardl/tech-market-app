@@ -11,12 +11,17 @@ package pe.edu.unmsm.fisi.market.model;
 public class Customer {
 
     private Integer customerId;
+    private DiscountCode discountCode;
+    private MicroMarket microMarket;
     private String name;
     private String addressLine1;
     private String addressLine2;
     private String city;
     private String state;
+    private String phone;
+    private String fax;
     private String email;
+    private Long creditLimit;
 
     public Integer getCustomerId() {
         return customerId;
@@ -24,6 +29,22 @@ public class Customer {
 
     public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
+    }
+
+    public DiscountCode getDiscountCode() {
+        return discountCode;
+    }
+
+    public void setDiscountCode(DiscountCode discountCode) {
+        this.discountCode = discountCode;
+    }
+
+    public MicroMarket getMicroMarket() {
+        return microMarket;
+    }
+
+    public void setMicroMarket(MicroMarket microMarket) {
+        this.microMarket = microMarket;
     }
 
     public String getName() {
@@ -66,12 +87,36 @@ public class Customer {
         this.state = state;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getFax() {
+        return fax;
+    }
+
+    public void setFax(String fax) {
+        this.fax = fax;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Long getCreditLimit() {
+        return creditLimit;
+    }
+
+    public void setCreditLimit(Long creditLimit) {
+        this.creditLimit = creditLimit;
     }
 
     @Override

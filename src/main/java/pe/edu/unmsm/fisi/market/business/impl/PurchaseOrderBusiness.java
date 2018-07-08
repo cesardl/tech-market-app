@@ -24,6 +24,7 @@ public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder> {
     //private constructor to avoid client applications to use constructor
     private PurchaseOrderBusiness() {
         setDao(new PurchaseOrderDAO());
+        setIdentifierSize(8);
     }
 
     public static PurchaseOrderBusiness getInstance() {
@@ -31,13 +32,13 @@ public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder> {
     }
 
     @Override
-    public Collection<PurchaseOrder> obtenerTodos() {
+    public Collection<PurchaseOrder> all() {
         LOG.info("Getting all purchase orders");
         return dao.getAll();
     }
 
     @Override
-    public boolean saveOrUpdateProduct(final PurchaseOrder purchaseOrder) {
+    public boolean saveOrUpdate(final PurchaseOrder purchaseOrder) {
         Date date = new Date();
         purchaseOrder.setSalesDate(date);
 
@@ -59,9 +60,9 @@ public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder> {
     }
 
     @Override
-    public PurchaseOrder buscarCodigo(final Integer identifier) {
+    public PurchaseOrder findById(final Integer identifier) {
         LOG.info("Searching purchase order by identifier: {}", identifier);
-        return dao.buscarCodigo(identifier);
+        return dao.findById(identifier);
     }
 
     @Override

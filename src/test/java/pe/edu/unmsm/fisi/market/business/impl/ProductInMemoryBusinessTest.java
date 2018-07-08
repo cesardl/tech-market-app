@@ -34,7 +34,7 @@ public class ProductInMemoryBusinessTest {
 
     @Test
     public void addAndReadProductTest() {
-        Collection<Product> result = productBusiness.obtenerTodos();
+        Collection<Product> result = productBusiness.all();
         assertEquals(13, result.size());
         result.forEach(product -> {
             assertNotNull(product.getProductId());
@@ -48,10 +48,10 @@ public class ProductInMemoryBusinessTest {
         });
 
         Product fakeProduct = PojoFake.getProduct();
-        boolean hasBeenAdded = productBusiness.saveOrUpdateProduct(fakeProduct);
+        boolean hasBeenAdded = productBusiness.saveOrUpdate(fakeProduct);
         assertTrue(hasBeenAdded);
 
-        Product product = productBusiness.buscarCodigo(fakeProduct.getProductId());
+        Product product = productBusiness.findById(fakeProduct.getProductId());
         assertNotNull(product.getProductId());
         assertNotNull(product.getProductCode());
         assertNotNull(product.getProductCode().getProdCode());
@@ -68,13 +68,13 @@ public class ProductInMemoryBusinessTest {
         boolean hasBeenDeleted = productBusiness.delete(fakeProduct.getProductId());
         assertTrue(hasBeenDeleted);
 
-        result = productBusiness.obtenerTodos();
+        result = productBusiness.all();
         assertEquals(13, result.size());
     }
 
     @Test
     public void successSearchByIdAndUpdateProductTest() {
-        Product result = productBusiness.buscarCodigo(1);
+        Product result = productBusiness.findById(1);
 
         assertNotNull(result.getProductId());
         assertNull(result.getProductCode());
@@ -88,14 +88,14 @@ public class ProductInMemoryBusinessTest {
 
         Integer originalQuantityOnHand = result.getQuantityOnHand();
         result.setQuantityOnHand(0);
-        boolean hasBeenUpdated = productBusiness.saveOrUpdateProduct(result);
+        boolean hasBeenUpdated = productBusiness.saveOrUpdate(result);
 
         assertTrue(hasBeenUpdated);
         assertFalse(result.isAvailable());
         assertEquals(0, result.getQuantityOnHand().intValue());
 
         result.setQuantityOnHand(originalQuantityOnHand);
-        hasBeenUpdated = productBusiness.saveOrUpdateProduct(result);
+        hasBeenUpdated = productBusiness.saveOrUpdate(result);
 
         assertTrue(hasBeenUpdated);
         assertTrue(result.isAvailable());
@@ -104,7 +104,7 @@ public class ProductInMemoryBusinessTest {
 
     @Test
     public void failSearchProductByIdTest() {
-        Product result = productBusiness.buscarCodigo(0);
+        Product result = productBusiness.findById(0);
         assertNull(result);
     }
 

@@ -103,11 +103,11 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                     .addComponent(labelProduct)
                     .addComponent(labelCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(comboBoxProduct, 0, 377, Short.MAX_VALUE)
+                    .addComponent(comboBoxProduct, 0, 353, Short.MAX_VALUE)
                     .addGroup(panelBuyLayout.createSequentialGroup()
-                        .addComponent(spinnerQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                        .addComponent(spinnerQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
                         .addGap(256, 256, 256))
-                    .addComponent(comboBoxCustomer, 0, 377, Short.MAX_VALUE))
+                    .addComponent(comboBoxCustomer, 0, 353, Short.MAX_VALUE))
                 .addGap(171, 171, 171)
                 .addComponent(buttonBuy)
                 .addContainerGap())
@@ -221,13 +221,13 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         if (b) {
             comboBoxCustomer.setModel(
                     new javax.swing.DefaultComboBoxModel<>(
-                            new java.util.Vector<>(customerBusiness.obtenerTodos())));
+                            new java.util.Vector<>(customerBusiness.all())));
 
             comboBoxProduct.setModel(
                     new javax.swing.DefaultComboBoxModel<>(
-                            new java.util.Vector<>(productBusiness.obtenerTodos())));
+                            new java.util.Vector<>(productBusiness.all())));
 
-            refreshDataTable(purchaseOrderBusiness.obtenerTodos());
+            refreshDataTable(purchaseOrderBusiness.all());
         }
 
         super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
@@ -255,12 +255,12 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         LOG.trace(evt.paramString());
 
         if (capturaDatos()) {
-            boolean result = purchaseOrderBusiness.saveOrUpdateProduct(purchaseOrder);
+            boolean result = purchaseOrderBusiness.saveOrUpdate(purchaseOrder);
             if (result) {
                 javax.swing.JOptionPane.showMessageDialog(this,
                         "Se registró la orden de compra correctamente!",
                         getTitle(), javax.swing.JOptionPane.INFORMATION_MESSAGE);
-                refreshDataTable(purchaseOrderBusiness.obtenerTodos());
+                refreshDataTable(purchaseOrderBusiness.all());
             }
         } else {
             javax.swing.JOptionPane.showMessageDialog(this,
@@ -290,6 +290,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
             System.out.println(" double click " + row);
             DefaultTableModel dtm = (DefaultTableModel) target.getModel();
 
+            // TODO Complete
             System.out.println(dtm.getValueAt(row, 0));
         }
     }//GEN-LAST:event_tablePurchaseOrdersMouseClicked

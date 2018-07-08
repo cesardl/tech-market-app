@@ -233,7 +233,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
         LOG.trace(evt.paramString());
         if (capturaDatos()) {
-            if (productBusiness.saveOrUpdateProduct(product)) {
+            if (productBusiness.saveOrUpdate(product)) {
                 javax.swing.JOptionPane.showMessageDialog(this,
                         "Se agrego el producto correctamente!",
                         getTitle(), javax.swing.JOptionPane.INFORMATION_MESSAGE);

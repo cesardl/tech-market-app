@@ -19,24 +19,43 @@ public abstract class TemplateBusiness<T> {
 
     protected CompleteCrudDAO<T> dao;
 
+    private int identifierSize;
+
     public void setDao(CompleteCrudDAO<T> dao) {
         this.dao = dao;
     }
 
-    public abstract Collection<T> obtenerTodos();
+    protected void setIdentifierSize(int origin) {
+        this.identifierSize = origin;
+    }
 
-    public abstract boolean saveOrUpdateProduct(final T element);
+    public abstract Collection<T> all();
 
-    public abstract T buscarCodigo(Integer identifier);
+    public abstract boolean saveOrUpdate(final T element);
+
+    public abstract T findById(Integer identifier);
 
     public abstract boolean delete(Integer identifier);
 
     protected int generateIdentifier() {
         int id;
         do {
-            id = ThreadLocalRandom.current().nextInt(100000, 1000000);
+            id = getIdentifierByStrategy();
             LOG.debug("Generating random product identifier {}", id);
-        } while (dao.buscarCodigo(id) != null);
+        } while (dao.findById(id) != null);
         return id;
+    }
+
+    private int getIdentifierByStrategy() {
+        switch (identifierSize) {
+            case 6:
+                return ThreadLocalRandom.current().nextInt(100000, 1000000);
+
+            case 8:
+                return ThreadLocalRandom.current().nextInt(10000000, 100000000);
+
+            default:
+                return ThreadLocalRandom.current().nextInt();
+        }
     }
 }

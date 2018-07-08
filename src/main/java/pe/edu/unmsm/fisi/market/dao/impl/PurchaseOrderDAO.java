@@ -63,14 +63,14 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
     }
 
     @Override
-    public PurchaseOrder buscarCodigo(final int codigo) {
+    public PurchaseOrder findById(final int identifier) {
         String sql = "SELECT ORDER_NUM, SALES_DATE, SHIPPING_DATE FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
 
         LOG.debug("[SQL] {}", sql);
 
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setInt(1, codigo);
+            ps.setInt(1, identifier);
 
             try (ResultSet rs = ps.executeQuery()) {
 
@@ -132,8 +132,8 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
 
         LOG.debug("[SQL] {}", sql);
 
-        try (Connection connection = ConnectionUtils.openConnection()) {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (Connection connection = ConnectionUtils.openConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, purchaseOrder.getOrderNum());
 
