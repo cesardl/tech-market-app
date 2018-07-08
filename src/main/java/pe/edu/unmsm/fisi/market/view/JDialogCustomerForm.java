@@ -11,6 +11,7 @@ import pe.edu.unmsm.fisi.market.business.impl.CustomerBusiness;
 import pe.edu.unmsm.fisi.market.model.Customer;
 import pe.edu.unmsm.fisi.market.model.DiscountCode;
 import pe.edu.unmsm.fisi.market.model.MicroMarket;
+import pe.edu.unmsm.fisi.market.util.AppUtils;
 
 /**
  *
@@ -55,28 +56,28 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
 
         javax.swing.JPanel panel = new javax.swing.JPanel();
         javax.swing.JLabel labelId = new javax.swing.JLabel();
-        textFieldId = new javax.swing.JTextField();
         javax.swing.JLabel labelDiscountCode = new javax.swing.JLabel();
-        comboBoxDiscountCode = new javax.swing.JComboBox<>();
         javax.swing.JLabel labelMicroMarket = new javax.swing.JLabel();
-        comboBoxMicroMarket = new javax.swing.JComboBox<>();
         javax.swing.JLabel labelName = new javax.swing.JLabel();
-        textFieldName = new javax.swing.JTextField();
         javax.swing.JLabel labelDirectionMain = new javax.swing.JLabel();
-        textFieldDirectionMain = new javax.swing.JTextField();
         javax.swing.JLabel labelDirectionExtension = new javax.swing.JLabel();
-        textFieldDirectionExtension = new javax.swing.JTextField();
         javax.swing.JLabel labelCity = new javax.swing.JLabel();
-        textFieldCity = new javax.swing.JTextField();
         javax.swing.JLabel labelState = new javax.swing.JLabel();
-        textFieldState = new javax.swing.JTextField();
         javax.swing.JLabel labelPhone = new javax.swing.JLabel();
-        textFieldPhone = new javax.swing.JTextField();
         javax.swing.JLabel labelFax = new javax.swing.JLabel();
-        textFieldFax = new javax.swing.JTextField();
         javax.swing.JLabel labelEmail = new javax.swing.JLabel();
-        textFieldEmail = new javax.swing.JTextField();
         javax.swing.JLabel labelCreditLine = new javax.swing.JLabel();
+        textFieldId = new javax.swing.JTextField();
+        comboBoxDiscountCode = new javax.swing.JComboBox<>();
+        comboBoxMicroMarket = new javax.swing.JComboBox<>();
+        textFieldName = new javax.swing.JTextField();
+        textFieldDirectionMain = new javax.swing.JTextField();
+        textFieldDirectionExtension = new javax.swing.JTextField();
+        textFieldCity = new javax.swing.JTextField();
+        textFieldState = new javax.swing.JTextField();
+        textFieldPhone = new javax.swing.JTextField();
+        textFieldFax = new javax.swing.JTextField();
+        textFieldEmail = new javax.swing.JTextField();
         textFieldCreditLine = new javax.swing.JTextField();
         javax.swing.JButton buttonSave = new javax.swing.JButton();
 
@@ -90,15 +91,9 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
 
         labelId.setText("Id");
 
-        textFieldId.setEnabled(false);
-
         labelDiscountCode.setText("Descuento");
 
-        comboBoxDiscountCode.setFocusable(false);
-
         labelMicroMarket.setText("ZIP");
-
-        comboBoxMicroMarket.setFocusable(false);
 
         labelName.setText("Nombre");
 
@@ -117,6 +112,12 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
         labelEmail.setText("E-mail");
 
         labelCreditLine.setText("Línea de crédito");
+
+        textFieldId.setEnabled(false);
+
+        comboBoxDiscountCode.setFocusable(false);
+
+        comboBoxMicroMarket.setFocusable(false);
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -208,6 +209,11 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
         );
 
         buttonSave.setText("Guardar");
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSaveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -251,7 +257,6 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
                 showData();
             }
         }
-
         super.setVisible(b);
     }
 
@@ -283,6 +288,34 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
         textFieldFax.setText(customer.getFax());
         textFieldEmail.setText(customer.getEmail());
         textFieldCreditLine.setText(String.valueOf(customer.getCreditLimit()));
+    }
+
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
+        LOG.trace(evt.paramString());
+
+        if (catchingData()) {
+            if (customerBusiness.saveOrUpdate(customer)) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "Se registró la orden de compra correctamente!",
+                        getTitle(), javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                actionPerformed = true;
+                dispose();
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "No se puede agregar el cliente!",
+                        getTitle(), javax.swing.JOptionPane.ERROR_MESSAGE);
+                AppUtils.markTextField(textFieldName);
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Ingrese correctamente los datos del cliente",
+                    getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_buttonSaveActionPerformed
+
+    private boolean catchingData() {
+        // TODO
+        return false;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

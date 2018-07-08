@@ -53,8 +53,9 @@ public class ProductBusinessTest {
         assertNotNull(product.getDescription());
         assertNotNull(product.getPurchaseCost());
         assertNotNull(product.getQuantityOnHand());
-        assertNotEquals(0, product.getQuantityOnHand().intValue());
-        assertNotEquals(0, product.getMarkup(), 0);
+        assertNotNull(product.getMarkup());
+        assertEquals(fakeProduct.getQuantityOnHand(), product.getQuantityOnHand());
+        assertEquals(fakeProduct.getMarkup(), product.getMarkup(), 0);
         assertTrue(product.isAvailable());
         assertNotNull(product.getManufacturer());
         assertNotNull(product.getManufacturer().getManufacturerId());

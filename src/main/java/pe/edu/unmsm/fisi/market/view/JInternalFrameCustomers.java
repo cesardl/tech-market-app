@@ -1,9 +1,4 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
- /*
  * JInternalFrameCustomers.java
  *
  * Created on 24/06/2009, 08:47:18 PM
@@ -14,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.market.business.impl.CustomerBusiness;
 import pe.edu.unmsm.fisi.market.model.Customer;
-import pe.edu.unmsm.fisi.market.model.Product;
 
 import java.util.Collection;
 
@@ -154,8 +148,18 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
-        // TODO add your handling code here:
         LOG.trace(evt.paramString());
+        JDialogCustomerForm customerForm = new JDialogCustomerForm(
+                javax.swing.JOptionPane.getFrameForComponent(this), new Customer());
+        customerForm.setVisible(true);
+
+        if (customerForm.isActionPerformed()) {
+            Collection<Customer> customers = customerBusiness.all();
+            LOG.info("Customer has been saved, showing data");
+            refreshDataTable(customers);
+        } else {
+            LOG.debug("No action has performed");
+        }
     }//GEN-LAST:event_buttonAddActionPerformed
 
     private void tableDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableDataMouseClicked

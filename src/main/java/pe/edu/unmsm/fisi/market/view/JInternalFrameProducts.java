@@ -1,9 +1,4 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
- /*
  * JInternalFrameProducts.java
  *
  * Created on 24/06/2009, 10:09:09 PM
@@ -19,7 +14,6 @@ import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.util.AppUtils;
 
 /**
- *
  * @author soporte
  */
 public class JInternalFrameProducts extends javax.swing.JInternalFrame {
@@ -340,6 +334,8 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
             Collection<Product> products = productBusiness.buscarNombre(textFieldSearch.getText());
             LOG.info("Product has been saved, showing data");
             refreshDataTable(products);
+        } else {
+            LOG.debug("No action has performed");
         }
     }
 

@@ -32,7 +32,7 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="panel" alignment="1" max="32767" attributes="0"/>
+                  <Component id="panel" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="jButtonSave" min="-2" max="-2" attributes="0"/>
@@ -72,29 +72,48 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="labelTipo" alignment="0" max="-2" attributes="0"/>
-                      <Component id="labelManufacturer" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="labelProductId" alignment="0" max="-2" attributes="0"/>
-                      <Component id="labelDescription" alignment="0" max="-2" attributes="1"/>
-                      <Component id="labelPurchaseCost" alignment="0" max="-2" attributes="1"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="labelQuantity" max="-2" attributes="1"/>
+                          <EmptySpace min="347" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="labelManufacturer" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="labelProductId" alignment="0" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="comboBoxManufacturer" pref="256" max="32767" attributes="0"/>
+                                      <Component id="textFieldProductId" max="32767" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="labelProductCode" alignment="0" max="-2" attributes="0"/>
+                                      <Component id="labelDescription" alignment="0" max="-2" attributes="1"/>
+                                      <Component id="labelPurchaseCost" alignment="0" max="-2" attributes="1"/>
+                                      <Component id="labelMarkup" alignment="0" max="-2" attributes="1"/>
+                                  </Group>
+                                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="textFieldMarkup" max="32767" attributes="1"/>
+                                      <Component id="textFieldPurchaseCost" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="textFieldDescription" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="comboBoxProductCode" alignment="0" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="spinnerQuantity" min="-2" pref="60" max="-2" attributes="0"/>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                              </Group>
+                          </Group>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="spinnerQuantity" alignment="0" max="32767" attributes="0"/>
-                      <Component id="textFieldPurchaseCost" alignment="0" max="32767" attributes="1"/>
-                      <Component id="textFieldDescription" alignment="0" max="32767" attributes="1"/>
-                      <Component id="comboBoxProductCode" alignment="0" pref="269" max="32767" attributes="0"/>
-                      <Component id="textFieldProductId" alignment="0" max="32767" attributes="0"/>
-                      <Component id="comboBoxManufacturer" alignment="0" max="32767" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                  <Component id="labelQuantity" max="-2" attributes="1"/>
-                  <EmptySpace pref="323" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -102,19 +121,19 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="labelProductId" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="textFieldProductId" alignment="2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="labelManufacturer" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="comboBoxManufacturer" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="labelProductId" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="textFieldProductId" alignment="2" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="comboBoxProductCode" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="labelTipo" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelProductCode" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
@@ -128,6 +147,11 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="textFieldMarkup" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelMarkup" alignment="2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="spinnerQuantity" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="labelQuantity" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
@@ -137,15 +161,6 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="labelManufacturer">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Manufacturer"/>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
-            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
-          </AuxValues>
-        </Component>
         <Component class="javax.swing.JLabel" name="labelProductId">
           <Properties>
             <Property name="text" type="java.lang.String" value="Codigo"/>
@@ -155,7 +170,16 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="labelTipo">
+        <Component class="javax.swing.JLabel" name="labelManufacturer">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Manufacturer"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelProductCode">
           <Properties>
             <Property name="text" type="java.lang.String" value="Tipo"/>
           </Properties>
@@ -182,6 +206,15 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
+        <Component class="javax.swing.JLabel" name="labelMarkup">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Margen"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+        </Component>
         <Component class="javax.swing.JLabel" name="labelQuantity">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cantidad"/>
@@ -191,6 +224,11 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
+        <Component class="javax.swing.JTextField" name="textFieldProductId">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+        </Component>
         <Component class="javax.swing.JComboBox" name="comboBoxManufacturer">
           <Properties>
             <Property name="focusable" type="boolean" value="false"/>
@@ -198,11 +236,6 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Manufacturer&gt;"/>
           </AuxValues>
-        </Component>
-        <Component class="javax.swing.JTextField" name="textFieldProductId">
-          <Properties>
-            <Property name="enabled" type="boolean" value="false"/>
-          </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="comboBoxProductCode">
           <Properties>
@@ -218,6 +251,8 @@
           </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="textFieldPurchaseCost">
+        </Component>
+        <Component class="javax.swing.JTextField" name="textFieldMarkup">
         </Component>
         <Component class="javax.swing.JSpinner" name="spinnerQuantity">
           <Properties>

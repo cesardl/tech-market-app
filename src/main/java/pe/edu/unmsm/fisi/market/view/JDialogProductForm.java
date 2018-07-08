@@ -54,17 +54,19 @@ public class JDialogProductForm extends javax.swing.JDialog {
     private void initComponents() {
 
         javax.swing.JPanel panel = new javax.swing.JPanel();
-        javax.swing.JLabel labelManufacturer = new javax.swing.JLabel();
         javax.swing.JLabel labelProductId = new javax.swing.JLabel();
-        javax.swing.JLabel labelTipo = new javax.swing.JLabel();
+        javax.swing.JLabel labelManufacturer = new javax.swing.JLabel();
+        javax.swing.JLabel labelProductCode = new javax.swing.JLabel();
         javax.swing.JLabel labelDescription = new javax.swing.JLabel();
         javax.swing.JLabel labelPurchaseCost = new javax.swing.JLabel();
+        javax.swing.JLabel labelMarkup = new javax.swing.JLabel();
         javax.swing.JLabel labelQuantity = new javax.swing.JLabel();
-        comboBoxManufacturer = new javax.swing.JComboBox<>();
         textFieldProductId = new javax.swing.JTextField();
+        comboBoxManufacturer = new javax.swing.JComboBox<>();
         comboBoxProductCode = new javax.swing.JComboBox<>();
         textFieldDescription = new javax.swing.JTextField();
         textFieldPurchaseCost = new javax.swing.JTextField();
+        textFieldMarkup = new javax.swing.JTextField();
         spinnerQuantity = new javax.swing.JSpinner();
         javax.swing.JButton jButtonSave = new javax.swing.JButton();
 
@@ -76,21 +78,23 @@ public class JDialogProductForm extends javax.swing.JDialog {
 
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
-        labelManufacturer.setText("Manufacturer");
-
         labelProductId.setText("Codigo");
 
-        labelTipo.setText("Tipo");
+        labelManufacturer.setText("Manufacturer");
+
+        labelProductCode.setText("Tipo");
 
         labelDescription.setText("Descripcion");
 
         labelPurchaseCost.setText("Precio Unitario");
 
+        labelMarkup.setText("Margen");
+
         labelQuantity.setText("Cantidad");
 
-        comboBoxManufacturer.setFocusable(false);
-
         textFieldProductId.setEnabled(false);
+
+        comboBoxManufacturer.setFocusable(false);
 
         comboBoxProductCode.setFocusable(false);
 
@@ -103,40 +107,51 @@ public class JDialogProductForm extends javax.swing.JDialog {
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelTipo)
-                    .addComponent(labelManufacturer)
-                    .addComponent(labelProductId)
-                    .addComponent(labelDescription)
-                    .addComponent(labelPurchaseCost))
-                .addGap(18, 18, 18)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(spinnerQuantity)
-                    .addComponent(textFieldPurchaseCost)
-                    .addComponent(textFieldDescription)
-                    .addComponent(comboBoxProductCode, 0, 269, Short.MAX_VALUE)
-                    .addComponent(textFieldProductId)
-                    .addComponent(comboBoxManufacturer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(panelLayout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(labelQuantity)
-                .addContainerGap(323, Short.MAX_VALUE))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addComponent(labelQuantity)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelLayout.createSequentialGroup()
+                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelLayout.createSequentialGroup()
+                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelManufacturer)
+                                    .addComponent(labelProductId))
+                                .addGap(22, 22, 22)
+                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(comboBoxManufacturer, 0, 256, Short.MAX_VALUE)
+                                    .addComponent(textFieldProductId)))
+                            .addGroup(panelLayout.createSequentialGroup()
+                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(labelProductCode)
+                                    .addComponent(labelDescription)
+                                    .addComponent(labelPurchaseCost)
+                                    .addComponent(labelMarkup))
+                                .addGap(18, 18, 18)
+                                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textFieldMarkup)
+                                    .addComponent(textFieldPurchaseCost)
+                                    .addComponent(textFieldDescription)
+                                    .addComponent(comboBoxProductCode, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(panelLayout.createSequentialGroup()
+                                        .addComponent(spinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addContainerGap())))
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(labelProductId)
+                    .addComponent(textFieldProductId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelManufacturer)
                     .addComponent(comboBoxManufacturer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(labelProductId)
-                    .addComponent(textFieldProductId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(comboBoxProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelTipo))
+                    .addComponent(labelProductCode))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(textFieldDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -145,6 +160,10 @@ public class JDialogProductForm extends javax.swing.JDialog {
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(textFieldPurchaseCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelPurchaseCost))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(textFieldMarkup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelMarkup))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(spinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -168,7 +187,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButtonSave)))
@@ -227,12 +246,13 @@ public class JDialogProductForm extends javax.swing.JDialog {
 
         textFieldDescription.setText(product.getDescription());
         textFieldPurchaseCost.setText(String.valueOf(product.getPurchaseCost()));
+        textFieldMarkup.setText(String.valueOf(product.getMarkup()));
         spinnerQuantity.setValue(product.getQuantityOnHand());
     }
 
     private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
         LOG.trace(evt.paramString());
-        if (capturaDatos()) {
+        if (catchingData()) {
             if (productBusiness.saveOrUpdate(product)) {
                 javax.swing.JOptionPane.showMessageDialog(this,
                         "Se agrego el producto correctamente!",
@@ -252,17 +272,22 @@ public class JDialogProductForm extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButtonSaveActionPerformed
 
-    private boolean capturaDatos() {
+    private boolean catchingData() {
         String description = textFieldDescription.getText().trim();
         double purchaseCost = AppUtils.toDouble(textFieldPurchaseCost.getText().trim());
+        double markup = AppUtils.toDouble(textFieldMarkup.getText().trim());
         int quantityOnHand = AppUtils.toInteger(String.valueOf(spinnerQuantity.getValue()));
 
         if (description.length() == 0) {
             AppUtils.markTextField(textFieldDescription);
             return false;
         }
-        if (purchaseCost == AppUtils.ERROR_NUMBER ||purchaseCost == 0) {
+        if (purchaseCost == AppUtils.ERROR_NUMBER || purchaseCost == 0) {
             AppUtils.markTextField(textFieldPurchaseCost);
+            return false;
+        }
+        if (markup == AppUtils.ERROR_NUMBER) {
+            AppUtils.markTextField(textFieldMarkup);
             return false;
         }
         if (quantityOnHand == AppUtils.ERROR_NUMBER) {
@@ -273,6 +298,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
         product.setManufacturer(comboBoxManufacturer.getItemAt(comboBoxManufacturer.getSelectedIndex()));
         product.setProductCode(comboBoxProductCode.getItemAt(comboBoxProductCode.getSelectedIndex()));
         product.setPurchaseCost(purchaseCost);
+        product.setMarkup(markup);
         product.setQuantityOnHand(quantityOnHand);
         product.setDescription(description);
         return true;
@@ -283,6 +309,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
     private javax.swing.JComboBox<ProductCode> comboBoxProductCode;
     private javax.swing.JSpinner spinnerQuantity;
     private javax.swing.JTextField textFieldDescription;
+    private javax.swing.JTextField textFieldMarkup;
     private javax.swing.JTextField textFieldProductId;
     private javax.swing.JTextField textFieldPurchaseCost;
     // End of variables declaration//GEN-END:variables

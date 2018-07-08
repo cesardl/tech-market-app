@@ -1,9 +1,4 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
- /*
  * JInternalFramePurchaseOrders.java
  *
  * Created on 01/07/2009, 09:30:27 PM
@@ -24,7 +19,6 @@ import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
 import pe.edu.unmsm.fisi.market.util.AppUtils;
 
 /**
- *
  * @author Eliana Zapata
  */
 public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
@@ -254,7 +248,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
     private void buttonBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuyActionPerformed
         LOG.trace(evt.paramString());
 
-        if (capturaDatos()) {
+        if (catchingData()) {
             boolean result = purchaseOrderBusiness.saveOrUpdate(purchaseOrder);
             if (result) {
                 javax.swing.JOptionPane.showMessageDialog(this,
@@ -269,7 +263,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_buttonBuyActionPerformed
 
-    private boolean capturaDatos() {
+    private boolean catchingData() {
         int quantity = AppUtils.toInteger(String.valueOf(spinnerQuantity.getValue()));
 
         if (quantity == AppUtils.ERROR_NUMBER || quantity == 0) {
