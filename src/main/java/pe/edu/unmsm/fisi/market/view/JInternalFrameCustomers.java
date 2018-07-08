@@ -12,13 +12,18 @@ package pe.edu.unmsm.fisi.market.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.market.business.CustomerBusiness;
+import pe.edu.unmsm.fisi.market.business.impl.CustomerBusiness;
+import pe.edu.unmsm.fisi.market.model.Customer;
+
+import java.util.Collection;
 
 /**
  *
  * @author Eliana Zapata
  */
 public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
+
+    private static final long serialVersionUID = -8655880407433397905L;
 
     private static final Logger LOG = LoggerFactory.getLogger(JInternalFrameCustomers.class);
 
@@ -41,6 +46,7 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        javax.swing.JPanel panel = new javax.swing.JPanel();
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
         tableData = new javax.swing.JTable();
         buttonAdd = new javax.swing.JButton();
@@ -51,6 +57,8 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
         setTitle("Customers");
         setFrameIcon(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png"))); // NOI18N
 
+        panel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         tableData.setModel(new javax.swing.table.DefaultTableModel(
             new String [] {
                 "Id", "Name", "City", "Email"
@@ -59,13 +67,41 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
             Class[] types = new Class [] {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         tableData.getTableHeader().setReorderingAllowed(false);
         scrollPane.setViewportView(tableData);
+
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 292, Short.MAX_VALUE)
+            .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
 
         buttonAdd.setText("New customer");
 
@@ -81,10 +117,10 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 762, Short.MAX_VALUE)
+                    .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(buttonAdd)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 625, Short.MAX_VALUE)
                         .addComponent(labelTotal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(labelTotalRows)))
@@ -94,7 +130,7 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(buttonAdd)
@@ -105,6 +141,33 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    @Override
+    public void setVisible(boolean b) {
+        if (b) {
+            refreshDataTable(customerBusiness.obtenerTodos());
+        }
+
+        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void refreshDataTable(Collection<Customer> customers) {
+        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) tableData.getModel();
+
+        int rowCount = dtm.getRowCount();
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            dtm.removeRow(i);
+        }
+
+        customers.forEach(c -> {
+            Object[] rowData = {
+                    c.getCustomerId(), c.getName(), c.getCity(), c.getEmail()
+            };
+            dtm.addRow(rowData);
+        });
+        labelTotalRows.setText(String.valueOf(customers.size()));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonAdd;

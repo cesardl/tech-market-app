@@ -4,14 +4,10 @@
  */
 package pe.edu.unmsm.fisi.market.model;
 
-import java.io.Serializable;
-
 /**
  * @author cesar.diaz
  */
-public class Product implements Serializable {
-
-    private static final long serialVersionUID = 2301296275576073714L;
+public class Product {
 
     private Integer productId;
     private Manufacturer manufacturer;

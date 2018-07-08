@@ -1,10 +1,11 @@
-package pe.edu.unmsm.fisi.market.business;
+package pe.edu.unmsm.fisi.market.business.impl;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runners.model.InitializationError;
 import pe.edu.unmsm.fisi.market.DatabaseTestContext;
 import pe.edu.unmsm.fisi.market.PojoFake;
+import pe.edu.unmsm.fisi.market.model.Manufacturer;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.ProductCode;
 
@@ -28,7 +29,7 @@ public class ProductBusinessTest {
 
     @Test
     public void addAndReadProductTest() {
-        Collection<Product> result = productBusiness.getAllProductsToSell();
+        Collection<Product> result = productBusiness.obtenerTodos();
         assertEquals(2, result.size());
         result.forEach(product -> {
             assertNotNull(product.getProductId());
@@ -62,7 +63,7 @@ public class ProductBusinessTest {
         boolean hasBeenDeleted = productBusiness.deleteProduct(fakeProduct.getProductId());
         assertTrue(hasBeenDeleted);
 
-        result = productBusiness.getAllProductsToSell();
+        result = productBusiness.obtenerTodos();
         assertEquals(2, result.size());
     }
 
@@ -83,12 +84,20 @@ public class ProductBusinessTest {
         assertNotNull(result.getManufacturer().getManufacturerId());
         assertNotNull(result.getManufacturer().getName());
 
+        Integer originalQuantityOnHand = result.getQuantityOnHand();
         result.setQuantityOnHand(0);
         boolean hasBeenUpdated = productBusiness.saveOrUpdateProduct(result);
 
         assertTrue(hasBeenUpdated);
         assertFalse(result.isAvailable());
         assertEquals(0, result.getQuantityOnHand().intValue());
+
+        result.setQuantityOnHand(originalQuantityOnHand);
+        hasBeenUpdated = productBusiness.saveOrUpdateProduct(result);
+
+        assertTrue(hasBeenUpdated);
+        assertTrue(result.isAvailable());
+        assertEquals(originalQuantityOnHand, result.getQuantityOnHand());
     }
 
     @Test
@@ -100,6 +109,13 @@ public class ProductBusinessTest {
     @Test
     public void getProductCodesTest() {
         Collection<ProductCode> result = productBusiness.getProductCodes();
+        assertFalse(result.isEmpty());
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    public void getManufacturersTest() {
+        Collection<Manufacturer> result = productBusiness.getManufacturers();
         assertFalse(result.isEmpty());
         assertEquals(2, result.size());
     }

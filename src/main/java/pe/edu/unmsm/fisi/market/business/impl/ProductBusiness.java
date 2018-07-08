@@ -3,10 +3,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package pe.edu.unmsm.fisi.market.business;
+package pe.edu.unmsm.fisi.market.business.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pe.edu.unmsm.fisi.market.business.TemplateBusiness;
 import pe.edu.unmsm.fisi.market.dao.impl.ManufacturerDAO;
 import pe.edu.unmsm.fisi.market.dao.impl.ProductCodeDAO;
 import pe.edu.unmsm.fisi.market.dao.impl.ProductDAO;
@@ -15,25 +16,23 @@ import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.ProductCode;
 
 import java.util.Collection;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Eliana Zapata
  * @since 2009
  */
-public class ProductBusiness {
+public class ProductBusiness extends TemplateBusiness<Product> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductBusiness.class);
 
     private static final ProductBusiness INSTANCE = new ProductBusiness();
 
-    private final ProductDAO productDAO;
     private final ProductCodeDAO productCodeDAO;
     private final ManufacturerDAO manufacturerDAO;
 
     //private constructor to avoid client applications to use constructor
     private ProductBusiness() {
-        productDAO = new ProductDAO();
+        setDao(new ProductDAO());
         productCodeDAO = new ProductCodeDAO();
         manufacturerDAO = new ManufacturerDAO();
     }
@@ -42,9 +41,10 @@ public class ProductBusiness {
         return INSTANCE;
     }
 
-    public Collection<Product> getAllProductsToSell() {
+    @Override
+    public Collection<Product> obtenerTodos() {
         LOG.info("Getting all products");
-        return productDAO.getAll();
+        return dao.getAll();
     }
 
     /**
@@ -68,38 +68,29 @@ public class ProductBusiness {
         if (product.getProductId() == null) {
             LOG.info("Adding product: {}", product);
 
-            int productId = generateProductId();
+            int productId = generateIdentifier();
             product.setProductId(productId);
-            return productDAO.save(product);
+            return dao.save(product);
         } else {
             LOG.info("Updating product: {}", product);
-            return productDAO.update(product);
+            return dao.update(product);
         }
-    }
-
-    private int generateProductId() {
-        int productId;
-        do {
-            productId = ThreadLocalRandom.current().nextInt(100000, 1000000);
-            LOG.debug("Generating random product identifier {}", productId);
-        } while (productDAO.buscarCodigo(productId) != null);
-        return productId;
     }
 
     public Product buscarCodigo(Integer val) {
         LOG.info("Searching product by product identifier: {}", val);
-        return productDAO.buscarCodigo(val);
+        return dao.buscarCodigo(val);
     }
 
     public Collection<Product> buscarNombre(String str) {
         LOG.info("Searching product by description: {}", str);
-        return productDAO.buscarNombre(str);
+        return dao.buscarNombre(str);
     }
 
     public boolean deleteProduct(Integer productId) {
         LOG.info("Deleting product: {}", productId);
         Product product = new Product();
         product.setProductId(productId);
-        return productDAO.delete(product);
+        return dao.delete(product);
     }
 }

@@ -7,7 +7,7 @@ package pe.edu.unmsm.fisi.market.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.market.business.ProductBusiness;
+import pe.edu.unmsm.fisi.market.business.impl.ProductBusiness;
 import pe.edu.unmsm.fisi.market.model.Manufacturer;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.ProductCode;
@@ -17,6 +17,8 @@ import pe.edu.unmsm.fisi.market.util.AppUtils;
  * @author Cesardl
  */
 public class JDialogProductForm extends javax.swing.JDialog {
+
+    private static final long serialVersionUID = 2633032220209840428L;
 
     private static final Logger LOG = LoggerFactory.getLogger(JDialogProductForm.class);
 
@@ -241,7 +243,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
                 javax.swing.JOptionPane.showMessageDialog(this,
                         "No se puede agregar el producto!\nCodigo repetido!",
                         getTitle(), javax.swing.JOptionPane.ERROR_MESSAGE);
-                AppUtils.marcarTextField(textFieldProductId);
+                AppUtils.markTextField(textFieldProductId);
             }
         } else {
             javax.swing.JOptionPane.showMessageDialog(this,
@@ -256,11 +258,11 @@ public class JDialogProductForm extends javax.swing.JDialog {
         int quantityOnHand = AppUtils.toInteger(String.valueOf(spinnerQuantity.getValue()));
 
         if (description.length() == 0) {
-            AppUtils.marcarTextField(textFieldDescription);
+            AppUtils.markTextField(textFieldDescription);
             return false;
         }
-        if (purchaseCost == AppUtils.ERROR_NUMBER) {
-            AppUtils.marcarTextField(textFieldPurchaseCost);
+        if (purchaseCost == AppUtils.ERROR_NUMBER ||purchaseCost == 0) {
+            AppUtils.markTextField(textFieldPurchaseCost);
             return false;
         }
         if (quantityOnHand == AppUtils.ERROR_NUMBER) {

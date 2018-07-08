@@ -1,7 +1,8 @@
-package pe.edu.unmsm.fisi.market.business;
+package pe.edu.unmsm.fisi.market.business.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pe.edu.unmsm.fisi.market.business.TemplateBusiness;
 import pe.edu.unmsm.fisi.market.dao.impl.PurchaseOrderDAO;
 import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
 
@@ -12,25 +13,24 @@ import java.util.Collection;
  *
  * @author Cesardl
  */
-public class PurchaseOrderBusiness {
+public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder> {
 
     private static final Logger LOG = LoggerFactory.getLogger(PurchaseOrderBusiness.class);
 
     private static final PurchaseOrderBusiness INSTANCE = new PurchaseOrderBusiness();
 
-    private final PurchaseOrderDAO purchaseOrderDAO;
-
     //private constructor to avoid client applications to use constructor
     private PurchaseOrderBusiness() {
-        purchaseOrderDAO = new PurchaseOrderDAO();
+        setDao(new PurchaseOrderDAO());
     }
 
     public static PurchaseOrderBusiness getInstance() {
         return INSTANCE;
     }
 
-    public Collection<PurchaseOrder> all() {
+    @Override
+    public Collection<PurchaseOrder> obtenerTodos() {
         LOG.info("Getting all purchase orders");
-        return purchaseOrderDAO.getAll();
+        return dao.getAll();
     }
 }

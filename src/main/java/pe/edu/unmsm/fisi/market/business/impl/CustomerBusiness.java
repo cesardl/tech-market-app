@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package pe.edu.unmsm.fisi.market.business;
+package pe.edu.unmsm.fisi.market.business.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pe.edu.unmsm.fisi.market.business.TemplateBusiness;
 import pe.edu.unmsm.fisi.market.dao.impl.CustomerDAO;
 import pe.edu.unmsm.fisi.market.model.Customer;
 
@@ -15,17 +16,15 @@ import java.util.Collection;
 /**
  * @author Cesardl
  */
-public class CustomerBusiness {
+public class CustomerBusiness extends TemplateBusiness<Customer> {
 
     private static final Logger LOG = LoggerFactory.getLogger(CustomerBusiness.class);
 
     private static final CustomerBusiness INSTANCE = new CustomerBusiness();
 
-    private final CustomerDAO customerDAO;
-
     //private constructor to avoid client applications to use constructor
     private CustomerBusiness() {
-        customerDAO = new CustomerDAO();
+        setDao(new CustomerDAO());
     }
 
     public static CustomerBusiness getInstance() {
@@ -34,6 +33,6 @@ public class CustomerBusiness {
 
     public Collection<Customer> obtenerTodos() {
         LOG.info("Getting all customers");
-        return customerDAO.getAll();
+        return dao.getAll();
     }
 }

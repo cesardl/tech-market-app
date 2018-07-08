@@ -49,7 +49,7 @@ public final class AppUtils {
         }
     }
 
-    public static void marcarTextField(javax.swing.JTextField jTextField) {
+    public static void markTextField(javax.swing.JTextField jTextField) {
         jTextField.requestFocus();
         jTextField.selectAll();
     }

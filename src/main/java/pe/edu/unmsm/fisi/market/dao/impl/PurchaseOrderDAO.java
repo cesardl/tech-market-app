@@ -2,7 +2,7 @@ package pe.edu.unmsm.fisi.market.dao.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.market.dao.SimpleCrudDAO;
+import pe.edu.unmsm.fisi.market.dao.CompleteCrudDAO;
 import pe.edu.unmsm.fisi.market.model.Customer;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
@@ -21,7 +21,7 @@ import java.util.Collections;
  *
  * @author Cesardl
  */
-public class PurchaseOrderDAO implements SimpleCrudDAO<PurchaseOrder> {
+public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
 
     private static final Logger LOG = LoggerFactory.getLogger(PurchaseOrderDAO.class);
 
@@ -61,5 +61,30 @@ public class PurchaseOrderDAO implements SimpleCrudDAO<PurchaseOrder> {
             LOG.error(ex.getMessage(), ex);
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public PurchaseOrder buscarCodigo(int codigo) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean save(PurchaseOrder t) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean update(PurchaseOrder t) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Collection<PurchaseOrder> buscarNombre(String description) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean delete(PurchaseOrder t) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

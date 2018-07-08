@@ -3,8 +3,9 @@ package pe.edu.unmsm.fisi.market.dao.impl;
 import pe.edu.unmsm.fisi.market.dao.CompleteCrudDAO;
 import pe.edu.unmsm.fisi.market.model.Product;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -15,10 +16,10 @@ import java.util.stream.Collectors;
  */
 public class ProductInMemoryDAO implements CompleteCrudDAO<Product> {
 
-    private final Vector<Product> vProducts;
+    private final List<Product> vProducts;
 
     public ProductInMemoryDAO() {
-        this.vProducts = new Vector<>();
+        this.vProducts = new ArrayList<>();
 
         AtomicInteger id = new AtomicInteger(1);
 
@@ -45,8 +46,7 @@ public class ProductInMemoryDAO implements CompleteCrudDAO<Product> {
     @Override
     public boolean save(Product p) {
         if (numElementos() == 0) {
-            vProducts.addElement(p);
-            return true;
+            return vProducts.add(p);
         } else {
             int i = 0;
             for (; i < numElementos(); i++) {
@@ -55,9 +55,9 @@ public class ProductInMemoryDAO implements CompleteCrudDAO<Product> {
                 }
             }
             if (i == numElementos()) {
-                vProducts.addElement(p);
+                boolean added = vProducts.add(p);
                 ordenar();
-                return true;
+                return added;
             } else {
                 return false;
             }
@@ -66,6 +66,12 @@ public class ProductInMemoryDAO implements CompleteCrudDAO<Product> {
 
     @Override
     public boolean update(Product product) {
+        for (int index = 0; index < vProducts.size(); index++) {
+            if (vProducts.get(index).getProductId().equals(product.getProductId())) {
+                vProducts.set(index, product);
+                return true;
+            }
+        }
         return false;
     }
 
@@ -110,12 +116,12 @@ public class ProductInMemoryDAO implements CompleteCrudDAO<Product> {
     @Override
     public Collection<Product> buscarNombre(String description) {
         return vProducts.stream()
-                .filter(p -> p.getDescription().contains(description))
+                .filter(p -> p.getDescription().toUpperCase().contains(description.toUpperCase()))
                 .collect(Collectors.toList());
     }
 
     @Override
     public boolean delete(Product product) {
-        return false;
+        return vProducts.removeIf(p -> p.getProductId().equals(product.getProductId()));
     }
 }

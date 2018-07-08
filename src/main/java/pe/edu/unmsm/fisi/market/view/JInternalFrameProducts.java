@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pe.edu.unmsm.fisi.market.business.ProductBusiness;
+import pe.edu.unmsm.fisi.market.business.impl.ProductBusiness;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.util.AppUtils;
 
@@ -295,7 +295,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
                             "Ingrese entero si la busquda es por codigo",
                             getTitle(), javax.swing.JOptionPane.ERROR_MESSAGE);
 
-                    AppUtils.marcarTextField(textFieldSearch);
+                    AppUtils.markTextField(textFieldSearch);
                     return;
                 } else {
                     LOG.info("Busqueda {}: '{}'", searchType, val);
@@ -323,11 +323,11 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
                     "No se encontraron productos",
                     getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
 
-            AppUtils.marcarTextField(textFieldSearch);
+            AppUtils.markTextField(textFieldSearch);
         } else {
             refreshDataTable(products);
         }
-        AppUtils.marcarTextField(textFieldSearch);
+        AppUtils.markTextField(textFieldSearch);
     }
 
     private void addProduct() {

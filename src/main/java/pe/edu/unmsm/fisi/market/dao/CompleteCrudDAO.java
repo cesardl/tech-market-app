@@ -1,7 +1,5 @@
 package pe.edu.unmsm.fisi.market.dao;
 
-import pe.edu.unmsm.fisi.market.model.Product;
-
 import java.util.Collection;
 
 /**
@@ -27,8 +25,6 @@ public interface CompleteCrudDAO<T> extends SimpleCrudDAO<T> {
      * @return true if was updated
      */
     boolean update(T t);
-
-    Product buscarCodigo(int codigo);
 
     Collection<T> buscarNombre(String description);
 
