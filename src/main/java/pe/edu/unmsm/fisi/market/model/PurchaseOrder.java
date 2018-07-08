@@ -14,6 +14,7 @@ public class PurchaseOrder {
     private Product product;
     private Integer quantity;
     private Date salesDate;
+    private Date shippingDate;
 
     public Integer getOrderNum() {
         return orderNum;
@@ -53,5 +54,13 @@ public class PurchaseOrder {
 
     public void setSalesDate(Date salesDate) {
         this.salesDate = salesDate;
+    }
+
+    public Date getShippingDate() {
+        return shippingDate;
+    }
+
+    public void setShippingDate(Date shippingDate) {
+        this.shippingDate = shippingDate;
     }
 }

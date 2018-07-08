@@ -25,6 +25,12 @@ public abstract class TemplateBusiness<T> {
 
     public abstract Collection<T> obtenerTodos();
 
+    public abstract boolean saveOrUpdateProduct(final T element);
+
+    public abstract T buscarCodigo(Integer identifier);
+
+    public abstract boolean delete(Integer identifier);
+
     protected int generateIdentifier() {
         int id;
         do {

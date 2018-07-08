@@ -423,7 +423,7 @@ public class JInternalFrameProducts extends javax.swing.JInternalFrame {
                 javax.swing.JOptionPane.QUESTION_MESSAGE);
 
         if (javax.swing.JOptionPane.YES_OPTION == optionChosen) {
-            if (productBusiness.deleteProduct(productId)) {
+            if (productBusiness.delete(productId)) {
                 Collection<Product> products = productBusiness.buscarNombre(textFieldSearch.getText());
                 LOG.info("Product has been updated, showing data");
                 refreshDataTable(products);

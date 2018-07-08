@@ -28,7 +28,7 @@ public class ProductBusinessTest {
     }
 
     @Test
-    public void addAndReadProductTest() {
+    public void addReadAndDeleteProductTest() {
         Collection<Product> result = productBusiness.obtenerTodos();
         assertEquals(2, result.size());
         result.forEach(product -> {
@@ -60,7 +60,7 @@ public class ProductBusinessTest {
         assertNotNull(product.getManufacturer().getManufacturerId());
         assertNotNull(product.getManufacturer().getName());
 
-        boolean hasBeenDeleted = productBusiness.deleteProduct(fakeProduct.getProductId());
+        boolean hasBeenDeleted = productBusiness.delete(fakeProduct.getProductId());
         assertTrue(hasBeenDeleted);
 
         result = productBusiness.obtenerTodos();

@@ -6,7 +6,9 @@ import pe.edu.unmsm.fisi.market.business.TemplateBusiness;
 import pe.edu.unmsm.fisi.market.dao.impl.PurchaseOrderDAO;
 import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
 
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created on 17/06/2018.
@@ -32,5 +34,41 @@ public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder> {
     public Collection<PurchaseOrder> obtenerTodos() {
         LOG.info("Getting all purchase orders");
         return dao.getAll();
+    }
+
+    @Override
+    public boolean saveOrUpdateProduct(final PurchaseOrder purchaseOrder) {
+        Date date = new Date();
+        purchaseOrder.setSalesDate(date);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, 15);
+        purchaseOrder.setShippingDate(calendar.getTime());
+
+        if (purchaseOrder.getOrderNum() == null) {
+            LOG.info("Adding purchase order to customer {}", purchaseOrder.getCustomer().getName());
+
+            int identifier = generateIdentifier();
+            purchaseOrder.setOrderNum(identifier);
+            return dao.save(purchaseOrder);
+        } else {
+            LOG.info("Updating purchase order to customer {}", purchaseOrder.getCustomer().getName());
+            return dao.update(purchaseOrder);
+        }
+    }
+
+    @Override
+    public PurchaseOrder buscarCodigo(final Integer identifier) {
+        LOG.info("Searching purchase order by identifier: {}", identifier);
+        return dao.buscarCodigo(identifier);
+    }
+
+    @Override
+    public boolean delete(final Integer identifier) {
+        LOG.info("Deleting purchase order: {}", identifier);
+        PurchaseOrder product = new PurchaseOrder();
+        product.setOrderNum(identifier);
+        return dao.delete(product);
     }
 }

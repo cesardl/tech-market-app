@@ -1,8 +1,6 @@
 package pe.edu.unmsm.fisi.market;
 
-import pe.edu.unmsm.fisi.market.model.Manufacturer;
-import pe.edu.unmsm.fisi.market.model.Product;
-import pe.edu.unmsm.fisi.market.model.ProductCode;
+import pe.edu.unmsm.fisi.market.model.*;
 
 /**
  * Created on 30/06/2018.
@@ -26,5 +24,19 @@ public class PojoFake {
         p.setManufacturer(m);
         p.setProductCode(pc);
         return p;
+    }
+
+    public static PurchaseOrder purchaseOrder() {
+        Customer customer = new Customer();
+        customer.setCustomerId(2);
+
+        Product product = new Product();
+        product.setProductId(980005);
+
+        PurchaseOrder po = new PurchaseOrder();
+        po.setCustomer(customer);
+        po.setProduct(product);
+        po.setQuantity(100);
+        return po;
     }
 }

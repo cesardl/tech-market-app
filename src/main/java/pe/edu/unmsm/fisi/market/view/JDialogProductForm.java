@@ -241,9 +241,9 @@ public class JDialogProductForm extends javax.swing.JDialog {
                 dispose();
             } else {
                 javax.swing.JOptionPane.showMessageDialog(this,
-                        "No se puede agregar el producto!\nCodigo repetido!",
+                        "No se puede agregar el producto!",
                         getTitle(), javax.swing.JOptionPane.ERROR_MESSAGE);
-                AppUtils.markTextField(textFieldProductId);
+                AppUtils.markTextField(textFieldDescription);
             }
         } else {
             javax.swing.JOptionPane.showMessageDialog(this,

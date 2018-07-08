@@ -135,14 +135,14 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
 
         tablePurchaseOrders.setModel(new javax.swing.table.DefaultTableModel(
             new String [] {
-                "Number", "Customer", "Product", "Quantity", "Sales Date"
+                "Number", "Customer", "Product", "Quantity", "Sales Date", "Shipping Date"
             }, 0
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.util.Date.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.util.Date.class, java.util.Date.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -244,7 +244,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
 
         purchaseOrders.forEach(po -> {
             Object[] rowData = {
-                po.getOrderNum(), po.getCustomer(), po.getProduct(), po.getQuantity(), po.getSalesDate()
+                po.getOrderNum(), po.getCustomer(), po.getProduct(), po.getQuantity(), po.getSalesDate(), po.getShippingDate()
             };
             dtm.addRow(rowData);
         });
@@ -255,16 +255,24 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         LOG.trace(evt.paramString());
 
         if (capturaDatos()) {
-            System.out.println(comboBoxCustomer.getSelectedItem());
-            System.out.println(comboBoxProduct.getSelectedItem());
-            System.out.println(spinnerQuantity.getValue());
+            boolean result = purchaseOrderBusiness.saveOrUpdateProduct(purchaseOrder);
+            if (result) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "Se registró la orden de compra correctamente!",
+                        getTitle(), javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                refreshDataTable(purchaseOrderBusiness.obtenerTodos());
+            }
+        } else {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "Ingrese correctamente los datos de compra",
+                    getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_buttonBuyActionPerformed
 
     private boolean capturaDatos() {
         int quantity = AppUtils.toInteger(String.valueOf(spinnerQuantity.getValue()));
 
-        if (quantity == AppUtils.ERROR_NUMBER) {
+        if (quantity == AppUtils.ERROR_NUMBER || quantity == 0) {
             spinnerQuantity.requestFocus();
             return false;
         }

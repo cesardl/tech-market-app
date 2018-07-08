@@ -65,7 +65,7 @@ public class ProductInMemoryBusinessTest {
         assertNotNull(product.getManufacturer().getManufacturerId());
         assertNull(product.getManufacturer().getName());
 
-        boolean hasBeenDeleted = productBusiness.deleteProduct(fakeProduct.getProductId());
+        boolean hasBeenDeleted = productBusiness.delete(fakeProduct.getProductId());
         assertTrue(hasBeenDeleted);
 
         result = productBusiness.obtenerTodos();

@@ -8,10 +8,7 @@ import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
 import pe.edu.unmsm.fisi.market.util.ConnectionUtils;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -29,7 +26,8 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
     public Collection<PurchaseOrder> getAll() {
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
-            s.execute("SELECT PO.ORDER_NUM, C.NAME, P.DESCRIPTION, PO.QUANTITY, PO.SALES_DATE FROM PURCHASE_ORDER PO " +
+            s.execute("SELECT PO.ORDER_NUM, C.NAME, P.DESCRIPTION, PO.QUANTITY, PO.SALES_DATE, PO.SHIPPING_DATE " +
+                    "FROM PURCHASE_ORDER PO " +
                     "INNER JOIN CUSTOMER C on PO.CUSTOMER_ID = C.CUSTOMER_ID " +
                     "INNER JOIN PRODUCT P on PO.PRODUCT_ID = P.PRODUCT_ID " +
                     "ORDER BY PO.SALES_DATE DESC");
@@ -51,6 +49,7 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
 
                     purchaseOrder.setQuantity(rs.getInt(4));
                     purchaseOrder.setSalesDate(rs.getDate(5));
+                    purchaseOrder.setShippingDate(rs.getDate(6));
 
                     purchaseOrders.add(purchaseOrder);
                 }
@@ -64,13 +63,57 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
     }
 
     @Override
-    public PurchaseOrder buscarCodigo(int codigo) {
-        throw new UnsupportedOperationException();
+    public PurchaseOrder buscarCodigo(final int codigo) {
+        String sql = "SELECT ORDER_NUM, SALES_DATE, SHIPPING_DATE FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
+
+        LOG.debug("[SQL] {}", sql);
+
+        try (Connection conn = ConnectionUtils.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, codigo);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    PurchaseOrder pu = new PurchaseOrder();
+                    pu.setOrderNum(rs.getInt("ORDER_NUM"));
+                    pu.setSalesDate(rs.getDate("SALES_DATE"));
+                    pu.setShippingDate(rs.getDate("SHIPPING_DATE"));
+                    return pu;
+                }
+            }
+
+        } catch (SQLException ex) {
+            LOG.error(ex.getMessage(), ex);
+        }
+        return null;
     }
 
     @Override
-    public boolean save(PurchaseOrder t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean save(final PurchaseOrder purchaseOrder) {
+        String sql = "INSERT INTO PURCHASE_ORDER(ORDER_NUM, CUSTOMER_ID, PRODUCT_ID, QUANTITY, SALES_DATE, SHIPPING_DATE) "
+                + "VALUES(?, ?, ?, ?, ?, ?)";
+
+        LOG.debug("[SQL] {}", sql);
+
+        try (Connection conn = ConnectionUtils.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, purchaseOrder.getOrderNum());
+            ps.setInt(2, purchaseOrder.getCustomer().getCustomerId());
+            ps.setInt(3, purchaseOrder.getProduct().getProductId());
+            ps.setInt(4, purchaseOrder.getQuantity());
+            ps.setDate(5, new java.sql.Date(purchaseOrder.getSalesDate().getTime()));
+            ps.setDate(6, new java.sql.Date(purchaseOrder.getShippingDate().getTime()));
+
+            int result = ps.executeUpdate();
+
+            LOG.debug("Number of affected rows {}", result);
+            return true;
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override
@@ -84,7 +127,23 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
     }
 
     @Override
-    public boolean delete(PurchaseOrder t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean delete(final PurchaseOrder purchaseOrder) {
+        String sql = "DELETE FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
+
+        LOG.debug("[SQL] {}", sql);
+
+        try (Connection connection = ConnectionUtils.openConnection()) {
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            ps.setInt(1, purchaseOrder.getOrderNum());
+
+            int result = ps.executeUpdate();
+
+            LOG.info("A purchase order has been deleted: {}", result);
+            return true;
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            return false;
+        }
     }
 }

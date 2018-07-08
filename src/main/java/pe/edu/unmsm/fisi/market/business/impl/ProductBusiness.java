@@ -62,14 +62,15 @@ public class ProductBusiness extends TemplateBusiness<Product> {
         return manufacturerDAO.getAll();
     }
 
+    @Override
     public boolean saveOrUpdateProduct(final Product product) {
         product.setAvailable(product.getQuantityOnHand() != 0);
 
         if (product.getProductId() == null) {
             LOG.info("Adding product: {}", product);
 
-            int productId = generateIdentifier();
-            product.setProductId(productId);
+            int identifier = generateIdentifier();
+            product.setProductId(identifier);
             return dao.save(product);
         } else {
             LOG.info("Updating product: {}", product);
@@ -77,9 +78,10 @@ public class ProductBusiness extends TemplateBusiness<Product> {
         }
     }
 
-    public Product buscarCodigo(Integer val) {
-        LOG.info("Searching product by product identifier: {}", val);
-        return dao.buscarCodigo(val);
+    @Override
+    public Product buscarCodigo(Integer identifier) {
+        LOG.info("Searching product by identifier: {}", identifier);
+        return dao.buscarCodigo(identifier);
     }
 
     public Collection<Product> buscarNombre(String str) {
@@ -87,10 +89,11 @@ public class ProductBusiness extends TemplateBusiness<Product> {
         return dao.buscarNombre(str);
     }
 
-    public boolean deleteProduct(Integer productId) {
-        LOG.info("Deleting product: {}", productId);
+    @Override
+    public boolean delete(Integer identifier) {
+        LOG.info("Deleting product: {}", identifier);
         Product product = new Product();
-        product.setProductId(productId);
+        product.setProductId(identifier);
         return dao.delete(product);
     }
 }

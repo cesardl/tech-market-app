@@ -35,4 +35,19 @@ public class CustomerBusiness extends TemplateBusiness<Customer> {
         LOG.info("Getting all customers");
         return dao.getAll();
     }
+
+    @Override
+    public boolean saveOrUpdateProduct(Customer customer) {
+        return false;
+    }
+
+    @Override
+    public Customer buscarCodigo(Integer identifier) {
+        return null;
+    }
+
+    @Override
+    public boolean delete(Integer identifier) {
+        return false;
+    }
 }
