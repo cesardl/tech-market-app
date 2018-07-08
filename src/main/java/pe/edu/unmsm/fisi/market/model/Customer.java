@@ -5,22 +5,58 @@
  */
 package pe.edu.unmsm.fisi.market.model;
 
+import javax.validation.Valid;
+import javax.validation.constraints.*;
+
 /**
  * @author Cesardl
  */
 public class Customer {
 
     private Integer customerId;
+
+    @Valid
+    @NotNull
     private DiscountCode discountCode;
+
+    @Valid
+    @NotNull
     private MicroMarket microMarket;
+
+    @NotEmpty
+    @Size(max = 30)
     private String name;
+
+    @NotEmpty
+    @Size(max = 30)
     private String addressLine1;
+
+    @Size(max = 30)
     private String addressLine2;
+
+    @NotEmpty
+    @Size(max = 25)
     private String city;
+
+    @NotEmpty
+    @Size(max = 2)
     private String state;
+
+    @Pattern(regexp = "\\d{3}-\\d{3}-\\d{4}")
+    @Size(max = 12)
     private String phone;
+
+    @Pattern(regexp = "\\d{3}-\\d{3}-\\d{4}")
+    @Size(max = 12)
     private String fax;
+
+    @NotEmpty
+    @Email
+    @Size(max = 40)
     private String email;
+
+    @NotNull
+    @Min(value = 1000)
     private Long creditLimit;
 
     public Integer getCustomerId() {

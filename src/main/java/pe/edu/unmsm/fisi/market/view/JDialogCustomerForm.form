@@ -78,8 +78,8 @@
                       <Component id="labelId" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="labelMicroMarket" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="labelName" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="labelDirectionMain" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="labelDirectionExtension" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelAddressLine1" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelAddressLine2" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="labelCity" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="labelState" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="labelPhone" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -93,8 +93,8 @@
                       <Component id="comboBoxDiscountCode" alignment="0" min="-2" pref="209" max="-2" attributes="0"/>
                       <Component id="comboBoxMicroMarket" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
                       <Component id="textFieldName" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
-                      <Component id="textFieldDirectionMain" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
-                      <Component id="textFieldDirectionExtension" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
+                      <Component id="textFieldAddressLine1" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
+                      <Component id="textFieldAddressLine2" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
                       <Component id="textFieldCity" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
                       <Component id="textFieldState" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
                       <Component id="textFieldPhone" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
@@ -131,13 +131,13 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="labelDirectionMain" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="textFieldDirectionMain" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelAddressLine1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="textFieldAddressLine1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="labelDirectionExtension" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="textFieldDirectionExtension" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelAddressLine2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="textFieldAddressLine2" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -211,7 +211,7 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="labelDirectionMain">
+        <Component class="javax.swing.JLabel" name="labelAddressLine1">
           <Properties>
             <Property name="text" type="java.lang.String" value="Direccion (principal)"/>
           </Properties>
@@ -220,7 +220,7 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JLabel" name="labelDirectionExtension">
+        <Component class="javax.swing.JLabel" name="labelAddressLine2">
           <Properties>
             <Property name="text" type="java.lang.String" value="Direccion (extensi&#xf3;n)"/>
           </Properties>
@@ -312,9 +312,9 @@
         </Component>
         <Component class="javax.swing.JTextField" name="textFieldName">
         </Component>
-        <Component class="javax.swing.JTextField" name="textFieldDirectionMain">
+        <Component class="javax.swing.JTextField" name="textFieldAddressLine1">
         </Component>
-        <Component class="javax.swing.JTextField" name="textFieldDirectionExtension">
+        <Component class="javax.swing.JTextField" name="textFieldAddressLine2">
         </Component>
         <Component class="javax.swing.JTextField" name="textFieldCity">
         </Component>

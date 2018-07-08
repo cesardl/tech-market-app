@@ -16,6 +16,8 @@ import java.util.ResourceBundle;
  */
 public final class ConnectionUtils {
 
+    public static final String SQL_LOG_TEMPLATE = "[SQL] {}";
+
     private static final Logger LOG = LoggerFactory.getLogger(ConnectionUtils.class);
 
     private static String driver;

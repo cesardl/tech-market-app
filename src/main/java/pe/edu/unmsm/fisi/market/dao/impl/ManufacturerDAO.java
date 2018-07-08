@@ -25,9 +25,13 @@ public class ManufacturerDAO implements MasterCrudDAO<Manufacturer> {
 
     @Override
     public Collection<Manufacturer> getAll() {
+        String sql = "SELECT MANUFACTURER_ID, NAME, EMAIL FROM MANUFACTURER ORDER BY NAME, EMAIL";
+
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
+
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
-            s.execute("SELECT MANUFACTURER_ID, NAME, EMAIL FROM MANUFACTURER ORDER BY NAME, EMAIL");
+            s.execute(sql);
 
             try (ResultSet rs = s.getResultSet()) {
                 Collection<Manufacturer> manufacturers = new ArrayList<>();

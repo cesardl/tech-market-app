@@ -29,16 +29,16 @@ public class JDialogAbout extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.JLabel jLabel = new javax.swing.JLabel();
+        javax.swing.JLabel label = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/img/apache_derby.png")).getImage());
         setModal(true);
         setResizable(false);
 
-        jLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel.setText("<html> <h2 align=center>Tech Market<br><i> Mantenimiento de Productos</i></h2> <hr> Implementado por:<br> <ul><li> Pablo  C&eacute;sar D&iacute;az Lurita </li></ul>  <h5 align=right>CU, julio del 2009</h5> </html>");
-        jLabel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label.setText("<html> <h2 align=center>Tech Market<br><i> Mantenimiento de Productos</i></h2> <hr> Implementado por:<br> <ul><li> Pablo  C&eacute;sar D&iacute;az Lurita </li></ul>  <h5 align=right>CU, julio del 2009</h5> </html>");
+        label.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -46,14 +46,14 @@ public class JDialogAbout extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                .addComponent(label, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(label, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 

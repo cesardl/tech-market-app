@@ -1,5 +1,8 @@
 package pe.edu.unmsm.fisi.market.model;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * Created on 07/07/2018.
  *
@@ -7,6 +10,8 @@ package pe.edu.unmsm.fisi.market.model;
  */
 public class MicroMarket {
 
+    @NotNull
+    @Size(max = 10)
     private String zipCode;
 
     public String getZipCode() {

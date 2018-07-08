@@ -68,7 +68,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
         textFieldPurchaseCost = new javax.swing.JTextField();
         textFieldMarkup = new javax.swing.JTextField();
         spinnerQuantity = new javax.swing.JSpinner();
-        javax.swing.JButton jButtonSave = new javax.swing.JButton();
+        javax.swing.JButton buttonSave = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Detalle de Producto");
@@ -133,7 +133,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
                                     .addComponent(textFieldDescription)
                                     .addComponent(comboBoxProductCode, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(panelLayout.createSequentialGroup()
-                                        .addComponent(spinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(spinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE)))))
                         .addContainerGap())))
         );
@@ -173,10 +173,10 @@ public class JDialogProductForm extends javax.swing.JDialog {
 
         textFieldDescription.requestFocus();
 
-        jButtonSave.setText("Guardar");
-        jButtonSave.addActionListener(new java.awt.event.ActionListener() {
+        buttonSave.setText("Guardar");
+        buttonSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonSaveActionPerformed(evt);
+                buttonSaveActionPerformed(evt);
             }
         });
 
@@ -190,7 +190,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
                     .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButtonSave)))
+                        .addComponent(buttonSave)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -199,7 +199,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonSave)
+                .addComponent(buttonSave)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -250,7 +250,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
         spinnerQuantity.setValue(product.getQuantityOnHand());
     }
 
-    private void jButtonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSaveActionPerformed
+    private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
         LOG.trace(evt.paramString());
         if (catchingData()) {
             if (productBusiness.saveOrUpdate(product)) {
@@ -270,7 +270,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
                     "Ingrese correctamente los datos",
                     getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
         }
-    }//GEN-LAST:event_jButtonSaveActionPerformed
+    }//GEN-LAST:event_buttonSaveActionPerformed
 
     private boolean catchingData() {
         String description = textFieldDescription.getText().trim();

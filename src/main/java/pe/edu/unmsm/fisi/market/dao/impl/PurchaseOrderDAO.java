@@ -24,13 +24,17 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
 
     @Override
     public Collection<PurchaseOrder> getAll() {
+        String sql = "SELECT PO.ORDER_NUM, C.NAME, P.DESCRIPTION, PO.QUANTITY, PO.SALES_DATE, PO.SHIPPING_DATE " +
+                "FROM PURCHASE_ORDER PO " +
+                "INNER JOIN CUSTOMER C on PO.CUSTOMER_ID = C.CUSTOMER_ID " +
+                "INNER JOIN PRODUCT P on PO.PRODUCT_ID = P.PRODUCT_ID " +
+                "ORDER BY PO.SALES_DATE DESC";
+
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
+
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
-            s.execute("SELECT PO.ORDER_NUM, C.NAME, P.DESCRIPTION, PO.QUANTITY, PO.SALES_DATE, PO.SHIPPING_DATE " +
-                    "FROM PURCHASE_ORDER PO " +
-                    "INNER JOIN CUSTOMER C on PO.CUSTOMER_ID = C.CUSTOMER_ID " +
-                    "INNER JOIN PRODUCT P on PO.PRODUCT_ID = P.PRODUCT_ID " +
-                    "ORDER BY PO.SALES_DATE DESC");
+            s.execute(sql);
 
             try (ResultSet rs = s.getResultSet()) {
                 Collection<PurchaseOrder> purchaseOrders = new ArrayList<>();
@@ -66,7 +70,7 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
     public PurchaseOrder findById(final int identifier) {
         String sql = "SELECT ORDER_NUM, SALES_DATE, SHIPPING_DATE FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
 
-        LOG.debug("[SQL] {}", sql);
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -94,7 +98,7 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
         String sql = "INSERT INTO PURCHASE_ORDER(ORDER_NUM, CUSTOMER_ID, PRODUCT_ID, QUANTITY, SALES_DATE, SHIPPING_DATE) "
                 + "VALUES(?, ?, ?, ?, ?, ?)";
 
-        LOG.debug("[SQL] {}", sql);
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -130,7 +134,7 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
     public boolean delete(final PurchaseOrder purchaseOrder) {
         String sql = "DELETE FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
 
-        LOG.debug("[SQL] {}", sql);
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
         try (Connection connection = ConnectionUtils.openConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {

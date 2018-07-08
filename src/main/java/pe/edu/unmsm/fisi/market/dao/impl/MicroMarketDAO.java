@@ -25,9 +25,13 @@ public class MicroMarketDAO implements MasterCrudDAO<MicroMarket> {
 
     @Override
     public Collection<MicroMarket> getAll() {
+        String sql = "SELECT ZIP_CODE FROM MICRO_MARKET";
+
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
+
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
-            s.execute("SELECT ZIP_CODE FROM MICRO_MARKET");
+            s.execute(sql);
 
             try (ResultSet rs = s.getResultSet()) {
                 Collection<MicroMarket> microMarkets = new ArrayList<>();

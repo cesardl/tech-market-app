@@ -62,7 +62,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         javax.swing.JPanel panelPurchaseOrders = new javax.swing.JPanel();
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
         tablePurchaseOrders = new javax.swing.JTable();
-        javax.swing.JLabel jLabelTotal = new javax.swing.JLabel();
+        javax.swing.JLabel labelTotal = new javax.swing.JLabel();
         labelTotalRows = new javax.swing.JLabel();
 
         setClosable(true);
@@ -171,7 +171,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        jLabelTotal.setText("Total:");
+        labelTotal.setText("Total:");
 
         labelTotalRows.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelTotalRows.setText("0");
@@ -188,7 +188,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelTotal)
+                .addComponent(labelTotal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelTotalRows)
                 .addGap(21, 21, 21))
@@ -202,7 +202,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                 .addComponent(panelPurchaseOrders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelTotal)
+                    .addComponent(labelTotal)
                     .addComponent(labelTotalRows))
                 .addContainerGap())
         );

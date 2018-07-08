@@ -27,10 +27,13 @@ public class CustomerDAO implements CompleteCrudDAO<Customer> {
 
     @Override
     public Collection<Customer> getAll() {
+        String sql = "SELECT CUSTOMER_ID, NAME, CITY, PHONE, EMAIL FROM CUSTOMER ORDER BY NAME";
+
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
+
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
-            s.execute("SELECT CUSTOMER_ID, NAME, CITY, PHONE, EMAIL " +
-                    "FROM CUSTOMER ORDER BY NAME");
+            s.execute(sql);
 
             try (ResultSet rs = s.getResultSet()) {
                 Collection<Customer> customers = new ArrayList<>();
@@ -59,7 +62,7 @@ public class CustomerDAO implements CompleteCrudDAO<Customer> {
         String sql = "SELECT CUSTOMER_ID, DISCOUNT_CODE, ZIP, NAME, ADDRESSLINE1, ADDRESSLINE2, CITY, STATE, PHONE, FAX, EMAIL, CREDIT_LIMIT " +
                 "FROM CUSTOMER WHERE CUSTOMER_ID = ?";
 
-        LOG.debug("[SQL] {}", sql);
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -102,7 +105,7 @@ public class CustomerDAO implements CompleteCrudDAO<Customer> {
         String sql = "INSERT INTO CUSTOMER(CUSTOMER_ID, DISCOUNT_CODE, ZIP, NAME, ADDRESSLINE1, ADDRESSLINE2, CITY, STATE, PHONE, FAX, EMAIL, CREDIT_LIMIT) "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        LOG.debug("[SQL] {}", sql);
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -131,8 +134,36 @@ public class CustomerDAO implements CompleteCrudDAO<Customer> {
     }
 
     @Override
-    public boolean update(Customer t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean update(final Customer customer) {
+        String sql = "UPDATE CUSTOMER SET DISCOUNT_CODE = ?, ZIP = ?, NAME = ?, ADDRESSLINE1 = ?, ADDRESSLINE2 = ?, CITY = ?, STATE = ?, PHONE = ?, FAX = ?, EMAIL = ?, CREDIT_LIMIT = ? " +
+                "WHERE CUSTOMER_ID = ?";
+
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
+
+        try (Connection connection = ConnectionUtils.openConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setString(1, String.valueOf(customer.getDiscountCode().getDiscountCode()));
+            ps.setString(2, customer.getMicroMarket().getZipCode());
+            ps.setString(3, customer.getName());
+            ps.setString(4, customer.getAddressLine1());
+            ps.setString(5, customer.getAddressLine2());
+            ps.setString(6, customer.getCity());
+            ps.setString(7, customer.getState());
+            ps.setString(8, customer.getPhone());
+            ps.setString(9, customer.getFax());
+            ps.setString(10, customer.getEmail());
+            ps.setLong(11, customer.getCreditLimit());
+            ps.setInt(12, customer.getCustomerId());
+
+            int result = ps.executeUpdate();
+
+            LOG.debug("Number of affected rows {}", result);
+            return true;
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override
@@ -144,7 +175,7 @@ public class CustomerDAO implements CompleteCrudDAO<Customer> {
     public boolean delete(final Customer customer) {
         String sql = "DELETE FROM CUSTOMER WHERE CUSTOMER_ID = ?";
 
-        LOG.debug("[SQL] {}", sql);
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
         try (Connection connection = ConnectionUtils.openConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {

@@ -12,9 +12,11 @@ import pe.edu.unmsm.fisi.market.model.Customer;
 import pe.edu.unmsm.fisi.market.model.DiscountCode;
 import pe.edu.unmsm.fisi.market.model.MicroMarket;
 import pe.edu.unmsm.fisi.market.util.AppUtils;
+import pe.edu.unmsm.fisi.market.util.TechMarketValidator;
+
+import java.util.Map;
 
 /**
- *
  * @author Cesardl
  */
 public class JDialogCustomerForm extends javax.swing.JDialog {
@@ -26,7 +28,9 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
     private final Customer customer;
     private final CustomerBusiness customerBusiness;
 
+    private TechMarketValidator<Customer> validator;
     private boolean actionPerformed;
+    private boolean errorProcessed;
 
     /**
      * @inheritDoc
@@ -36,6 +40,7 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
 
         this.customerBusiness = CustomerBusiness.getInstance();
         this.customer = customer;
+        this.validator = new TechMarketValidator<>();
         this.actionPerformed = false;
 
         initComponents();
@@ -59,8 +64,8 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
         javax.swing.JLabel labelDiscountCode = new javax.swing.JLabel();
         javax.swing.JLabel labelMicroMarket = new javax.swing.JLabel();
         javax.swing.JLabel labelName = new javax.swing.JLabel();
-        javax.swing.JLabel labelDirectionMain = new javax.swing.JLabel();
-        javax.swing.JLabel labelDirectionExtension = new javax.swing.JLabel();
+        javax.swing.JLabel labelAddressLine1 = new javax.swing.JLabel();
+        javax.swing.JLabel labelAddressLine2 = new javax.swing.JLabel();
         javax.swing.JLabel labelCity = new javax.swing.JLabel();
         javax.swing.JLabel labelState = new javax.swing.JLabel();
         javax.swing.JLabel labelPhone = new javax.swing.JLabel();
@@ -71,8 +76,8 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
         comboBoxDiscountCode = new javax.swing.JComboBox<>();
         comboBoxMicroMarket = new javax.swing.JComboBox<>();
         textFieldName = new javax.swing.JTextField();
-        textFieldDirectionMain = new javax.swing.JTextField();
-        textFieldDirectionExtension = new javax.swing.JTextField();
+        textFieldAddressLine1 = new javax.swing.JTextField();
+        textFieldAddressLine2 = new javax.swing.JTextField();
         textFieldCity = new javax.swing.JTextField();
         textFieldState = new javax.swing.JTextField();
         textFieldPhone = new javax.swing.JTextField();
@@ -97,9 +102,9 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
 
         labelName.setText("Nombre");
 
-        labelDirectionMain.setText("Direccion (principal)");
+        labelAddressLine1.setText("Direccion (principal)");
 
-        labelDirectionExtension.setText("Direccion (extensión)");
+        labelAddressLine2.setText("Direccion (extensión)");
 
         labelCity.setText("Ciudad");
 
@@ -130,8 +135,8 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
                     .addComponent(labelId)
                     .addComponent(labelMicroMarket)
                     .addComponent(labelName)
-                    .addComponent(labelDirectionMain)
-                    .addComponent(labelDirectionExtension)
+                    .addComponent(labelAddressLine1)
+                    .addComponent(labelAddressLine2)
                     .addComponent(labelCity)
                     .addComponent(labelState)
                     .addComponent(labelPhone)
@@ -144,8 +149,8 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
                     .addComponent(comboBoxDiscountCode, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboBoxMicroMarket, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textFieldDirectionMain, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textFieldDirectionExtension, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textFieldAddressLine1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textFieldAddressLine2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textFieldCity, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textFieldState, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textFieldPhone, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -175,12 +180,12 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
                     .addComponent(textFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelDirectionMain)
-                    .addComponent(textFieldDirectionMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelAddressLine1)
+                    .addComponent(textFieldAddressLine1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelDirectionExtension)
-                    .addComponent(textFieldDirectionExtension, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(labelAddressLine2)
+                    .addComponent(textFieldAddressLine2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCity)
@@ -280,8 +285,8 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
         }
 
         textFieldName.setText(customer.getName());
-        textFieldDirectionMain.setText(customer.getAddressLine1());
-        textFieldDirectionExtension.setText(customer.getAddressLine2());
+        textFieldAddressLine1.setText(customer.getAddressLine1());
+        textFieldAddressLine2.setText(customer.getAddressLine2());
         textFieldCity.setText(customer.getCity());
         textFieldState.setText(customer.getState());
         textFieldPhone.setText(customer.getPhone());
@@ -293,7 +298,9 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
     private void buttonSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSaveActionPerformed
         LOG.trace(evt.paramString());
 
-        if (catchingData()) {
+        errorProcessed = false;
+        Map<String, String> errors = catchingData();
+        if (errors.isEmpty()) {
             if (customerBusiness.saveOrUpdate(customer)) {
                 javax.swing.JOptionPane.showMessageDialog(this,
                         "Se registró la orden de compra correctamente!",
@@ -307,24 +314,60 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
                 AppUtils.markTextField(textFieldName);
             }
         } else {
-            javax.swing.JOptionPane.showMessageDialog(this,
-                    "Ingrese correctamente los datos del cliente",
-                    getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
+            processIfHasError("name", errors, textFieldName);
+            processIfHasError("addressLine1", errors, textFieldAddressLine1);
+            processIfHasError("addressLine2", errors, textFieldAddressLine2);
+            processIfHasError("city", errors, textFieldCity);
+            processIfHasError("state", errors, textFieldState);
+            processIfHasError("phone", errors, textFieldPhone);
+            processIfHasError("fax", errors, textFieldFax);
+            processIfHasError("email", errors, textFieldEmail);
+            processIfHasError("creditLimit", errors, textFieldCreditLine);
         }
     }//GEN-LAST:event_buttonSaveActionPerformed
 
-    private boolean catchingData() {
-        // TODO
-        return false;
+    private void processIfHasError(final String key, final Map<String, String> errors, final javax.swing.JTextField textField) {
+        if (!errorProcessed && errors.containsKey(key)) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    key.concat(" ").concat(errors.get(key)), getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
+            AppUtils.markTextField(textField);
+            errorProcessed = true;
+        }
+    }
+
+    private Map<String, String> catchingData() {
+        String name = AppUtils.clean(textFieldName.getText());
+        String addressLine1 = AppUtils.clean(textFieldAddressLine1.getText());
+        String addressLine2 = AppUtils.clean(textFieldAddressLine2.getText());
+        String city = AppUtils.clean(textFieldCity.getText());
+        String state = AppUtils.clean(textFieldState.getText());
+        String phone = AppUtils.clean(textFieldPhone.getText());
+        String fax = AppUtils.clean(textFieldFax.getText());
+        String email = AppUtils.clean(textFieldEmail.getText());
+        Long creditLine = AppUtils.toLong(textFieldCreditLine.getText().trim());
+
+        customer.setName(name);
+        customer.setDiscountCode(comboBoxDiscountCode.getItemAt(comboBoxDiscountCode.getSelectedIndex()));
+        customer.setMicroMarket(comboBoxMicroMarket.getItemAt(comboBoxMicroMarket.getSelectedIndex()));
+        customer.setAddressLine1(addressLine1);
+        customer.setAddressLine2(addressLine2);
+        customer.setCity(city);
+        customer.setState(state);
+        customer.setPhone(phone);
+        customer.setFax(fax);
+        customer.setEmail(email);
+        customer.setCreditLimit(creditLine);
+
+        return validator.validate(customer);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<DiscountCode> comboBoxDiscountCode;
     private javax.swing.JComboBox<MicroMarket> comboBoxMicroMarket;
+    private javax.swing.JTextField textFieldAddressLine1;
+    private javax.swing.JTextField textFieldAddressLine2;
     private javax.swing.JTextField textFieldCity;
     private javax.swing.JTextField textFieldCreditLine;
-    private javax.swing.JTextField textFieldDirectionExtension;
-    private javax.swing.JTextField textFieldDirectionMain;
     private javax.swing.JTextField textFieldEmail;
     private javax.swing.JTextField textFieldFax;
     private javax.swing.JTextField textFieldId;

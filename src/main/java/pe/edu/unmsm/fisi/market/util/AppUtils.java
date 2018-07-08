@@ -8,8 +8,6 @@ package pe.edu.unmsm.fisi.market.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-
 /**
  * @author Cesardl
  */
@@ -22,7 +20,7 @@ public final class AppUtils {
     private AppUtils() {
     }
 
-    public static double toDouble(String s) {
+    public static double toDouble(final String s) {
         try {
             return Double.parseDouble(s);
         } catch (NumberFormatException nfe) {
@@ -31,7 +29,7 @@ public final class AppUtils {
         }
     }
 
-    public static int toInteger(String s) {
+    public static int toInteger(final String s) {
         try {
             return Integer.parseInt(s);
         } catch (NumberFormatException nfe) {
@@ -40,17 +38,31 @@ public final class AppUtils {
         }
     }
 
+    public static long toLong(final String s) {
+        try {
+            return Long.parseLong(s);
+        } catch (NumberFormatException nfe) {
+            LOG.error(nfe.getMessage());
+            return ERROR_NUMBER;
+        }
+    }
+
     public static void displayInternalFrame(javax.swing.JDesktopPane desktopPane, javax.swing.JInternalFrame internalFrame) {
         if (!internalFrame.isVisible()) {
-            if (!Arrays.asList(desktopPane.getAllFrames()).contains(internalFrame)) {
+            if (!java.util.Arrays.asList(desktopPane.getAllFrames()).contains(internalFrame)) {
                 desktopPane.add(internalFrame);
             }
             internalFrame.setVisible(true);
         }
     }
 
-    public static void markTextField(javax.swing.JTextField jTextField) {
-        jTextField.requestFocus();
-        jTextField.selectAll();
+    public static String clean(String s) {
+        s = s.trim();
+        return s.length() == 0 ? null : s;
+    }
+
+    public static void markTextField(javax.swing.JTextField textField) {
+        textField.requestFocus();
+        textField.selectAll();
     }
 }
