@@ -249,12 +249,15 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         LOG.trace(evt.paramString());
 
         if (catchingData()) {
-            boolean result = purchaseOrderBusiness.saveOrUpdate(purchaseOrder);
-            if (result) {
-                javax.swing.JOptionPane.showMessageDialog(this,
-                        "Se registró la orden de compra correctamente!",
-                        getTitle(), javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            JDialogPurchaseOrderForm purchaseOrderForm = new JDialogPurchaseOrderForm(
+                    javax.swing.JOptionPane.getFrameForComponent(this), purchaseOrder);
+            purchaseOrderForm.setVisible(true);
+
+            if (purchaseOrderForm.isActionPerformed()) {
+                LOG.info("Purchase order has been register, showing data");
                 refreshDataTable(purchaseOrderBusiness.all());
+            } else {
+                LOG.debug("No action has performed");
             }
         } else {
             javax.swing.JOptionPane.showMessageDialog(this,

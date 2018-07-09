@@ -11,7 +11,8 @@ import pe.edu.unmsm.fisi.market.business.impl.ProductBusiness;
 import pe.edu.unmsm.fisi.market.model.Manufacturer;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.ProductCode;
-import pe.edu.unmsm.fisi.market.util.AppUtils;
+
+import static pe.edu.unmsm.fisi.market.util.AppUtils.*;
 
 /**
  * @author Cesardl
@@ -92,7 +93,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
 
         labelQuantity.setText("Cantidad");
 
-        textFieldProductId.setEnabled(false);
+        textFieldProductId.setEditable(false);
 
         comboBoxManufacturer.setFocusable(false);
 
@@ -263,7 +264,7 @@ public class JDialogProductForm extends javax.swing.JDialog {
                 javax.swing.JOptionPane.showMessageDialog(this,
                         "No se puede agregar el producto!",
                         getTitle(), javax.swing.JOptionPane.ERROR_MESSAGE);
-                AppUtils.markTextField(textFieldDescription);
+                markTextField(textFieldDescription);
             }
         } else {
             javax.swing.JOptionPane.showMessageDialog(this,
@@ -274,23 +275,23 @@ public class JDialogProductForm extends javax.swing.JDialog {
 
     private boolean catchingData() {
         String description = textFieldDescription.getText().trim();
-        double purchaseCost = AppUtils.toDouble(textFieldPurchaseCost.getText().trim());
-        double markup = AppUtils.toDouble(textFieldMarkup.getText().trim());
-        int quantityOnHand = AppUtils.toInteger(String.valueOf(spinnerQuantity.getValue()));
+        double purchaseCost = toDouble(textFieldPurchaseCost.getText().trim());
+        double markup = toDouble(textFieldMarkup.getText().trim());
+        int quantityOnHand = toInteger(String.valueOf(spinnerQuantity.getValue()));
 
         if (description.length() == 0) {
-            AppUtils.markTextField(textFieldDescription);
+            markTextField(textFieldDescription);
             return false;
         }
-        if (purchaseCost == AppUtils.ERROR_NUMBER || purchaseCost == 0) {
-            AppUtils.markTextField(textFieldPurchaseCost);
+        if (purchaseCost == ERROR_NUMBER || purchaseCost == 0) {
+            markTextField(textFieldPurchaseCost);
             return false;
         }
-        if (markup == AppUtils.ERROR_NUMBER) {
-            AppUtils.markTextField(textFieldMarkup);
+        if (markup == ERROR_NUMBER) {
+            markTextField(textFieldMarkup);
             return false;
         }
-        if (quantityOnHand == AppUtils.ERROR_NUMBER) {
+        if (quantityOnHand == ERROR_NUMBER) {
             spinnerQuantity.requestFocus();
             return false;
         }

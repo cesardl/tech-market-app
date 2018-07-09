@@ -11,10 +11,11 @@ import pe.edu.unmsm.fisi.market.business.impl.CustomerBusiness;
 import pe.edu.unmsm.fisi.market.model.Customer;
 import pe.edu.unmsm.fisi.market.model.DiscountCode;
 import pe.edu.unmsm.fisi.market.model.MicroMarket;
-import pe.edu.unmsm.fisi.market.util.AppUtils;
 import pe.edu.unmsm.fisi.market.util.TechMarketValidator;
 
 import java.util.Map;
+
+import static pe.edu.unmsm.fisi.market.util.AppUtils.*;
 
 /**
  * @author Cesardl
@@ -311,7 +312,7 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
                 javax.swing.JOptionPane.showMessageDialog(this,
                         "No se puede agregar el cliente!",
                         getTitle(), javax.swing.JOptionPane.ERROR_MESSAGE);
-                AppUtils.markTextField(textFieldName);
+                markTextField(textFieldName);
             }
         } else {
             processIfHasError("name", errors, textFieldName);
@@ -330,21 +331,21 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
         if (!errorProcessed && errors.containsKey(key)) {
             javax.swing.JOptionPane.showMessageDialog(this,
                     key.concat(" ").concat(errors.get(key)), getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
-            AppUtils.markTextField(textField);
+            markTextField(textField);
             errorProcessed = true;
         }
     }
 
     private Map<String, String> catchingData() {
-        String name = AppUtils.clean(textFieldName.getText());
-        String addressLine1 = AppUtils.clean(textFieldAddressLine1.getText());
-        String addressLine2 = AppUtils.clean(textFieldAddressLine2.getText());
-        String city = AppUtils.clean(textFieldCity.getText());
-        String state = AppUtils.clean(textFieldState.getText());
-        String phone = AppUtils.clean(textFieldPhone.getText());
-        String fax = AppUtils.clean(textFieldFax.getText());
-        String email = AppUtils.clean(textFieldEmail.getText());
-        Long creditLine = AppUtils.toLong(textFieldCreditLine.getText().trim());
+        String name = clean(textFieldName.getText());
+        String addressLine1 = clean(textFieldAddressLine1.getText());
+        String addressLine2 = clean(textFieldAddressLine2.getText());
+        String city = clean(textFieldCity.getText());
+        String state = clean(textFieldState.getText());
+        String phone = clean(textFieldPhone.getText());
+        String fax = clean(textFieldFax.getText());
+        String email = clean(textFieldEmail.getText());
+        Long creditLine = toLong(textFieldCreditLine.getText().trim());
 
         customer.setName(name);
         customer.setDiscountCode(comboBoxDiscountCode.getItemAt(comboBoxDiscountCode.getSelectedIndex()));
