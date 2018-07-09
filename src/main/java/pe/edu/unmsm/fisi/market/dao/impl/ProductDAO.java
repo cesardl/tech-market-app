@@ -26,7 +26,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
     public Collection<Product> getAll() {
         String sql = "SELECT PRODUCT_ID, DESCRIPTION FROM PRODUCT WHERE QUANTITY_ON_HAND <> 0 AND AVAILABLE = TRUE";
 
-        LOG.debug("[SQL] {}", sql);
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
@@ -56,7 +56,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
         String sql = "INSERT INTO PRODUCT(PRODUCT_ID, MANUFACTURER_ID, PRODUCT_CODE, PURCHASE_COST, QUANTITY_ON_HAND, MARKUP, AVAILABLE, DESCRIPTION) "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
-        LOG.debug("[SQL] {}", sql);
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -82,9 +82,10 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
     @Override
     public boolean update(final Product product) {
-        String sql = "UPDATE PRODUCT SET MANUFACTURER_ID = ?, PRODUCT_CODE = ?, PURCHASE_COST = ?, QUANTITY_ON_HAND = ?, MARKUP = ?, AVAILABLE = ?, DESCRIPTION = ? WHERE PRODUCT_ID = ?";
+        String sql = "UPDATE PRODUCT SET MANUFACTURER_ID = ?, PRODUCT_CODE = ?, PURCHASE_COST = ?, QUANTITY_ON_HAND = ?, MARKUP = ?, AVAILABLE = ?, DESCRIPTION = ? " +
+                "WHERE PRODUCT_ID = ?";
 
-        LOG.debug("[SQL] {}", sql);
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
         try (Connection connection = ConnectionUtils.openConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -116,7 +117,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
                 + "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE "
                 + "WHERE PRODUCT_ID = ?";
 
-        LOG.debug("[SQL] {}", sql);
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -143,7 +144,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
                 + "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE "
                 + "WHERE UPPER(P.DESCRIPTION) LIKE ?";
 
-        LOG.debug("[SQL] {}", sql);
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
         try (Connection conn = ConnectionUtils.openConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -169,7 +170,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
     public boolean delete(final Product product) {
         String sql = "DELETE FROM PRODUCT WHERE PRODUCT_ID = ?";
 
-        LOG.debug("[SQL] {}", sql);
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
         try (Connection connection = ConnectionUtils.openConnection();
              PreparedStatement ps = connection.prepareStatement(sql)) {

@@ -69,6 +69,36 @@ public class CustomerBusinessTest {
     }
 
     @Test
+    public void successSearchByIdAndUpdateCustomersTest() {
+        Customer result = customerBusiness.findById(2);
+        assertNotNull(result.getCustomerId());
+        assertNotNull(result.getDiscountCode());
+        assertNotNull(result.getDiscountCode().getDiscountCode());
+        assertNotNull(result.getMicroMarket());
+        assertNotNull(result.getMicroMarket().getZipCode());
+        assertNotNull(result.getName());
+        assertNotNull(result.getAddressLine1());
+        assertNotNull(result.getAddressLine2());
+        assertNotNull(result.getCity());
+        assertNotNull(result.getState());
+        assertNotNull(result.getPhone());
+        assertNotNull(result.getFax());
+        assertNotNull(result.getEmail());
+        assertNotNull(result.getCreditLimit());
+
+        String originalEmail = result.getEmail();
+        result.setEmail(null);
+        boolean hasBeenUpdated = customerBusiness.saveOrUpdate(result);
+
+        assertTrue(hasBeenUpdated);
+
+        result.setEmail(originalEmail);
+        hasBeenUpdated = customerBusiness.saveOrUpdate(result);
+
+        assertTrue(hasBeenUpdated);
+    }
+
+    @Test
     public void getDiscountCodesTest() {
         Collection<DiscountCode> result = customerBusiness.getDiscountCodes();
         assertFalse(result.isEmpty());

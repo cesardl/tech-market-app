@@ -80,6 +80,11 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
                 tableDataMouseClicked(evt);
             }
         });
+        tableData.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tableDataKeyPressed(evt);
+            }
+        });
         scrollPane.setViewportView(tableData);
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
@@ -147,6 +152,33 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    @Override
+    public void setVisible(boolean b) {
+        if (b) {
+            refreshDataTable(customerBusiness.all());
+        }
+
+        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void refreshDataTable(Collection<Customer> customers) {
+        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) tableData.getModel();
+
+        int rowCount = dtm.getRowCount();
+        //Remove rows one by one from the end of the table
+        for (int i = rowCount - 1; i >= 0; i--) {
+            dtm.removeRow(i);
+        }
+
+        customers.forEach(c -> {
+            Object[] rowData = {
+                c.getCustomerId(), c.getName(), c.getCity(), c.getPhone(), c.getEmail()
+            };
+            dtm.addRow(rowData);
+        });
+        labelTotalRows.setText(String.valueOf(customers.size()));
+    }
+
     private void buttonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAddActionPerformed
         LOG.trace(evt.paramString());
         JDialogCustomerForm customerForm = new JDialogCustomerForm(
@@ -178,6 +210,15 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tableDataMouseClicked
 
+    private void tableDataKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tableDataKeyPressed
+        int selectedRow = tableData.getSelectedRow();
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_DELETE && selectedRow != -1) {
+
+            Integer customerId = (Integer) tableData.getValueAt(selectedRow, 0);
+            deleteCustomerAction(customerId);
+        }
+    }//GEN-LAST:event_tableDataKeyPressed
+
     private void showCustomer(int customerId) {
         Customer customer = customerBusiness.findById(customerId);
 
@@ -194,31 +235,24 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
         }
     }
 
-    @Override
-    public void setVisible(boolean b) {
-        if (b) {
-            refreshDataTable(customerBusiness.all());
+    private void deleteCustomerAction(int customerId) {
+        int optionChosen = javax.swing.JOptionPane.showConfirmDialog(this,
+                "Seguro que desea eliminar el producto?", getTitle(),
+                javax.swing.JOptionPane.YES_NO_OPTION,
+                javax.swing.JOptionPane.QUESTION_MESSAGE);
+
+        if (javax.swing.JOptionPane.YES_OPTION == optionChosen) {
+
+            if (customerBusiness.delete(customerId)) {
+                Collection<Customer> customers = customerBusiness.all();
+                LOG.info("Customer has been deleted, showing data");
+                refreshDataTable(customers);
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "No se pudo borrar el cliente.", getTitle(),
+                        javax.swing.JOptionPane.WARNING_MESSAGE);
+            }
         }
-
-        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void refreshDataTable(Collection<Customer> customers) {
-        javax.swing.table.DefaultTableModel dtm = (javax.swing.table.DefaultTableModel) tableData.getModel();
-
-        int rowCount = dtm.getRowCount();
-        //Remove rows one by one from the end of the table
-        for (int i = rowCount - 1; i >= 0; i--) {
-            dtm.removeRow(i);
-        }
-
-        customers.forEach(c -> {
-            Object[] rowData = {
-                c.getCustomerId(), c.getName(), c.getCity(), c.getPhone(), c.getEmail()
-            };
-            dtm.addRow(rowData);
-        });
-        labelTotalRows.setText(String.valueOf(customers.size()));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

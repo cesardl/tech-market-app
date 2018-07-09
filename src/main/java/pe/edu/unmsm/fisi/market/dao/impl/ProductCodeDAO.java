@@ -25,9 +25,13 @@ public class ProductCodeDAO implements MasterCrudDAO<ProductCode> {
 
     @Override
     public Collection<ProductCode> getAll() {
+        String sql = "SELECT PROD_CODE, DESCRIPTION FROM PRODUCT_CODE";
+
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
+
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
-            s.execute("SELECT PROD_CODE, DESCRIPTION FROM PRODUCT_CODE");
+            s.execute(sql);
 
             try (ResultSet rs = s.getResultSet()) {
                 Collection<ProductCode> productCodes = new ArrayList<>();

@@ -1,5 +1,7 @@
 package pe.edu.unmsm.fisi.market.model;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created on 07/07/2018.
  *
@@ -7,6 +9,7 @@ package pe.edu.unmsm.fisi.market.model;
  */
 public class DiscountCode {
 
+    @NotNull
     private Character discountCode;
     private Double rate;
 

@@ -55,7 +55,7 @@ public abstract class TemplateBusiness<T> {
                 return ThreadLocalRandom.current().nextInt(10000000, 100000000);
 
             default:
-                return ThreadLocalRandom.current().nextInt();
+                return ThreadLocalRandom.current().nextInt(1000000);
         }
     }
 }

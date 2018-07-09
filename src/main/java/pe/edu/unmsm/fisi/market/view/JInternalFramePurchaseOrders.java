@@ -62,7 +62,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         javax.swing.JPanel panelPurchaseOrders = new javax.swing.JPanel();
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
         tablePurchaseOrders = new javax.swing.JTable();
-        javax.swing.JLabel jLabelTotal = new javax.swing.JLabel();
+        javax.swing.JLabel labelTotal = new javax.swing.JLabel();
         labelTotalRows = new javax.swing.JLabel();
 
         setClosable(true);
@@ -171,7 +171,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        jLabelTotal.setText("Total:");
+        labelTotal.setText("Total:");
 
         labelTotalRows.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         labelTotalRows.setText("0");
@@ -188,7 +188,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelTotal)
+                .addComponent(labelTotal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelTotalRows)
                 .addGap(21, 21, 21))
@@ -202,7 +202,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                 .addComponent(panelPurchaseOrders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabelTotal)
+                    .addComponent(labelTotal)
                     .addComponent(labelTotalRows))
                 .addContainerGap())
         );
@@ -249,12 +249,15 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         LOG.trace(evt.paramString());
 
         if (catchingData()) {
-            boolean result = purchaseOrderBusiness.saveOrUpdate(purchaseOrder);
-            if (result) {
-                javax.swing.JOptionPane.showMessageDialog(this,
-                        "Se registró la orden de compra correctamente!",
-                        getTitle(), javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            JDialogPurchaseOrderForm purchaseOrderForm = new JDialogPurchaseOrderForm(
+                    javax.swing.JOptionPane.getFrameForComponent(this), purchaseOrder);
+            purchaseOrderForm.setVisible(true);
+
+            if (purchaseOrderForm.isActionPerformed()) {
+                LOG.info("Purchase order has been register, showing data");
                 refreshDataTable(purchaseOrderBusiness.all());
+            } else {
+                LOG.debug("No action has performed");
             }
         } else {
             javax.swing.JOptionPane.showMessageDialog(this,

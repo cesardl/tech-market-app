@@ -25,9 +25,13 @@ public class DiscountCodeDAO implements MasterCrudDAO<DiscountCode> {
 
     @Override
     public Collection<DiscountCode> getAll() {
+        String sql = "SELECT DISCOUNT_CODE, RATE FROM DISCOUNT_CODE";
+
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
+
         try (Connection conn = ConnectionUtils.openConnection();
              Statement s = conn.createStatement()) {
-            s.execute("SELECT DISCOUNT_CODE, RATE FROM DISCOUNT_CODE");
+            s.execute(sql);
 
             try (ResultSet rs = s.getResultSet()) {
                 Collection<DiscountCode> discountCodes = new ArrayList<>();
