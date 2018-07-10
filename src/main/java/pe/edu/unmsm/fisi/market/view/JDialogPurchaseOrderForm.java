@@ -7,18 +7,27 @@ package pe.edu.unmsm.fisi.market.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pe.edu.unmsm.fisi.market.business.impl.PurchaseOrderBusiness;
 import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
+import pe.edu.unmsm.fisi.market.util.TechMarketValidator;
+
+import java.util.Map;
 
 /**
  * @author Cesardl
  */
 public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
 
+    private static final long serialVersionUID = 6256230555228784106L;
+
     private static final Logger LOG = LoggerFactory.getLogger(JDialogPurchaseOrderForm.class);
 
+    private final PurchaseOrderBusiness purchaseOrderBusiness;
     private final PurchaseOrder purchaseOrder;
+    private final TechMarketValidator<PurchaseOrder> validator;
 
     private boolean actionPerformed;
+    private boolean errorProcessed;
 
     /**
      * @inheritDoc
@@ -26,7 +35,9 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
     public JDialogPurchaseOrderForm(java.awt.Frame parent, PurchaseOrder purchaseOrder) {
         super(parent);
 
+        this.purchaseOrderBusiness = PurchaseOrderBusiness.getInstance();
         this.purchaseOrder = purchaseOrder;
+        this.validator = new TechMarketValidator<>();
         this.actionPerformed = false;
 
         initComponents();
@@ -53,9 +64,9 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
         javax.swing.JLabel labelFreightCompany = new javax.swing.JLabel();
         textFieldCustomer = new javax.swing.JTextField();
         textFieldProduct = new javax.swing.JTextField();
-        formattedTextFieldQuantity = new javax.swing.JFormattedTextField();
         formattedTextFieldShippingCost = new javax.swing.JFormattedTextField();
         comboBoxFreightCompany = new javax.swing.JComboBox<>();
+        spinnerQuantity = new javax.swing.JSpinner();
         javax.swing.JButton buttonConfirm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -80,11 +91,11 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
 
         textFieldProduct.setEditable(false);
 
-        formattedTextFieldQuantity.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-
         formattedTextFieldShippingCost.setEditable(false);
 
         comboBoxFreightCompany.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--", "Coastal Freight", "FR Express", "Poney Express", "Slow Snail", "Southern Delivery Service", "We deliver", "Western Fast" }));
+
+        spinnerQuantity.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -92,11 +103,11 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panelLayout.createSequentialGroup()
                         .addComponent(labelFreightCompany)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboBoxFreightCompany, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(comboBoxFreightCompany, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelShippingCost)
@@ -106,9 +117,11 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
                         .addGap(14, 14, 14)
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(textFieldProduct, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(formattedTextFieldQuantity, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(formattedTextFieldShippingCost)
-                            .addComponent(textFieldCustomer))))
+                            .addComponent(textFieldCustomer)
+                            .addGroup(panelLayout.createSequentialGroup()
+                                .addComponent(spinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         panelLayout.setVerticalGroup(
@@ -123,9 +136,9 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
                     .addComponent(textFieldProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelProduct))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(formattedTextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelQuantity))
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelQuantity)
+                    .addComponent(spinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(formattedTextFieldShippingCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -138,6 +151,11 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
         );
 
         buttonConfirm.setText("Confirmar compra");
+        buttonConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonConfirmActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -148,7 +166,7 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 263, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(buttonConfirm)))
                 .addContainerGap())
         );
@@ -171,15 +189,46 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
         if (b) {
             textFieldCustomer.setText(purchaseOrder.getCustomer().getName());
             textFieldProduct.setText(purchaseOrder.getProduct().getDescription());
-            formattedTextFieldQuantity.setText(String.valueOf(purchaseOrder.getQuantity()));
+            spinnerQuantity.setValue(purchaseOrder.getQuantity());
+            formattedTextFieldShippingCost.setValue(purchaseOrder.getShippingCost());
+
+            for (int index = 0; index < comboBoxFreightCompany.getItemCount(); index++) {
+                String freightCompany = comboBoxFreightCompany.getItemAt(index);
+                if (freightCompany.equals(purchaseOrder.getFreightCompany())) {
+                    comboBoxFreightCompany.setSelectedItem(freightCompany);
+                    break;
+                }
+            }
         }
         super.setVisible(b);
     }
 
+    private void buttonConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConfirmActionPerformed
+        LOG.trace(evt.paramString());
+
+        errorProcessed = false;
+        Map<String, String> errors = catchingData();
+        if (errors.isEmpty()) {
+
+        } else {
+
+        }
+    }//GEN-LAST:event_buttonConfirmActionPerformed
+
+    private Map<String, String> catchingData() {
+        Map<String, String> errors = validator.validate(purchaseOrder);
+
+        if (comboBoxFreightCompany.getSelectedIndex() == 0) {
+            errors.put("freightCompany", "selección incorrecta");
+        }
+
+        return errors;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboBoxFreightCompany;
-    private javax.swing.JFormattedTextField formattedTextFieldQuantity;
     private javax.swing.JFormattedTextField formattedTextFieldShippingCost;
+    private javax.swing.JSpinner spinnerQuantity;
     private javax.swing.JTextField textFieldCustomer;
     private javax.swing.JTextField textFieldProduct;
     // End of variables declaration//GEN-END:variables

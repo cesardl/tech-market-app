@@ -68,4 +68,39 @@ public class PurchaseOrderBusinessTest {
         result = purchaseOrderBusiness.all();
         assertEquals(1, result.size());
     }
+
+    @Test
+    public void successSearchByIdAndUpdatePurchaseOrdersTest() {
+        int identifier = 10398001;
+
+        PurchaseOrder result = purchaseOrderBusiness.findById(identifier);
+        assertNotNull(result.getOrderNum());
+        assertNotNull(result.getCustomer());
+        assertNotNull(result.getCustomer().getCustomerId());
+        assertNotNull(result.getCustomer().getName());
+        assertNotNull(result.getProduct());
+        assertNotNull(result.getProduct().getProductId());
+        assertNotNull(result.getProduct().getDescription());
+        assertNotNull(result.getQuantity());
+        assertNotNull(result.getShippingCost());
+        assertNotNull(result.getSalesDate());
+        assertNotNull(result.getShippingDate());
+        assertNotNull(result.getFreightCompany());
+
+        Integer originalQuantity = result.getQuantity();
+        Integer tempQuantity = 1000;
+        result.setQuantity(tempQuantity);
+        boolean hasBeenUpdated = purchaseOrderBusiness.saveOrUpdate(result);
+
+        assertTrue(hasBeenUpdated);
+        result = purchaseOrderBusiness.findById(identifier);
+        assertEquals(tempQuantity, result.getQuantity());
+
+        result.setQuantity(originalQuantity);
+        hasBeenUpdated = purchaseOrderBusiness.saveOrUpdate(result);
+
+        assertTrue(hasBeenUpdated);
+        result = purchaseOrderBusiness.findById(identifier);
+        assertEquals(originalQuantity, result.getQuantity());
+    }
 }

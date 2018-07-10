@@ -26,10 +26,10 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
 
     private static final Logger LOG = LoggerFactory.getLogger(JDialogCustomerForm.class);
 
-    private final Customer customer;
     private final CustomerBusiness customerBusiness;
+    private final Customer customer;
+    private final TechMarketValidator<Customer> validator;
 
-    private TechMarketValidator<Customer> validator;
     private boolean actionPerformed;
     private boolean errorProcessed;
 
@@ -253,11 +253,11 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
         if (b) {
             comboBoxDiscountCode.setModel(
                     new javax.swing.DefaultComboBoxModel<>(
-                            new java.util.Vector<>(customerBusiness.getDiscountCodes())));
+                            customerBusiness.getDiscountCodes().toArray(new DiscountCode[0])));
 
             comboBoxMicroMarket.setModel(
                     new javax.swing.DefaultComboBoxModel<>(
-                            new java.util.Vector<>(customerBusiness.getMicroMarkets())));
+                            customerBusiness.getMicroMarkets().toArray(new MicroMarket[0])));
 
             if (customer.getCustomerId() != null) {
                 showData();

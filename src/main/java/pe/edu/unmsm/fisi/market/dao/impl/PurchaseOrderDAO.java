@@ -68,7 +68,11 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
 
     @Override
     public PurchaseOrder findById(final int identifier) {
-        String sql = "SELECT ORDER_NUM, SALES_DATE, SHIPPING_DATE FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
+        String sql = "SELECT C.CUSTOMER_ID, C.NAME, P.PRODUCT_ID, P.DESCRIPTION, PO.QUANTITY, PO.SHIPPING_COST, PO.SALES_DATE, PO.SHIPPING_DATE, PO.FREIGHT_COMPANY " +
+                "FROM PURCHASE_ORDER PO " +
+                "INNER JOIN CUSTOMER C on PO.CUSTOMER_ID = C.CUSTOMER_ID " +
+                "INNER JOIN PRODUCT P on PO.PRODUCT_ID = P.PRODUCT_ID " +
+                "WHERE PO.ORDER_NUM = ?";
 
         LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
@@ -79,11 +83,24 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
             try (ResultSet rs = ps.executeQuery()) {
 
                 if (rs.next()) {
-                    PurchaseOrder pu = new PurchaseOrder();
-                    pu.setOrderNum(rs.getInt("ORDER_NUM"));
-                    pu.setSalesDate(rs.getDate("SALES_DATE"));
-                    pu.setShippingDate(rs.getDate("SHIPPING_DATE"));
-                    return pu;
+                    Customer customer = new Customer();
+                    customer.setCustomerId(rs.getInt(1));
+                    customer.setName(rs.getString(2));
+
+                    Product product = new Product();
+                    product.setProductId(rs.getInt(3));
+                    product.setDescription(rs.getString(4));
+
+                    PurchaseOrder purchaseOrder = new PurchaseOrder();
+                    purchaseOrder.setOrderNum(identifier);
+                    purchaseOrder.setCustomer(customer);
+                    purchaseOrder.setProduct(product);
+                    purchaseOrder.setQuantity(rs.getInt(5));
+                    purchaseOrder.setShippingCost(rs.getBigDecimal(6));
+                    purchaseOrder.setSalesDate(rs.getDate(7));
+                    purchaseOrder.setShippingDate(rs.getDate(8));
+                    purchaseOrder.setFreightCompany(rs.getString(9));
+                    return purchaseOrder;
                 }
             }
 
@@ -95,8 +112,8 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
 
     @Override
     public boolean save(final PurchaseOrder purchaseOrder) {
-        String sql = "INSERT INTO PURCHASE_ORDER(ORDER_NUM, CUSTOMER_ID, PRODUCT_ID, QUANTITY, SALES_DATE, SHIPPING_DATE) "
-                + "VALUES(?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO PURCHASE_ORDER(ORDER_NUM, CUSTOMER_ID, PRODUCT_ID, QUANTITY, SHIPPING_COST, SALES_DATE, SHIPPING_DATE, FREIGHT_COMPANY) "
+                + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
@@ -107,8 +124,10 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
             ps.setInt(2, purchaseOrder.getCustomer().getCustomerId());
             ps.setInt(3, purchaseOrder.getProduct().getProductId());
             ps.setInt(4, purchaseOrder.getQuantity());
-            ps.setDate(5, new java.sql.Date(purchaseOrder.getSalesDate().getTime()));
-            ps.setDate(6, new java.sql.Date(purchaseOrder.getShippingDate().getTime()));
+            ps.setBigDecimal(5, purchaseOrder.getShippingCost());
+            ps.setDate(6, new java.sql.Date(purchaseOrder.getSalesDate().getTime()));
+            ps.setDate(7, new java.sql.Date(purchaseOrder.getShippingDate().getTime()));
+            ps.setString(8, purchaseOrder.getFreightCompany());
 
             int result = ps.executeUpdate();
 
@@ -121,8 +140,32 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
     }
 
     @Override
-    public boolean update(PurchaseOrder t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean update(final PurchaseOrder purchaseOrder) {
+        String sql = "UPDATE PURCHASE_ORDER SET CUSTOMER_ID = ?, PRODUCT_ID = ?, QUANTITY = ?, SHIPPING_COST = ?, SALES_DATE = ?, SHIPPING_DATE = ?, FREIGHT_COMPANY = ? " +
+                "WHERE ORDER_NUM = ?";
+
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
+
+        try (Connection connection = ConnectionUtils.openConnection();
+             PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            ps.setInt(1, purchaseOrder.getCustomer().getCustomerId());
+            ps.setInt(2, purchaseOrder.getProduct().getProductId());
+            ps.setInt(3, purchaseOrder.getQuantity());
+            ps.setBigDecimal(4, purchaseOrder.getShippingCost());
+            ps.setDate(5, new java.sql.Date(purchaseOrder.getSalesDate().getTime()));
+            ps.setDate(6, new java.sql.Date(purchaseOrder.getShippingDate().getTime()));
+            ps.setString(7, purchaseOrder.getFreightCompany());
+            ps.setInt(8, purchaseOrder.getOrderNum());
+
+            int result = ps.executeUpdate();
+
+            LOG.debug("Number of affected rows {}", result);
+            return true;
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            return false;
+        }
     }
 
     @Override

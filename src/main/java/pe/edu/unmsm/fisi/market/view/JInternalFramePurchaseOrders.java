@@ -16,7 +16,6 @@ import pe.edu.unmsm.fisi.market.business.impl.PurchaseOrderBusiness;
 import pe.edu.unmsm.fisi.market.model.Customer;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
-import pe.edu.unmsm.fisi.market.util.AppUtils;
 
 /**
  * @author Eliana Zapata
@@ -30,7 +29,6 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
     private final CustomerBusiness customerBusiness;
     private final ProductBusiness productBusiness;
     private final PurchaseOrderBusiness purchaseOrderBusiness;
-    private PurchaseOrder purchaseOrder;
 
     /**
      * Creates new form JInternalFrameVentas
@@ -39,6 +37,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         customerBusiness = CustomerBusiness.getInstance();
         productBusiness = ProductBusiness.getInstance();
         purchaseOrderBusiness = PurchaseOrderBusiness.getInstance();
+
         initComponents();
     }
 
@@ -56,8 +55,6 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         comboBoxCustomer = new javax.swing.JComboBox<>();
         javax.swing.JLabel labelProduct = new javax.swing.JLabel();
         comboBoxProduct = new javax.swing.JComboBox<>();
-        javax.swing.JLabel labelQuantity = new javax.swing.JLabel();
-        spinnerQuantity = new javax.swing.JSpinner();
         javax.swing.JButton buttonBuy = new javax.swing.JButton();
         javax.swing.JPanel panelPurchaseOrders = new javax.swing.JPanel();
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
@@ -75,10 +72,6 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
 
         labelProduct.setText("Producto");
 
-        labelQuantity.setText("Cantidad");
-
-        spinnerQuantity.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
-
         buttonBuy.setText("Comprar");
         buttonBuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,14 +86,10 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
             .addGroup(panelBuyLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelQuantity)
                     .addComponent(labelProduct)
                     .addComponent(labelCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(comboBoxProduct, 0, 353, Short.MAX_VALUE)
-                    .addGroup(panelBuyLayout.createSequentialGroup()
-                        .addComponent(spinnerQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                        .addGap(256, 256, 256))
                     .addComponent(comboBoxCustomer, 0, 353, Short.MAX_VALUE))
                 .addGap(171, 171, 171)
                 .addComponent(buttonBuy)
@@ -115,14 +104,10 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                     .addComponent(comboBoxCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(labelProduct)
                     .addComponent(comboBoxProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelProduct))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(spinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelQuantity)
                     .addComponent(buttonBuy))
-                .addGap(8, 8, 8))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelPurchaseOrders.setBorder(javax.swing.BorderFactory.createTitledBorder("Ordenes de Compra"));
@@ -167,7 +152,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
             panelPurchaseOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPurchaseOrdersLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -199,12 +184,12 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(panelBuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelPurchaseOrders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelPurchaseOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelTotal)
                     .addComponent(labelTotalRows))
-                .addContainerGap())
+                .addGap(13, 13, 13))
         );
 
         pack();
@@ -215,11 +200,11 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         if (b) {
             comboBoxCustomer.setModel(
                     new javax.swing.DefaultComboBoxModel<>(
-                            new java.util.Vector<>(customerBusiness.all())));
+                            customerBusiness.all().toArray(new Customer[0])));
 
             comboBoxProduct.setModel(
                     new javax.swing.DefaultComboBoxModel<>(
-                            new java.util.Vector<>(productBusiness.all())));
+                            productBusiness.all().toArray(new Product[0])));
 
             refreshDataTable(purchaseOrderBusiness.all());
         }
@@ -248,55 +233,55 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
     private void buttonBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuyActionPerformed
         LOG.trace(evt.paramString());
 
-        if (catchingData()) {
-            JDialogPurchaseOrderForm purchaseOrderForm = new JDialogPurchaseOrderForm(
-                    javax.swing.JOptionPane.getFrameForComponent(this), purchaseOrder);
-            purchaseOrderForm.setVisible(true);
-
-            if (purchaseOrderForm.isActionPerformed()) {
-                LOG.info("Purchase order has been register, showing data");
-                refreshDataTable(purchaseOrderBusiness.all());
-            } else {
-                LOG.debug("No action has performed");
-            }
-        } else {
+        PurchaseOrder purchaseOrder = catchingData();
+        if (purchaseOrder == null) {
             javax.swing.JOptionPane.showMessageDialog(this,
                     "Ingrese correctamente los datos de compra",
                     getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
+        } else {
+            processPurchaseOrder(purchaseOrder);
         }
     }//GEN-LAST:event_buttonBuyActionPerformed
 
-    private boolean catchingData() {
-        int quantity = AppUtils.toInteger(String.valueOf(spinnerQuantity.getValue()));
-
-        if (quantity == AppUtils.ERROR_NUMBER || quantity == 0) {
-            spinnerQuantity.requestFocus();
-            return false;
-        }
-        purchaseOrder = new PurchaseOrder();
+    private PurchaseOrder catchingData() {
+        PurchaseOrder purchaseOrder = new PurchaseOrder();
         purchaseOrder.setCustomer(comboBoxCustomer.getItemAt(comboBoxCustomer.getSelectedIndex()));
         purchaseOrder.setProduct(comboBoxProduct.getItemAt(comboBoxProduct.getSelectedIndex()));
-        purchaseOrder.setQuantity(quantity);
-        return true;
+        return purchaseOrder;
     }
 
     private void tablePurchaseOrdersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePurchaseOrdersMouseClicked
         if (evt.getClickCount() == 2) {
             javax.swing.JTable target = (javax.swing.JTable) evt.getSource();
             int row = target.getSelectedRow();
-            System.out.println(" double click " + row);
+
             DefaultTableModel dtm = (DefaultTableModel) target.getModel();
 
-            // TODO Complete
-            System.out.println(dtm.getValueAt(row, 0));
+            Integer purchaseOrderNum = (Integer) dtm.getValueAt(row, 0);
+            LOG.debug("Getting purchase order number {}", purchaseOrderNum);
+
+            PurchaseOrder purchaseOrder = purchaseOrderBusiness.findById(purchaseOrderNum);
+            processPurchaseOrder(purchaseOrder);
         }
     }//GEN-LAST:event_tablePurchaseOrdersMouseClicked
+
+    private void processPurchaseOrder(final PurchaseOrder purchaseOrder) {
+        JDialogPurchaseOrderForm purchaseOrderForm = new JDialogPurchaseOrderForm(
+                javax.swing.JOptionPane.getFrameForComponent(this), purchaseOrder);
+        purchaseOrderForm.setVisible(true);
+
+        if (purchaseOrderForm.isActionPerformed()) {
+            LOG.info("Purchase order has been register, showing data");
+            refreshDataTable(purchaseOrderBusiness.all());
+        } else {
+            LOG.debug("No action has performed");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<Customer> comboBoxCustomer;
     private javax.swing.JComboBox<Product> comboBoxProduct;
     private javax.swing.JLabel labelTotalRows;
-    private javax.swing.JSpinner spinnerQuantity;
     private javax.swing.JTable tablePurchaseOrders;
     // End of variables declaration//GEN-END:variables
 }

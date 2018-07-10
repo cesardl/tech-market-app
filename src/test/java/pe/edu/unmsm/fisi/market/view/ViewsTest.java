@@ -3,6 +3,7 @@ package pe.edu.unmsm.fisi.market.view;
 import org.junit.Test;
 import pe.edu.unmsm.fisi.market.model.Customer;
 import pe.edu.unmsm.fisi.market.model.Product;
+import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
 
 import static org.junit.Assert.assertFalse;
 
@@ -52,6 +53,12 @@ public class ViewsTest {
     @Test
     public void dialogProductFormInitializedTest() {
         JDialogProductForm dialog = new JDialogProductForm(null, new Product());
+        assertFalse(dialog.isVisible());
+    }
+
+    @Test
+    public void dialogPurchaseOrderFormInitializedTest() {
+        JDialogPurchaseOrderForm dialog = new JDialogPurchaseOrderForm(null, new PurchaseOrder());
         assertFalse(dialog.isVisible());
     }
 }

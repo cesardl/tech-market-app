@@ -29,6 +29,7 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
      */
     public JInternalFrameCustomers() {
         customerBusiness = CustomerBusiness.getInstance();
+
         initComponents();
     }
 
