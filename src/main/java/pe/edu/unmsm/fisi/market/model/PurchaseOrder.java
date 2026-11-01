@@ -16,6 +16,8 @@ public class PurchaseOrder {
     private Integer orderNum;
     private Customer customer;
     private Product product;
+
+    @Min(value = 1)
     private Integer quantity;
 
     @Digits(integer = 12, fraction = 2)
@@ -23,6 +25,8 @@ public class PurchaseOrder {
     private BigDecimal shippingCost;
 
     private Date salesDate;
+
+    // @FutureOrPresent
     private Date shippingDate;
 
     @Size(max = 30)

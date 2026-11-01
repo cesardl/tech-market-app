@@ -304,7 +304,7 @@ public class JDialogCustomerForm extends javax.swing.JDialog {
         if (errors.isEmpty()) {
             if (customerBusiness.saveOrUpdate(customer)) {
                 javax.swing.JOptionPane.showMessageDialog(this,
-                        "Se registró la orden de compra correctamente!",
+                        "Se registró el cliente correctamente!",
                         getTitle(), javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 actionPerformed = true;
                 dispose();

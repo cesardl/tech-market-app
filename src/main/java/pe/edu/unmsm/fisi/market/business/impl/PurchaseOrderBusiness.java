@@ -39,16 +39,16 @@ public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder> {
 
     @Override
     public boolean saveOrUpdate(final PurchaseOrder purchaseOrder) {
-        Date date = new Date();
-        purchaseOrder.setSalesDate(date);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH, 15);
-        purchaseOrder.setShippingDate(calendar.getTime());
-
         if (purchaseOrder.getOrderNum() == null) {
             LOG.info("Adding purchase order to customer {}", purchaseOrder.getCustomer().getName());
+
+            Date date = new Date();
+            purchaseOrder.setSalesDate(date);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.add(Calendar.DAY_OF_MONTH, 15);
+            purchaseOrder.setShippingDate(calendar.getTime());
 
             int identifier = generateIdentifier();
             purchaseOrder.setOrderNum(identifier);
