@@ -139,8 +139,10 @@ def rows_block(table, columns, rows):
     return out
 
 
-# ---------------------------------------------------------------- DISCOUNT_CODE (adds the 'H' the base seed dangles on)
-new_discounts = [("H", "18.50"), ("L", "5.25"), ("S", "22.00")]
+# ---------------------------------------------------------------- DISCOUNT_CODE
+# S, P and X clash with neither base: market-schema.sql seeds N and M, the APP_*
+# backup holds H, M, L and N. That lets this file load on top of either one.
+new_discounts = [("S", "22.00"), ("P", "14.75"), ("X", "3.50")]
 all_discounts = BASE_DISCOUNT + [c for c, _ in new_discounts]
 
 # ---------------------------------------------------------------- MICRO_MARKET
@@ -269,7 +271,7 @@ header = """/*
  *   load order     DISCOUNT_CODE -> MICRO_MARKET -> MANUFACTURER -> PRODUCT_CODE
  *                  -> CUSTOMER -> PRODUCT -> PURCHASE_ORDER  (foreign keys first)
  *
- *   %5d discount codes (adds H, which the HW product code in market-schema.sql wants)
+ *   %5d discount codes (S, P, X - chosen to clash with neither base)
  *   %5d micro markets
  *   %5d manufacturers
  *   %5d product codes
