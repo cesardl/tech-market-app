@@ -1,4 +1,4 @@
-"""Generate db/data.sql: a FK-consistent volume seed for the Tech Market Derby schema.
+"""Generate db/data.sql: a FK-consistent volume seed for the Tech Market schema.
 
 Deterministic for a given --seed, additive to db/market-schema.sql, and safe to replay
 through DatabaseTestContext (block comments only, no semicolon inside a literal).
@@ -263,7 +263,7 @@ for oid in order_ids:
 # ---------------------------------------------------------------- emit
 available_count = sum(1 for p in new_products if p[6] == "TRUE")
 header = """/*
- * data.sql - performance-testing seed for the Tech Market Derby schema.
+ * data.sql - performance-testing seed for the Tech Market schema.
  *
  * Runs AFTER db/market-schema.sql, and only adds rows: it never touches the
  * identifiers that file already seeds, so the two can be replayed back to back.

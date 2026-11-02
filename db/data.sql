@@ -1,5 +1,5 @@
 /*
- * data.sql - performance-testing seed for the Tech Market Derby schema.
+ * data.sql - performance-testing seed for the Tech Market schema.
  *
  * Runs AFTER db/market-schema.sql, and only adds rows: it never touches the
  * identifiers that file already seeds, so the two can be replayed back to back.
