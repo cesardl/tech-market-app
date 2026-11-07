@@ -125,8 +125,8 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
             ps.setInt(3, purchaseOrder.getProduct().getProductId());
             ps.setInt(4, purchaseOrder.getQuantity());
             ps.setBigDecimal(5, purchaseOrder.getShippingCost());
-            ps.setDate(6, new java.sql.Date(purchaseOrder.getSalesDate().getTime()));
-            ps.setDate(7, new java.sql.Date(purchaseOrder.getShippingDate().getTime()));
+            ps.setDate(6, toSqlDate(purchaseOrder.getSalesDate()));
+            ps.setDate(7, toSqlDate(purchaseOrder.getShippingDate()));
             ps.setString(8, purchaseOrder.getFreightCompany());
 
             int result = ps.executeUpdate();
@@ -153,8 +153,8 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
             ps.setInt(2, purchaseOrder.getProduct().getProductId());
             ps.setInt(3, purchaseOrder.getQuantity());
             ps.setBigDecimal(4, purchaseOrder.getShippingCost());
-            ps.setDate(5, new java.sql.Date(purchaseOrder.getSalesDate().getTime()));
-            ps.setDate(6, new java.sql.Date(purchaseOrder.getShippingDate().getTime()));
+            ps.setDate(5, toSqlDate(purchaseOrder.getSalesDate()));
+            ps.setDate(6, toSqlDate(purchaseOrder.getShippingDate()));
             ps.setString(7, purchaseOrder.getFreightCompany());
             ps.setInt(8, purchaseOrder.getOrderNum());
 
@@ -192,5 +192,13 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
             LOG.error(e.getMessage(), e);
             return false;
         }
+    }
+
+    /**
+     * SALES_DATE and SHIPPING_DATE are both nullable columns, and an order whose date
+     * chooser was cleared arrives here carrying null. A null means "not scheduled".
+     */
+    private static java.sql.Date toSqlDate(final java.util.Date date) {
+        return date == null ? null : new java.sql.Date(date.getTime());
     }
 }

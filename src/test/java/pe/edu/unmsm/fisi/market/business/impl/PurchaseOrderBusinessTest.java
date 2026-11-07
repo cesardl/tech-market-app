@@ -85,6 +85,27 @@ public class PurchaseOrderBusinessTest {
         }
     }
 
+    /**
+     * Clearing the order form's date chooser sends a null shipping date through to the
+     * update, where the DAO used to unbox it.
+     */
+    @Test
+    public void updateAcceptsAnOrderWithNoShippingDateTest() {
+        PurchaseOrder fakePurchaseOrder = PojoFake.purchaseOrder();
+        assertTrue(purchaseOrderBusiness.saveOrUpdate(fakePurchaseOrder));
+        try {
+            PurchaseOrder saved = purchaseOrderBusiness.findById(fakePurchaseOrder.getOrderNum());
+            assertNotNull(saved.getShippingDate());
+
+            saved.setShippingDate(null);
+            assertTrue(purchaseOrderBusiness.saveOrUpdate(saved));
+
+            assertNull(purchaseOrderBusiness.findById(saved.getOrderNum()).getShippingDate());
+        } finally {
+            purchaseOrderBusiness.delete(fakePurchaseOrder.getOrderNum());
+        }
+    }
+
     @Test
     public void deletingAnAbsentPurchaseOrderReportsFailureTest() {
         int identifier = 1;
