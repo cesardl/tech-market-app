@@ -42,7 +42,8 @@ CREATE SCHEMA APP;
 /* 2. the DDL. Brings its own small test seed, which step 3 removes. */
 RUNSCRIPT FROM 'db/market-schema.sql';
 
-/* 3. clear, children before parents */
+/* 3. clear, children before parents. PRODUCT_CODE before DISCOUNT_CODE is
+      required, not tidiness: it references it. */
 DELETE FROM APP.PURCHASE_ORDER;
 DELETE FROM APP.PRODUCT;
 DELETE FROM APP.CUSTOMER;
