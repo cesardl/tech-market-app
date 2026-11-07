@@ -24,7 +24,7 @@
  *   2. runs db/market-schema.sql for the DDL
  *   3. empties every table, which drops the small test seed that file carries,
  *      so the backup below lands as the only content
- *   4. loads the seven APP_*.sql backup files in foreign-key order (109 rows)
+ *   4. loads the seven db/backup/APP_*.sql files in foreign-key order (109 rows)
  *   5. loads db/data.sql on top of it for volume (6,711 rows)
  *
  * For the backup WITHOUT the generated volume, drop the db/data.sql line.
@@ -52,13 +52,13 @@ DELETE FROM APP.MICRO_MARKET;
 DELETE FROM APP.DISCOUNT_CODE;
 
 /* 4. the original backup, parents before children */
-RUNSCRIPT FROM 'APP_DISCOUNT_CODE.sql';
-RUNSCRIPT FROM 'APP_MICRO_MARKET.sql';
-RUNSCRIPT FROM 'APP_MANUFACTURER.sql';
-RUNSCRIPT FROM 'APP_PRODUCT_CODE.sql';
-RUNSCRIPT FROM 'APP_CUSTOMER.sql';
-RUNSCRIPT FROM 'APP_PRODUCT.sql';
-RUNSCRIPT FROM 'APP_PURCHASE_ORDER.sql';
+RUNSCRIPT FROM 'db/backup/APP_DISCOUNT_CODE.sql';
+RUNSCRIPT FROM 'db/backup/APP_MICRO_MARKET.sql';
+RUNSCRIPT FROM 'db/backup/APP_MANUFACTURER.sql';
+RUNSCRIPT FROM 'db/backup/APP_PRODUCT_CODE.sql';
+RUNSCRIPT FROM 'db/backup/APP_CUSTOMER.sql';
+RUNSCRIPT FROM 'db/backup/APP_PRODUCT.sql';
+RUNSCRIPT FROM 'db/backup/APP_PURCHASE_ORDER.sql';
 
 /* 5. generated volume on top. Delete this line for a backup-only restore. */
 RUNSCRIPT FROM 'db/data.sql';

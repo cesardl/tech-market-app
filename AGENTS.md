@@ -56,17 +56,21 @@ Before modifying the application, identify and understand its actual technology 
 
 Each repository should maintain the following information:
 
-- Java version:
-- Build system: Maven / Gradle / Ant / Other
-- UI technology: Java Swing
-- Persistence mechanism: H2 / MySQL / PostgreSQL / Files / Other
-- Logging framework:
-- Testing framework:
-- Dependency injection mechanism, if any:
-- Main application entry point:
-- Build command:
-- Test command:
-- Relevant project documentation:
+- Java version: 21, set once through `maven.compiler.release`
+- Build system: Maven
+- UI technology: Java Swing, NetBeans Matisse forms (`.form` + `.java` pairs)
+- Persistence mechanism: H2, file-based, no server process
+- Logging framework: slf4j over log4j
+- Testing framework: JUnit 4. Mockito is not a dependency — add it only when a
+  test genuinely needs a mock, and prefer asserting behavior over verifying calls
+- Dependency injection mechanism, if any: none. Each business class is an eager
+  singleton that wires its own DAOs in its private constructor. This is deliberate
+  course material, not a gap to close with a container
+- Main application entry point: `pe.edu.unmsm.fisi.market.TechMarketApp.main`
+- Build command: `mvn clean verify`, from the repo root
+- Test command: `mvn test`, from the repo root
+- Relevant project documentation: `README.md` for the overview, `CLAUDE.md` for
+  architecture, database, commands and the gotchas that bite
 
 ### Stack Guidelines
 
