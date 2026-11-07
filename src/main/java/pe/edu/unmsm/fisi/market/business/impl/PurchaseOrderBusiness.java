@@ -39,16 +39,20 @@ public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder> {
 
     @Override
     public boolean saveOrUpdate(final PurchaseOrder purchaseOrder) {
-        Date date = new Date();
-        purchaseOrder.setSalesDate(date);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH, 15);
-        purchaseOrder.setShippingDate(calendar.getTime());
-
         if (purchaseOrder.getOrderNum() == null) {
             LOG.info("Adding purchase order to customer {}", purchaseOrder.getCustomer().getName());
+
+            Date date = new Date();
+            purchaseOrder.setSalesDate(date);
+
+            // Ship in 15 days unless the caller asked for another date: the order form
+            // offers a date chooser, and stamping over it would discard what was typed.
+            if (purchaseOrder.getShippingDate() == null) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                calendar.add(Calendar.DAY_OF_MONTH, 15);
+                purchaseOrder.setShippingDate(calendar.getTime());
+            }
 
             int identifier = generateIdentifier();
             purchaseOrder.setOrderNum(identifier);

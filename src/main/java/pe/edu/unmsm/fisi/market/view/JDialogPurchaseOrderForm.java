@@ -7,18 +7,30 @@ package pe.edu.unmsm.fisi.market.view;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pe.edu.unmsm.fisi.market.business.impl.PurchaseOrderBusiness;
 import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
+import pe.edu.unmsm.fisi.market.util.AppUtils;
+import pe.edu.unmsm.fisi.market.util.TechMarketValidator;
+
+import javax.swing.*;
+import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * @author Cesardl
  */
 public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
 
+    private static final long serialVersionUID = 6256230555228784106L;
+
     private static final Logger LOG = LoggerFactory.getLogger(JDialogPurchaseOrderForm.class);
 
+    private final PurchaseOrderBusiness purchaseOrderBusiness;
     private final PurchaseOrder purchaseOrder;
+    private final TechMarketValidator<PurchaseOrder> validator;
 
     private boolean actionPerformed;
+    private boolean errorProcessed;
 
     /**
      * @inheritDoc
@@ -26,7 +38,9 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
     public JDialogPurchaseOrderForm(java.awt.Frame parent, PurchaseOrder purchaseOrder) {
         super(parent);
 
+        this.purchaseOrderBusiness = PurchaseOrderBusiness.getInstance();
         this.purchaseOrder = purchaseOrder;
+        this.validator = new TechMarketValidator<>();
         this.actionPerformed = false;
 
         initComponents();
@@ -53,9 +67,11 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
         javax.swing.JLabel labelFreightCompany = new javax.swing.JLabel();
         textFieldCustomer = new javax.swing.JTextField();
         textFieldProduct = new javax.swing.JTextField();
-        formattedTextFieldQuantity = new javax.swing.JFormattedTextField();
         formattedTextFieldShippingCost = new javax.swing.JFormattedTextField();
+        dateChooserShippingDate = new com.toedter.calendar.JDateChooser();
         comboBoxFreightCompany = new javax.swing.JComboBox<>();
+        spinnerQuantity = new javax.swing.JSpinner();
+        javax.swing.JLabel labelShippingDate = new javax.swing.JLabel();
         javax.swing.JButton buttonConfirm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -80,11 +96,13 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
 
         textFieldProduct.setEditable(false);
 
-        formattedTextFieldQuantity.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-
-        formattedTextFieldShippingCost.setEditable(false);
+        formattedTextFieldShippingCost.setEditable(true);
 
         comboBoxFreightCompany.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--", "Coastal Freight", "FR Express", "Poney Express", "Slow Snail", "Southern Delivery Service", "We deliver", "Western Fast" }));
+
+        spinnerQuantity.setModel(new javax.swing.SpinnerNumberModel(1, 1, 32767, 1));
+
+        labelShippingDate.setText("Fecha de envío");
 
         javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
         panel.setLayout(panelLayout);
@@ -93,22 +111,23 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelLayout.createSequentialGroup()
-                        .addComponent(labelFreightCompany)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(comboBoxFreightCompany, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(labelShippingCost)
+                    .addComponent(labelQuantity)
+                    .addComponent(labelProduct)
+                    .addComponent(labelCustomer)
+                    .addComponent(labelFreightCompany)
+                    .addComponent(labelShippingDate))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textFieldProduct, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(formattedTextFieldShippingCost)
+                    .addComponent(textFieldCustomer)
                     .addGroup(panelLayout.createSequentialGroup()
                         .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelShippingCost)
-                            .addComponent(labelQuantity)
-                            .addComponent(labelProduct)
-                            .addComponent(labelCustomer))
-                        .addGap(14, 14, 14)
-                        .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textFieldProduct, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(formattedTextFieldQuantity, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(formattedTextFieldShippingCost)
-                            .addComponent(textFieldCustomer))))
+                            .addComponent(spinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateChooserShippingDate, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 90, Short.MAX_VALUE))
+                    .addComponent(comboBoxFreightCompany, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelLayout.setVerticalGroup(
@@ -123,13 +142,17 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
                     .addComponent(textFieldProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelProduct))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(formattedTextFieldQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelQuantity))
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelQuantity)
+                    .addComponent(spinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(formattedTextFieldShippingCost, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(labelShippingCost))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(labelShippingDate)
+                    .addComponent(dateChooserShippingDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(comboBoxFreightCompany, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -138,6 +161,11 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
         );
 
         buttonConfirm.setText("Confirmar compra");
+        buttonConfirm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonConfirmActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -148,7 +176,7 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 263, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(buttonConfirm)))
                 .addContainerGap())
         );
@@ -169,17 +197,121 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
     @Override
     public void setVisible(boolean b) {
         if (b) {
-            textFieldCustomer.setText(purchaseOrder.getCustomer().getName());
-            textFieldProduct.setText(purchaseOrder.getProduct().getDescription());
-            formattedTextFieldQuantity.setText(String.valueOf(purchaseOrder.getQuantity()));
+            showPurchaseOrder();
         }
         super.setVisible(b);
     }
 
+    /**
+     * Copies the order into the widgets. Package-private rather than inlined in
+     * {@link #setVisible(boolean)} because this dialog is modal: a test that showed it
+     * would block until someone closed it by hand.
+     */
+    void showPurchaseOrder() {
+        textFieldCustomer.setText(purchaseOrder.getCustomer().getName());
+        textFieldProduct.setText(purchaseOrder.getProduct().getDescription());
+
+        // A new order carries quantity 0 from PurchaseOrder's own constructor, and
+        // @Min(1) rejects it, so showing it guarantees the first Confirm bounces. Leave
+        // the spinner at its own minimum instead. (null only reaches here from a test,
+        // and JSpinner throws IllegalArgumentException on it.)
+        if (purchaseOrder.getQuantity() != null && purchaseOrder.getQuantity() >= 1) {
+            spinnerQuantity.setValue(purchaseOrder.getQuantity());
+        }
+
+        // setText, not setValue: setValue installs a locale-dependent formatter, and
+        // catchingData() has to read this same text back as a BigDecimal.
+        BigDecimal shippingCost = purchaseOrder.getShippingCost();
+        formattedTextFieldShippingCost.setText(shippingCost == null ? "" : shippingCost.toPlainString());
+
+        dateChooserShippingDate.setDate(purchaseOrder.getShippingDate());
+
+        for (int index = 0; index < comboBoxFreightCompany.getItemCount(); index++) {
+            String freightCompany = comboBoxFreightCompany.getItemAt(index);
+            if (freightCompany.equals(purchaseOrder.getFreightCompany())) {
+                comboBoxFreightCompany.setSelectedItem(freightCompany);
+                break;
+            }
+        }
+    }
+
+    private void buttonConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConfirmActionPerformed
+        LOG.trace(evt.paramString());
+        errorProcessed = false;
+        Map<String, String> errors = catchingData();
+        if (errors.isEmpty()) {
+            if (purchaseOrderBusiness.saveOrUpdate(purchaseOrder)) {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "Se registró la orden de compra correctamente!",
+                        getTitle(), javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                actionPerformed = true;
+                dispose();
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "No se puede agregar la orden de compra!",
+                        getTitle(), javax.swing.JOptionPane.ERROR_MESSAGE);
+                spinnerQuantity.requestFocus();
+            }
+        } else {
+            processIfHasError("shippingCost", errors, formattedTextFieldShippingCost);
+            processIfHasError("quantity", errors, spinnerQuantity);
+            processIfHasError("shippingDate", errors, dateChooserShippingDate);
+            processIfHasError("freightCompany", errors, comboBoxFreightCompany);
+        }
+    }//GEN-LAST:event_buttonConfirmActionPerformed
+
+    /**
+     * Copies the widgets back into the order and validates it. Package-private for
+     * the same reason as {@link #showPurchaseOrder()}.
+     */
+    Map<String, String> catchingData() {
+        purchaseOrder.setQuantity(Integer.valueOf(String.valueOf(spinnerQuantity.getValue())));
+        purchaseOrder.setFreightCompany(comboBoxFreightCompany.getItemAt(comboBoxFreightCompany.getSelectedIndex()));
+        purchaseOrder.setShippingDate(dateChooserShippingDate.getDate());
+
+        String typedShippingCost = AppUtils.clean(formattedTextFieldShippingCost.getText());
+        boolean shippingCostIsANumber = true;
+        purchaseOrder.setShippingCost(null);
+        if (typedShippingCost != null) {
+            try {
+                purchaseOrder.setShippingCost(new BigDecimal(typedShippingCost));
+            } catch (NumberFormatException nfe) {
+                LOG.debug("Shipping cost is not a number: {}", typedShippingCost);
+                shippingCostIsANumber = false;
+            }
+        }
+
+        Map<String, String> errors = validator.validate(purchaseOrder);
+
+        if (!shippingCostIsANumber) {
+            errors.put("shippingCost", "no es un número válido");
+        }
+        if (comboBoxFreightCompany.getSelectedIndex() == 0) {
+            errors.put("freightCompany", "selección incorrecta");
+        }
+
+        return errors;
+    }
+
+    private void processIfHasError(final String key, final Map<String, String> errors, final java.awt.Component component) {
+        if (!errorProcessed && errors.containsKey(key)) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    key.concat(" ").concat(errors.get(key)), getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
+            component.requestFocus();
+            if (component instanceof javax.swing.JTextField) {
+                ((JTextField) component).selectAll();
+            } else if (component instanceof javax.swing.JComboBox) {
+                ((JComboBox) component).setSelectedIndex(0);
+            }
+            errorProcessed = true;
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboBoxFreightCompany;
-    private javax.swing.JFormattedTextField formattedTextFieldQuantity;
+    private com.toedter.calendar.JDateChooser dateChooserShippingDate;
     private javax.swing.JFormattedTextField formattedTextFieldShippingCost;
+    private javax.swing.JSpinner spinnerQuantity;
     private javax.swing.JTextField textFieldCustomer;
     private javax.swing.JTextField textFieldProduct;
     // End of variables declaration//GEN-END:variables

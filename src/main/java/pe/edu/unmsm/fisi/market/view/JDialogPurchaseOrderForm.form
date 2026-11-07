@@ -34,7 +34,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="panel" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="263" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       <Component id="buttonConfirm" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -71,29 +71,29 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Component id="labelFreightCompany" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="comboBoxFreightCompany" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="labelShippingCost" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelQuantity" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelProduct" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelCustomer" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelFreightCompany" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="labelShippingDate" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="textFieldProduct" alignment="1" max="32767" attributes="0"/>
+                      <Component id="formattedTextFieldShippingCost" alignment="0" max="32767" attributes="0"/>
+                      <Component id="textFieldCustomer" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="labelShippingCost" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelQuantity" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelProduct" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="labelCustomer" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="spinnerQuantity" min="-2" pref="125" max="-2" attributes="0"/>
+                              <Component id="dateChooserShippingDate" min="-2" pref="166" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="textFieldProduct" alignment="1" max="32767" attributes="0"/>
-                              <Component id="formattedTextFieldQuantity" alignment="1" max="32767" attributes="0"/>
-                              <Component id="formattedTextFieldShippingCost" max="32767" attributes="0"/>
-                              <Component id="textFieldCustomer" max="32767" attributes="0"/>
-                          </Group>
+                          <EmptySpace min="0" pref="90" max="32767" attributes="0"/>
                       </Group>
+                      <Component id="comboBoxFreightCompany" alignment="1" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -113,14 +113,19 @@
                       <Component id="labelProduct" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="2" attributes="0">
-                      <Component id="formattedTextFieldQuantity" alignment="2" min="-2" max="-2" attributes="0"/>
-                      <Component id="labelQuantity" alignment="2" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="labelQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="spinnerQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="formattedTextFieldShippingCost" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="labelShippingCost" alignment="2" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="2" attributes="0">
+                      <Component id="labelShippingDate" alignment="2" min="-2" max="-2" attributes="0"/>
+                      <Component id="dateChooserShippingDate" alignment="2" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
@@ -188,17 +193,12 @@
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="formattedTextFieldQuantity">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0" subtype="-1" type="0"/>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JFormattedTextField" name="formattedTextFieldShippingCost">
           <Properties>
-            <Property name="editable" type="boolean" value="false"/>
+            <Property name="editable" type="boolean" value="true"/>
           </Properties>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="dateChooserShippingDate">
         </Component>
         <Component class="javax.swing.JComboBox" name="comboBoxFreightCompany">
           <Properties>
@@ -219,12 +219,31 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
+        <Component class="javax.swing.JSpinner" name="spinnerQuantity">
+          <Properties>
+            <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+              <SpinnerModel initial="1" maximum="32767" minimum="1" numberType="java.lang.Integer" stepSize="1" type="number"/>
+            </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="labelShippingDate">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Fecha de env&#xed;o"/>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
+          </AuxValues>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JButton" name="buttonConfirm">
       <Properties>
         <Property name="text" type="java.lang.String" value="Confirmar compra"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonConfirmActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableLocal" type="java.lang.Boolean" value="true"/>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>

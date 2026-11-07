@@ -213,11 +213,11 @@ public class JDialogProductForm extends javax.swing.JDialog {
         if (b) {
             comboBoxManufacturer.setModel(
                     new javax.swing.DefaultComboBoxModel<>(
-                            new java.util.Vector<>(productBusiness.getManufacturers())));
+                            productBusiness.getManufacturers().toArray(new Manufacturer[0])));
 
             comboBoxProductCode.setModel(
                     new javax.swing.DefaultComboBoxModel<>(
-                            new java.util.Vector<>(productBusiness.getProductCodes())));
+                            productBusiness.getProductCodes().toArray(new ProductCode[0])));
 
             if (product.getProductId() != null) {
                 showData();
