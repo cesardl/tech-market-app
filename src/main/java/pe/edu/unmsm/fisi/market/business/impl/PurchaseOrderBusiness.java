@@ -45,10 +45,14 @@ public class PurchaseOrderBusiness extends TemplateBusiness<PurchaseOrder> {
             Date date = new Date();
             purchaseOrder.setSalesDate(date);
 
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            calendar.add(Calendar.DAY_OF_MONTH, 15);
-            purchaseOrder.setShippingDate(calendar.getTime());
+            // Ship in 15 days unless the caller asked for another date: the order form
+            // offers a date chooser, and stamping over it would discard what was typed.
+            if (purchaseOrder.getShippingDate() == null) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(date);
+                calendar.add(Calendar.DAY_OF_MONTH, 15);
+                purchaseOrder.setShippingDate(calendar.getTime());
+            }
 
             int identifier = generateIdentifier();
             purchaseOrder.setOrderNum(identifier);

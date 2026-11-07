@@ -9,9 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.market.business.impl.PurchaseOrderBusiness;
 import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
+import pe.edu.unmsm.fisi.market.util.AppUtils;
 import pe.edu.unmsm.fisi.market.util.TechMarketValidator;
 
 import javax.swing.*;
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -94,11 +96,11 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
 
         textFieldProduct.setEditable(false);
 
-        formattedTextFieldShippingCost.setEditable(false);
+        formattedTextFieldShippingCost.setEditable(true);
 
         comboBoxFreightCompany.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--", "Coastal Freight", "FR Express", "Poney Express", "Slow Snail", "Southern Delivery Service", "We deliver", "Western Fast" }));
 
-        spinnerQuantity.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        spinnerQuantity.setModel(new javax.swing.SpinnerNumberModel(1, 1, 32767, 1));
 
         labelShippingDate.setText("Fecha de envío");
 
@@ -195,28 +197,48 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
     @Override
     public void setVisible(boolean b) {
         if (b) {
-            textFieldCustomer.setText(purchaseOrder.getCustomer().getName());
-            textFieldProduct.setText(purchaseOrder.getProduct().getDescription());
-            spinnerQuantity.setValue(purchaseOrder.getQuantity());
-            formattedTextFieldShippingCost.setValue(purchaseOrder.getShippingCost());
-            dateChooserShippingDate.setDate(purchaseOrder.getShippingDate());
-
-            for (int index = 0; index < comboBoxFreightCompany.getItemCount(); index++) {
-                String freightCompany = comboBoxFreightCompany.getItemAt(index);
-                if (freightCompany.equals(purchaseOrder.getFreightCompany())) {
-                    comboBoxFreightCompany.setSelectedItem(freightCompany);
-                    break;
-                }
-            }
+            showPurchaseOrder();
         }
         super.setVisible(b);
+    }
+
+    /**
+     * Copies the order into the widgets. Package-private rather than inlined in
+     * {@link #setVisible(boolean)} because this dialog is modal: a test that showed it
+     * would block until someone closed it by hand.
+     */
+    void showPurchaseOrder() {
+        textFieldCustomer.setText(purchaseOrder.getCustomer().getName());
+        textFieldProduct.setText(purchaseOrder.getProduct().getDescription());
+
+        // A new order carries quantity 0 from PurchaseOrder's own constructor, and
+        // @Min(1) rejects it, so showing it guarantees the first Confirm bounces. Leave
+        // the spinner at its own minimum instead. (null only reaches here from a test,
+        // and JSpinner throws IllegalArgumentException on it.)
+        if (purchaseOrder.getQuantity() != null && purchaseOrder.getQuantity() >= 1) {
+            spinnerQuantity.setValue(purchaseOrder.getQuantity());
+        }
+
+        // setText, not setValue: setValue installs a locale-dependent formatter, and
+        // catchingData() has to read this same text back as a BigDecimal.
+        BigDecimal shippingCost = purchaseOrder.getShippingCost();
+        formattedTextFieldShippingCost.setText(shippingCost == null ? "" : shippingCost.toPlainString());
+
+        dateChooserShippingDate.setDate(purchaseOrder.getShippingDate());
+
+        for (int index = 0; index < comboBoxFreightCompany.getItemCount(); index++) {
+            String freightCompany = comboBoxFreightCompany.getItemAt(index);
+            if (freightCompany.equals(purchaseOrder.getFreightCompany())) {
+                comboBoxFreightCompany.setSelectedItem(freightCompany);
+                break;
+            }
+        }
     }
 
     private void buttonConfirmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonConfirmActionPerformed
         LOG.trace(evt.paramString());
         errorProcessed = false;
         Map<String, String> errors = catchingData();
-        System.out.println("quantity " + purchaseOrder.getQuantity());
         if (errors.isEmpty()) {
             if (purchaseOrderBusiness.saveOrUpdate(purchaseOrder)) {
                 javax.swing.JOptionPane.showMessageDialog(this,
@@ -238,12 +260,32 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_buttonConfirmActionPerformed
 
-    private Map<String, String> catchingData() {
+    /**
+     * Copies the widgets back into the order and validates it. Package-private for
+     * the same reason as {@link #showPurchaseOrder()}.
+     */
+    Map<String, String> catchingData() {
         purchaseOrder.setQuantity(Integer.valueOf(String.valueOf(spinnerQuantity.getValue())));
         purchaseOrder.setFreightCompany(comboBoxFreightCompany.getItemAt(comboBoxFreightCompany.getSelectedIndex()));
+        purchaseOrder.setShippingDate(dateChooserShippingDate.getDate());
+
+        String typedShippingCost = AppUtils.clean(formattedTextFieldShippingCost.getText());
+        boolean shippingCostIsANumber = true;
+        purchaseOrder.setShippingCost(null);
+        if (typedShippingCost != null) {
+            try {
+                purchaseOrder.setShippingCost(new BigDecimal(typedShippingCost));
+            } catch (NumberFormatException nfe) {
+                LOG.debug("Shipping cost is not a number: {}", typedShippingCost);
+                shippingCostIsANumber = false;
+            }
+        }
 
         Map<String, String> errors = validator.validate(purchaseOrder);
 
+        if (!shippingCostIsANumber) {
+            errors.put("shippingCost", "no es un número válido");
+        }
         if (comboBoxFreightCompany.getSelectedIndex() == 0) {
             errors.put("freightCompany", "selección incorrecta");
         }

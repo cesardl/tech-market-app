@@ -132,7 +132,7 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
             int result = ps.executeUpdate();
 
             LOG.debug("Number of affected rows {}", result);
-            return true;
+            return result > 0;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
             return false;
@@ -161,7 +161,7 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
             int result = ps.executeUpdate();
 
             LOG.debug("Number of affected rows {}", result);
-            return true;
+            return result > 0;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
             return false;
@@ -187,7 +187,7 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
             int result = ps.executeUpdate();
 
             LOG.info("A purchase order has been deleted: {}", result);
-            return true;
+            return result > 0;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
             return false;

@@ -137,6 +137,11 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                 tablePurchaseOrdersMouseClicked(evt);
             }
         });
+        tablePurchaseOrders.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablePurchaseOrdersKeyPressed(evt);
+            }
+        });
         scrollPane.setViewportView(tablePurchaseOrders);
 
         javax.swing.GroupLayout panelPurchaseOrdersLayout = new javax.swing.GroupLayout(panelPurchaseOrders);
@@ -244,9 +249,18 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_buttonBuyActionPerformed
 
     private PurchaseOrder catchingData() {
+        Customer customer = comboBoxCustomer.getItemAt(comboBoxCustomer.getSelectedIndex());
+        Product product = comboBoxProduct.getItemAt(comboBoxProduct.getSelectedIndex());
+
+        // Nothing selected, or nothing to select: getItemAt(-1) answers null, and the
+        // caller already knows how to report a null order.
+        if (customer == null || product == null) {
+            return null;
+        }
+
         PurchaseOrder purchaseOrder = new PurchaseOrder();
-        purchaseOrder.setCustomer(comboBoxCustomer.getItemAt(comboBoxCustomer.getSelectedIndex()));
-        purchaseOrder.setProduct(comboBoxProduct.getItemAt(comboBoxProduct.getSelectedIndex()));
+        purchaseOrder.setCustomer(customer);
+        purchaseOrder.setProduct(product);
         return purchaseOrder;
     }
 
@@ -265,7 +279,43 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tablePurchaseOrdersMouseClicked
 
+    private void tablePurchaseOrdersKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablePurchaseOrdersKeyPressed
+        int selectedRow = tablePurchaseOrders.getSelectedRow();
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_DELETE && selectedRow != -1) {
+
+            Integer purchaseOrderNum = (Integer) tablePurchaseOrders.getValueAt(selectedRow, 0);
+            deletePurchaseOrderAction(purchaseOrderNum);
+        }
+    }//GEN-LAST:event_tablePurchaseOrdersKeyPressed
+
+    private void deletePurchaseOrderAction(final int purchaseOrderNum) {
+        int optionChosen = javax.swing.JOptionPane.showConfirmDialog(this,
+                "Seguro que desea eliminar la orden de compra?", getTitle(),
+                javax.swing.JOptionPane.YES_NO_OPTION,
+                javax.swing.JOptionPane.QUESTION_MESSAGE);
+
+        if (javax.swing.JOptionPane.YES_OPTION == optionChosen) {
+
+            if (purchaseOrderBusiness.delete(purchaseOrderNum)) {
+                LOG.info("Purchase order {} has been deleted, showing data", purchaseOrderNum);
+                refreshDataTable(purchaseOrderBusiness.all());
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "No se pudo borrar la orden de compra.", getTitle(),
+                        javax.swing.JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
+
     private void processPurchaseOrder(final PurchaseOrder purchaseOrder) {
+        if (purchaseOrder == null) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "La orden de compra ya no existe.", getTitle(),
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            refreshDataTable(purchaseOrderBusiness.all());
+            return;
+        }
+
         JDialogPurchaseOrderForm purchaseOrderForm = new JDialogPurchaseOrderForm(
                 javax.swing.JOptionPane.getFrameForComponent(this), purchaseOrder);
         purchaseOrderForm.setVisible(true);

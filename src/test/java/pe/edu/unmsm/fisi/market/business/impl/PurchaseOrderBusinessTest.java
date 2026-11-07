@@ -53,13 +53,12 @@ public class PurchaseOrderBusinessTest {
         assertNotNull(salesDate);
         assertNotNull(shippingDate);
 
-        Calendar salesCalendar = Calendar.getInstance();
-        salesCalendar.setTime(salesDate);
+        Calendar expectedShippingDate = Calendar.getInstance();
+        expectedShippingDate.setTime(salesDate);
+        expectedShippingDate.add(Calendar.DAY_OF_MONTH, 15);
 
-        Calendar shippingCalendar = Calendar.getInstance();
-        shippingCalendar.setTime(shippingDate);
-
-        assertEquals(salesCalendar.get(Calendar.DAY_OF_MONTH) + 15, shippingCalendar.get(Calendar.DAY_OF_MONTH));
+        // Comparing DAY_OF_MONTH + 15 only held while the sales day was below 16.
+        assertEquals(day(expectedShippingDate.getTime()), day(shippingDate));
         // TODO Completar los campos
 
         boolean hasBeenDeleted = purchaseOrderBusiness.delete(fakePurchaseOrder.getOrderNum());
@@ -67,6 +66,30 @@ public class PurchaseOrderBusinessTest {
 
         result = purchaseOrderBusiness.all();
         assertEquals(1, result.size());
+    }
+
+    @Test
+    public void saveKeepsTheShippingDateItWasGivenTest() {
+        Calendar shippingDate = Calendar.getInstance();
+        shippingDate.add(Calendar.DAY_OF_MONTH, 3);
+
+        PurchaseOrder fakePurchaseOrder = PojoFake.purchaseOrder();
+        fakePurchaseOrder.setShippingDate(shippingDate.getTime());
+
+        assertTrue(purchaseOrderBusiness.saveOrUpdate(fakePurchaseOrder));
+        try {
+            PurchaseOrder saved = purchaseOrderBusiness.findById(fakePurchaseOrder.getOrderNum());
+            assertEquals(day(shippingDate.getTime()), day(saved.getShippingDate()));
+        } finally {
+            purchaseOrderBusiness.delete(fakePurchaseOrder.getOrderNum());
+        }
+    }
+
+    @Test
+    public void deletingAnAbsentPurchaseOrderReportsFailureTest() {
+        int identifier = 1;
+        assertNull(purchaseOrderBusiness.findById(identifier));
+        assertFalse(purchaseOrderBusiness.delete(identifier));
     }
 
     @Test
@@ -102,5 +125,12 @@ public class PurchaseOrderBusinessTest {
         assertTrue(hasBeenUpdated);
         result = purchaseOrderBusiness.findById(identifier);
         assertEquals(originalQuantity, result.getQuantity());
+    }
+
+    /**
+     * SHIPPING_DATE is a DATE column, so only the day survives a round trip.
+     */
+    private static String day(final Date date) {
+        return new java.text.SimpleDateFormat("yyyy-MM-dd").format(date);
     }
 }
