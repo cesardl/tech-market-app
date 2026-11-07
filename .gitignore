@@ -2,6 +2,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 *.log
 .scannerwork/
+.tmp/
 
 ### STS ###
 .apt_generated
