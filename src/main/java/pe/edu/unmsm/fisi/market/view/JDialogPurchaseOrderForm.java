@@ -96,8 +96,6 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
 
         textFieldProduct.setEditable(false);
 
-        formattedTextFieldShippingCost.setEditable(true);
-
         comboBoxFreightCompany.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "--", "Coastal Freight", "FR Express", "Poney Express", "Slow Snail", "Southern Delivery Service", "We deliver", "Western Fast" }));
 
         spinnerQuantity.setModel(new javax.swing.SpinnerNumberModel(1, 1, 32767, 1));
@@ -298,10 +296,10 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
             javax.swing.JOptionPane.showMessageDialog(this,
                     key.concat(" ").concat(errors.get(key)), getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
             component.requestFocus();
-            if (component instanceof javax.swing.JTextField) {
-                ((JTextField) component).selectAll();
-            } else if (component instanceof javax.swing.JComboBox) {
-                ((JComboBox) component).setSelectedIndex(0);
+            if (component instanceof javax.swing.JTextField jTextField) {
+                jTextField.selectAll();
+            } else if (component instanceof javax.swing.JComboBox jComboBox) {
+                jComboBox.setSelectedIndex(0);
             }
             errorProcessed = true;
         }

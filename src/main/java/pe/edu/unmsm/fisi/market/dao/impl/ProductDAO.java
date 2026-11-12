@@ -207,4 +207,6 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
         return p;
     }
+    
+    // TODO Add the method required for comboBoxProductCode, have to follow spring-data pattern.
 }

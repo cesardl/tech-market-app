@@ -194,9 +194,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JFormattedTextField" name="formattedTextFieldShippingCost">
-          <Properties>
-            <Property name="editable" type="boolean" value="true"/>
-          </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="dateChooserShippingDate">
         </Component>
