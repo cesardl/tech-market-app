@@ -128,7 +128,9 @@ public class JFrameMain extends javax.swing.JFrame {
 
     private void menuItemCustomersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemCustomersActionPerformed
         LOG.trace(evt.paramString());
-        AppUtils.displayInternalFrame(desktopPane, internalFrameCustomers);
+        if (AppUtils.displayInternalFrame(desktopPane, internalFrameCustomers)) {
+            internalFrameCustomers.loadDataAsync();
+        }
         LOG.debug("Mostrando frame interno de regisro de clientes");
     }//GEN-LAST:event_menuItemCustomersActionPerformed
 
@@ -140,7 +142,9 @@ public class JFrameMain extends javax.swing.JFrame {
 
     private void menuItemPurchaseOrdersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemPurchaseOrdersActionPerformed
         LOG.trace(evt.paramString());
-        AppUtils.displayInternalFrame(desktopPane, internalFramePurchaseOrders);
+        if (AppUtils.displayInternalFrame(desktopPane, internalFramePurchaseOrders)) {
+            internalFramePurchaseOrders.loadDataAsync();
+        }
         LOG.debug("Mostrando frame interno de venta de productos");
     }//GEN-LAST:event_menuItemPurchaseOrdersActionPerformed
 

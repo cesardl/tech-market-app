@@ -5,7 +5,9 @@
  */
 package pe.edu.unmsm.fisi.market.view;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import org.slf4j.Logger;
@@ -18,6 +20,7 @@ import pe.edu.unmsm.fisi.market.model.Customer;
 import pe.edu.unmsm.fisi.market.model.ProductCode;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
+import pe.edu.unmsm.fisi.market.util.BackgroundTask;
 
 /**
  * @author Eliana Zapata
@@ -32,6 +35,12 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
     private final ProductBusiness productBusiness;
     private final ProductCodeBusiness productCodeBusiness; // TODO validate correct definition and patter defined.
     private final PurchaseOrderBusiness purchaseOrderBusiness;
+
+    /**
+     * The product combo's load in flight, if any. Picking another product code before the
+     * previous query lands would otherwise let the older answer overwrite the newer one.
+     */
+    private javax.swing.SwingWorker<Collection<Product>, Void> productsLoader;
 
     /**
      * Creates new form JInternalFrameVentas
@@ -233,24 +242,40 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    @Override
-    public void setVisible(boolean b) {
-        if (b) {
-            // TODO move this to new "loadDataAsync()" method to not override a method that have to display te view. it has to be incluided in swingworker to ensuer background task
-            comboBoxCustomer.setModel(
-                    new javax.swing.DefaultComboBoxModel<>(
-                            customerBusiness.all().toArray(new Customer[0])));
+    /**
+     * Fills the screen from the database without blocking the Event Dispatch Thread: four
+     * independent queries, one worker each, so the combos do not wait on the orders table,
+     * which reads every order in the database through a join.
+     * <p>
+     * {@code JFrameMain} calls this once, when it displays the screen. Loading from
+     * {@link #setVisible(boolean)} instead would put four queries in front of a method whose
+     * job is to show the frame, which is what the frame no longer overrides.
+     */
+    void loadDataAsync() {
+        BackgroundTask.run(customerBusiness::all,
+                customers -> comboBoxCustomer.setModel(
+                        new javax.swing.DefaultComboBoxModel<>(customers.toArray(new Customer[0]))));
 
-            Collection<ProductCode> productCodes = productCodeBusiness.all();
+        BackgroundTask.run(this::productCodeOptions,
+                productCodes -> comboBoxProductCode.setModel(
+                        new javax.swing.DefaultComboBoxModel<>(productCodes.toArray(new ProductCode[0]))));
 
-            comboBoxProductCode.setModel(
-                    new javax.swing.DefaultComboBoxModel<>(
-                            productCodes.toArray(new ProductCode[0])));
+        // setModel() fires no ItemEvent, so the product combo is loaded here as well, and by
+        // comboBoxProductCodeItemStateChanged from then on.
+        filterProductsByProductCode();
 
-            refreshDataTable(purchaseOrderBusiness.all());
-        }
+        reloadPurchaseOrders();
+    }
 
-        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
+    private List<ProductCode> productCodeOptions() {
+        List<ProductCode> productCodes = new ArrayList<>();
+        productCodes.add(noProductCodeFilter());
+        productCodes.addAll(productCodeBusiness.all());
+        return productCodes;
+    }
+
+    private void reloadPurchaseOrders() {
+        BackgroundTask.run(purchaseOrderBusiness::all, this::refreshDataTable);
     }
 
     private void refreshDataTable(Collection<PurchaseOrder> purchaseOrders) {
@@ -269,6 +294,34 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
             dtm.addRow(rowData);
         });
         labelTotalRows.setText(String.valueOf(purchaseOrders.size()));
+    }
+
+    /**
+     * First entry of comboBoxProductCode: a {@link ProductCode} carrying no code at all,
+     * which stands for "do not filter". Without it the first real code would select itself
+     * as the screen opens and silently hide every product outside it.
+     */
+    private static ProductCode noProductCodeFilter() {
+        ProductCode noFilter = new ProductCode();
+        noFilter.setDescription("-- Todos --");
+        return noFilter;
+    }
+
+    /**
+     * Refills comboBoxProduct with the products of the selected product code. Both the
+     * no-filter entry and an empty combo answer a null code, which means "every code".
+     */
+    private void filterProductsByProductCode() {
+        ProductCode productCode = comboBoxProductCode.getItemAt(comboBoxProductCode.getSelectedIndex());
+        String prodCode = productCode == null ? null : productCode.getProdCode();
+
+        if (productsLoader != null) {
+            productsLoader.cancel(false);
+        }
+
+        productsLoader = BackgroundTask.run(() -> productBusiness.getProductsByProductCode(prodCode),
+                products -> comboBoxProduct.setModel(
+                        new javax.swing.DefaultComboBoxModel<>(products.toArray(new Product[0]))));
     }
 
     private void buttonBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuyActionPerformed
@@ -326,7 +379,11 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
 
     private void comboBoxProductCodeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxProductCodeItemStateChanged
         LOG.trace(evt.paramString());
-        // TODO implement on change method, select product by product code        
+
+        // A combo change fires twice, DESELECTED then SELECTED, so react to one of them only.
+        if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+            filterProductsByProductCode();
+        }
     }//GEN-LAST:event_comboBoxProductCodeItemStateChanged
 
     private void deletePurchaseOrderAction(final int purchaseOrderNum) {
@@ -339,7 +396,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
 
             if (purchaseOrderBusiness.delete(purchaseOrderNum)) {
                 LOG.info("Purchase order {} has been deleted, showing data", purchaseOrderNum);
-                refreshDataTable(purchaseOrderBusiness.all());
+                reloadPurchaseOrders();
             } else {
                 javax.swing.JOptionPane.showMessageDialog(this,
                         "No se pudo borrar la orden de compra.", getTitle(),
@@ -353,7 +410,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
             javax.swing.JOptionPane.showMessageDialog(this,
                     "La orden de compra ya no existe.", getTitle(),
                     javax.swing.JOptionPane.WARNING_MESSAGE);
-            refreshDataTable(purchaseOrderBusiness.all());
+            reloadPurchaseOrders();
             return;
         }
 
@@ -363,7 +420,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
 
         if (purchaseOrderForm.isActionPerformed()) {
             LOG.info("Purchase order has been register, showing data");
-            refreshDataTable(purchaseOrderBusiness.all());
+            reloadPurchaseOrders();
         } else {
             LOG.debug("No action has performed");
         }

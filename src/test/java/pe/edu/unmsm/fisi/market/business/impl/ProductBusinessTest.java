@@ -115,6 +115,24 @@ public class ProductBusinessTest {
     }
 
     @Test
+    public void getProductsByProductCodeTest() {
+        Collection<Product> softwareProducts = productBusiness.getProductsByProductCode("SW");
+        assertEquals(2, softwareProducts.size());
+        softwareProducts.forEach(product -> {
+            assertEquals("SW", product.getProductCode().getProdCode());
+            assertNotEquals(0, product.getQuantityOnHand().intValue());
+            assertTrue(product.isAvailable());
+            assertNotNull(product.getManufacturer().getName());
+        });
+
+        // The seed's only hardware row has no stock, so the availability filter hides it.
+        assertTrue(productBusiness.getProductsByProductCode("HW").isEmpty());
+
+        // A null code means every code, which is what the combo's first entry asks for.
+        assertEquals(2, productBusiness.getProductsByProductCode(null).size());
+    }
+
+    @Test
     public void getManufacturersTest() {
         Collection<Manufacturer> result = productBusiness.getManufacturers();
         assertFalse(result.isEmpty());
