@@ -212,6 +212,40 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
     }
 
     /**
+     * Takes {@code quantity} units off a product's stock, or puts them back when it is
+     * negative, and keeps AVAILABLE in step with what is left -- the same rule
+     * {@code ProductBusiness.saveOrUpdate} applies, here as SQL because the row is never
+     * read into a POJO.
+     * <p>
+     * One statement, so the check and the subtraction cannot be separated: no row is touched
+     * when the stock on hand is below what was asked, and two orders cannot both be told
+     * there is enough. Reading the stock first and updating it afterwards is what a
+     * framework's optimistic locking would be protecting you from.
+     *
+     * @param connection the caller's transaction, so this commits with the order that caused it.
+     * @return false when the product is gone or its stock is short, which is the caller's
+     *         signal to roll the unit of work back.
+     */
+    public boolean takeStock(final Connection connection, final int productId, final int quantity) throws SQLException {
+        String sql = "UPDATE PRODUCT SET QUANTITY_ON_HAND = QUANTITY_ON_HAND - ?, AVAILABLE = (QUANTITY_ON_HAND - ? <> 0) "
+                + "WHERE PRODUCT_ID = ? AND QUANTITY_ON_HAND >= ?";
+
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, quantity);
+            ps.setInt(2, quantity);
+            ps.setInt(3, productId);
+            ps.setInt(4, quantity);
+
+            int result = ps.executeUpdate();
+
+            LOG.info("Taking {} units of product {} out of stock: {} rows", quantity, productId, result);
+            return result == 1;
+        }
+    }
+
+    /**
      * Every product that can still be sold, optionally narrowed to one product code. It feeds
      * the product combo of the purchase order screen, so unlike {@link #getAll()} it returns
      * the full graph -- QUANTITY_ON_HAND included, which is what any stock check needs.

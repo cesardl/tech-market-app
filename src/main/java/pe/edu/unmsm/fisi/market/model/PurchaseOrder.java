@@ -2,6 +2,7 @@ package pe.edu.unmsm.fisi.market.model;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -17,10 +18,19 @@ public class PurchaseOrder {
     private Customer customer;
     private Product product;
 
+    @NotNull
     @Min(value = 1)
     private Integer quantity;
 
-    @Digits(integer = 12, fraction = 2)
+    /**
+     * SHIPPING_COST is DECIMAL(12, 2), which holds ten digits before the point, so the
+     * annotation says ten and not twelve: a wider cost used to pass validation and fail in
+     * the database, where the DAO logs the error and the form can only report that the
+     * order could not be saved. @NotNull because neither @Min nor @Digits applies to null,
+     * so an empty box answered null and saved an order with no shipping cost at all.
+     */
+    @NotNull
+    @Digits(integer = 10, fraction = 2)
     @Min(value = 1)
     private BigDecimal shippingCost;
 

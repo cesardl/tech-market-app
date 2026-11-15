@@ -68,7 +68,8 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
 
     @Override
     public PurchaseOrder findById(final int identifier) {
-        String sql = "SELECT C.CUSTOMER_ID, C.NAME, P.PRODUCT_ID, P.DESCRIPTION, PO.QUANTITY, PO.SHIPPING_COST, PO.SALES_DATE, PO.SHIPPING_DATE, PO.FREIGHT_COMPANY " +
+        // QUANTITY_ON_HAND comes last so the column numbers below did not have to move.
+        String sql = "SELECT C.CUSTOMER_ID, C.NAME, P.PRODUCT_ID, P.DESCRIPTION, PO.QUANTITY, PO.SHIPPING_COST, PO.SALES_DATE, PO.SHIPPING_DATE, PO.FREIGHT_COMPANY, P.QUANTITY_ON_HAND " +
                 "FROM PURCHASE_ORDER PO " +
                 "INNER JOIN CUSTOMER C on PO.CUSTOMER_ID = C.CUSTOMER_ID " +
                 "INNER JOIN PRODUCT P on PO.PRODUCT_ID = P.PRODUCT_ID " +
@@ -90,6 +91,7 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
                     Product product = new Product();
                     product.setProductId(rs.getInt(3));
                     product.setDescription(rs.getString(4));
+                    product.setQuantityOnHand(rs.getInt(10));
 
                     PurchaseOrder purchaseOrder = new PurchaseOrder();
                     purchaseOrder.setOrderNum(identifier);
@@ -112,13 +114,27 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
 
     @Override
     public boolean save(final PurchaseOrder purchaseOrder) {
+        try (Connection conn = ConnectionUtils.openConnection()) {
+            return save(conn, purchaseOrder);
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            return false;
+        }
+    }
+
+    /**
+     * Inserts the order on the caller's connection, so it can be committed together with the
+     * stock it took. The methods here that take a {@link Connection} throw instead of
+     * logging and answering false: inside a unit of work, a swallowed error would be
+     * committed along with everything else.
+     */
+    public boolean save(final Connection connection, final PurchaseOrder purchaseOrder) throws SQLException {
         String sql = "INSERT INTO PURCHASE_ORDER(ORDER_NUM, CUSTOMER_ID, PRODUCT_ID, QUANTITY, SHIPPING_COST, SALES_DATE, SHIPPING_DATE, FREIGHT_COMPANY) "
                 + "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
-        try (Connection conn = ConnectionUtils.openConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, purchaseOrder.getOrderNum());
             ps.setInt(2, purchaseOrder.getCustomer().getCustomerId());
@@ -133,21 +149,61 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
 
             LOG.debug("Number of affected rows {}", result);
             return result > 0;
+        }
+    }
+
+    /**
+     * The product and quantity a stored order holds in stock, read on the caller's
+     * connection and locked, so the number cannot change between reading it and acting on
+     * it. Null when the order is gone.
+     */
+    public PurchaseOrder findHeldStock(final Connection connection, final int orderNum) throws SQLException {
+        String sql = "SELECT PRODUCT_ID, QUANTITY FROM PURCHASE_ORDER WHERE ORDER_NUM = ? FOR UPDATE";
+
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, orderNum);
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                if (rs.next()) {
+                    Product product = new Product();
+                    product.setProductId(rs.getInt(1));
+
+                    PurchaseOrder purchaseOrder = new PurchaseOrder();
+                    purchaseOrder.setOrderNum(orderNum);
+                    purchaseOrder.setProduct(product);
+                    purchaseOrder.setQuantity(rs.getInt(2));
+                    return purchaseOrder;
+                }
+            }
+        }
+        LOG.debug("Purchase order {} does not exist", orderNum);
+        return null;
+    }
+
+    @Override
+    public boolean update(final PurchaseOrder purchaseOrder) {
+        try (Connection connection = ConnectionUtils.openConnection()) {
+            return update(connection, purchaseOrder);
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
             return false;
         }
     }
 
-    @Override
-    public boolean update(final PurchaseOrder purchaseOrder) {
+    /**
+     * Updates the order on the caller's connection, so it can be committed together with the
+     * stock the new quantity moved.
+     */
+    public boolean update(final Connection connection, final PurchaseOrder purchaseOrder) throws SQLException {
         String sql = "UPDATE PURCHASE_ORDER SET CUSTOMER_ID = ?, PRODUCT_ID = ?, QUANTITY = ?, SHIPPING_COST = ?, SALES_DATE = ?, SHIPPING_DATE = ?, FREIGHT_COMPANY = ? " +
                 "WHERE ORDER_NUM = ?";
 
         LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
-        try (Connection connection = ConnectionUtils.openConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, purchaseOrder.getCustomer().getCustomerId());
             ps.setInt(2, purchaseOrder.getProduct().getProductId());
@@ -162,9 +218,6 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
 
             LOG.debug("Number of affected rows {}", result);
             return result > 0;
-        } catch (SQLException e) {
-            LOG.error(e.getMessage(), e);
-            return false;
         }
     }
 
@@ -175,12 +228,24 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
 
     @Override
     public boolean delete(final PurchaseOrder purchaseOrder) {
+        try (Connection connection = ConnectionUtils.openConnection()) {
+            return delete(connection, purchaseOrder);
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            return false;
+        }
+    }
+
+    /**
+     * Deletes the order on the caller's connection, so it can be committed together with the
+     * stock it gave back.
+     */
+    public boolean delete(final Connection connection, final PurchaseOrder purchaseOrder) throws SQLException {
         String sql = "DELETE FROM PURCHASE_ORDER WHERE ORDER_NUM = ?";
 
         LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
-        try (Connection connection = ConnectionUtils.openConnection();
-             PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, purchaseOrder.getOrderNum());
 
@@ -188,9 +253,6 @@ public class PurchaseOrderDAO implements CompleteCrudDAO<PurchaseOrder> {
 
             LOG.info("A purchase order has been deleted: {}", result);
             return result > 0;
-        } catch (SQLException e) {
-            LOG.error(e.getMessage(), e);
-            return false;
         }
     }
 

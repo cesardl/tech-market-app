@@ -29,6 +29,12 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
     private final PurchaseOrder purchaseOrder;
     private final TechMarketValidator<PurchaseOrder> validator;
 
+    /**
+     * The units this order already holds in stock, which an edit may spend again instead of
+     * asking for more. Zero for an order that has not been saved yet.
+     */
+    private final int quantityAlreadyHeld;
+
     private boolean actionPerformed;
     private boolean errorProcessed;
 
@@ -41,6 +47,7 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
         this.purchaseOrderBusiness = PurchaseOrderBusiness.getInstance();
         this.purchaseOrder = purchaseOrder;
         this.validator = new TechMarketValidator<>();
+        this.quantityAlreadyHeld = purchaseOrder.getQuantity() == null ? 0 : purchaseOrder.getQuantity();
         this.actionPerformed = false;
 
         initComponents();
@@ -286,6 +293,19 @@ public class JDialogPurchaseOrderForm extends javax.swing.JDialog {
         }
         if (comboBoxFreightCompany.getSelectedIndex() == 0) {
             errors.put("freightCompany", "selección incorrecta");
+        }
+
+        // The database is what enforces this, in the one statement that takes the units out
+        // of stock, but all it can answer is no. Checking here is the only way the form can
+        // name the number -- and it can only do so when it knows the stock, which the
+        // product combo and the order lookup both supply.
+        Integer stockOnHand = purchaseOrder.getProduct().getQuantityOnHand();
+        if (stockOnHand != null) {
+            int availableToThisOrder = stockOnHand + quantityAlreadyHeld;
+
+            if (purchaseOrder.getQuantity() > availableToThisOrder) {
+                errors.put("quantity", "excede el stock disponible (" + availableToThisOrder + ")");
+            }
         }
 
         return errors;

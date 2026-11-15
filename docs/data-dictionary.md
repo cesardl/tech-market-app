@@ -51,9 +51,10 @@ draws a random integer and retries until `findById` misses:
 | `PURCHASE_ORDER` | 10000000–99999999, from `setIdentifierSize(8)` | 10398001–30298004 |
 | `CUSTOMER` | 0–999999 — `CustomerBusiness` never calls `setIdentifierSize`, so it takes the default branch and **can generate 0** | 1, 2, 3, 25, 36 … 863 |
 
-That check-then-insert is not transactional, and there are **no transactions anywhere** in
-this codebase: every DAO call opens its own connection and every statement auto-commits on
-its own. The primary key is the only real guard against a collision.
+That check-then-insert is not transactional, and the only transaction in this codebase is
+the one that moves stock with a purchase order (`util/Transaction`). Every other DAO call
+opens its own connection and auto-commits on its own. The primary key is the only real
+guard against an identifier collision.
 
 Insert parents before children: `DISCOUNT_CODE` → `MICRO_MARKET` → `MANUFACTURER` →
 `PRODUCT_CODE` → `CUSTOMER` → `PRODUCT` → `PURCHASE_ORDER`. Delete in the reverse order.
@@ -259,8 +260,8 @@ and the carrier sit on the same row as the two foreign keys, so an order is a si
 | ORDER_NUM | INTEGER | no | PK | allocated by the app from 10000000–99999999 |
 | CUSTOMER_ID | INTEGER | no | FK → CUSTOMER | |
 | PRODUCT_ID | INTEGER | no | FK → PRODUCT | |
-| QUANTITY | SMALLINT | yes | | **caps at 32767**. `@Min(1)` app-side with no upper bound; only the order form's spinner holds the ceiling |
-| SHIPPING_COST | DECIMAL(12,2) | yes | | ten integer digits, but `@Digits(integer = 12, fraction = 2)` allows twelve, so two extra digits pass validation and fail at the database |
+| QUANTITY | SMALLINT | yes | | **caps at 32767**. `@NotNull @Min(1)` app-side with no upper bound; the order form's spinner holds that ceiling, and the stock on hand holds the real one |
+| SHIPPING_COST | DECIMAL(12,2) | yes | | ten integer digits, which `@Digits(integer = 10, fraction = 2)` now matches. `@NotNull @Min(1)`, so the column is nullable but the form will not save an empty one — and free shipping is not expressible |
 | SALES_DATE | DATE | yes | | stamped as *today* by `PurchaseOrderBusiness` on insert, never by the database |
 | SHIPPING_DATE | DATE | yes | | `SALES_DATE` + 15 days unless the form supplied one. NULL means not scheduled; the model's `@FutureOrPresent` is commented out, so nothing validates it |
 | FREIGHT_COMPANY | VARCHAR(30) | yes | | free text with a de-facto enum — the seven distinct backup values are exactly the order form's combo entries: Coastal Freight, FR Express, Poney Express, Slow Snail, Southern Delivery Service, We deliver, Western Fast |
@@ -269,12 +270,18 @@ and the carrier sit on the same row as the two foreign keys, so an order is a si
 
 - Through the app: *Ventas* → pick a customer and a product → **Comprar**.
 - The customer and the product must exist. Both come from combo boxes.
-- `QUANTITY` ≥ 1, and it should not exceed the product's `QUANTITY_ON_HAND`. **Nothing
-  enforces the second half** — not the database, not the application. Order 10398009 in the
-  backup buys 1,000 of product 986420, which has none in stock.
+- `QUANTITY` ≥ 1, and it may not exceed the product's `QUANTITY_ON_HAND`. The application
+  enforces that in `ProductDAO.takeStock`, one conditional `UPDATE` inside the same
+  transaction as the order, so a short order is refused and leaves no row. The database
+  still has no `CHECK` of its own, so SQL written by hand can oversell: order 10398009 in
+  the backup buys 1,000 of product 986420, which has none in stock.
 - `SHIPPING_DATE` is `SALES_DATE` + 15 days unless you say otherwise. All 15 backup orders
   ship the day they were sold; do not copy that as a rule.
-- An order never changes the product's stock. No code decrements `QUANTITY_ON_HAND`.
+- An order **takes its units out of the product's stock**, and gives them back when it is
+  deleted; editing one moves only the difference. The same statement recomputes
+  `AVAILABLE`, so a product that reaches zero drops out of the combo boxes and the product
+  list. Rows loaded from the backup or from `db/data.sql` were never decremented, so their
+  stock does not account for them.
 
 ```sql
 INSERT INTO APP.PURCHASE_ORDER (ORDER_NUM, CUSTOMER_ID, PRODUCT_ID, QUANTITY, SHIPPING_COST, SALES_DATE, SHIPPING_DATE, FREIGHT_COMPANY)
