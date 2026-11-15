@@ -47,13 +47,22 @@ public final class AppUtils {
         }
     }
 
-    public static void displayInternalFrame(javax.swing.JDesktopPane desktopPane, javax.swing.JInternalFrame internalFrame) {
+    /**
+     * Adds the frame to the desktop pane if it is not there yet, then shows it.
+     *
+     * @return {@code true} when this call displayed the frame, {@code false} when it was
+     *         showing already. That is what tells the caller whether the frame still has to
+     *         load its data.
+     */
+    public static boolean displayInternalFrame(javax.swing.JDesktopPane desktopPane, javax.swing.JInternalFrame internalFrame) {
         if (!internalFrame.isVisible()) {
             if (!java.util.Arrays.asList(desktopPane.getAllFrames()).contains(internalFrame)) {
                 desktopPane.add(internalFrame);
             }
             internalFrame.setVisible(true);
+            return true;
         }
+        return false;
     }
 
     public static String clean(String s) {

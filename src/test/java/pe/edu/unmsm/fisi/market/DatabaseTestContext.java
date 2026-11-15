@@ -56,7 +56,8 @@ public class DatabaseTestContext {
                 int result = connection.prepareStatement(sql).executeUpdate();
                 LOG.debug("[RESULT] {}", result);
             } catch (SQLException e) {
-                if (e.getSQLState().equals("X0Y32") || e.getSQLState().equals("23505")) {
+                // 42S01 table already exists, 23505 duplicate key: replaying the schema is not an error
+                if (e.getSQLState().equals("42S01") || e.getSQLState().equals("23505")) {
                     LOG.debug(e.getMessage());
                 } else {
                     throw e;

@@ -2,6 +2,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 *.log
 .scannerwork/
+.tmp/
 
 ### STS ###
 .apt_generated
@@ -27,3 +28,6 @@ nbdist/
 .nb-gradle/
 nb-configuration.xml
 nbactions.xml
+
+### H2 ###
+trace.db/

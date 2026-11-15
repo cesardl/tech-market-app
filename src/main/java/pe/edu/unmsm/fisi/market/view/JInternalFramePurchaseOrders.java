@@ -5,18 +5,22 @@
  */
 package pe.edu.unmsm.fisi.market.view;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.market.business.impl.CustomerBusiness;
 import pe.edu.unmsm.fisi.market.business.impl.ProductBusiness;
+import pe.edu.unmsm.fisi.market.business.impl.ProductCodeBusiness;
 import pe.edu.unmsm.fisi.market.business.impl.PurchaseOrderBusiness;
 import pe.edu.unmsm.fisi.market.model.Customer;
+import pe.edu.unmsm.fisi.market.model.ProductCode;
 import pe.edu.unmsm.fisi.market.model.Product;
 import pe.edu.unmsm.fisi.market.model.PurchaseOrder;
-import pe.edu.unmsm.fisi.market.util.AppUtils;
+import pe.edu.unmsm.fisi.market.util.BackgroundTask;
 
 /**
  * @author Eliana Zapata
@@ -29,8 +33,14 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
 
     private final CustomerBusiness customerBusiness;
     private final ProductBusiness productBusiness;
+    private final ProductCodeBusiness productCodeBusiness; // TODO validate correct definition and patter defined.
     private final PurchaseOrderBusiness purchaseOrderBusiness;
-    private PurchaseOrder purchaseOrder;
+
+    /**
+     * The product combo's load in flight, if any. Picking another product code before the
+     * previous query lands would otherwise let the older answer overwrite the newer one.
+     */
+    private javax.swing.SwingWorker<Collection<Product>, Void> productsLoader;
 
     /**
      * Creates new form JInternalFrameVentas
@@ -38,7 +48,9 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
     public JInternalFramePurchaseOrders() {
         customerBusiness = CustomerBusiness.getInstance();
         productBusiness = ProductBusiness.getInstance();
+        productCodeBusiness = ProductCodeBusiness.getInstance();
         purchaseOrderBusiness = PurchaseOrderBusiness.getInstance();
+
         initComponents();
     }
 
@@ -54,10 +66,12 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         javax.swing.JPanel panelBuy = new javax.swing.JPanel();
         javax.swing.JLabel labelCustomer = new javax.swing.JLabel();
         comboBoxCustomer = new javax.swing.JComboBox<>();
+        javax.swing.JLabel labelProductCode = new javax.swing.JLabel();
+        // Precreation code
+        comboBoxProductCode = new javax.swing.JComboBox<>();
+        // Post-creation code
         javax.swing.JLabel labelProduct = new javax.swing.JLabel();
         comboBoxProduct = new javax.swing.JComboBox<>();
-        javax.swing.JLabel labelQuantity = new javax.swing.JLabel();
-        spinnerQuantity = new javax.swing.JSpinner();
         javax.swing.JButton buttonBuy = new javax.swing.JButton();
         javax.swing.JPanel panelPurchaseOrders = new javax.swing.JPanel();
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
@@ -71,13 +85,23 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
 
         panelBuy.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos del Producto"));
 
-        labelCustomer.setText("Cliente");
+        labelCustomer.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        labelCustomer.setLabelFor(comboBoxCustomer);
+        labelCustomer.setText("Cliente:");
 
-        labelProduct.setText("Producto");
+        labelProductCode.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        labelProductCode.setLabelFor(comboBoxProductCode);
+        labelProductCode.setText("Código Producto:");
 
-        labelQuantity.setText("Cantidad");
+        comboBoxProductCode.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboBoxProductCodeItemStateChanged(evt);
+            }
+        });
 
-        spinnerQuantity.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        labelProduct.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        labelProduct.setLabelFor(comboBoxProduct);
+        labelProduct.setText("Producto:");
 
         buttonBuy.setText("Comprar");
         buttonBuy.addActionListener(new java.awt.event.ActionListener() {
@@ -93,36 +117,39 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
             .addGroup(panelBuyLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(labelQuantity)
-                    .addComponent(labelProduct)
-                    .addComponent(labelCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(comboBoxProduct, 0, 353, Short.MAX_VALUE)
                     .addGroup(panelBuyLayout.createSequentialGroup()
-                        .addComponent(spinnerQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
-                        .addGap(256, 256, 256))
-                    .addComponent(comboBoxCustomer, 0, 353, Short.MAX_VALUE))
-                .addGap(171, 171, 171)
-                .addComponent(buttonBuy)
+                        .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelCustomer, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(labelProductCode, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboBoxCustomer, 0, 197, Short.MAX_VALUE)
+                            .addComponent(comboBoxProductCode, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(labelProduct)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(comboBoxProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBuyLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(buttonBuy)))
                 .addContainerGap())
         );
         panelBuyLayout.setVerticalGroup(
             panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBuyLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelCustomer)
                     .addComponent(comboBoxCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(comboBoxProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelProduct))
+                    .addComponent(labelProductCode)
+                    .addComponent(comboBoxProductCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelProduct)
+                    .addComponent(comboBoxProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelBuyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(spinnerQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelQuantity)
-                    .addComponent(buttonBuy))
-                .addGap(8, 8, 8))
+                .addComponent(buttonBuy)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panelPurchaseOrders.setBorder(javax.swing.BorderFactory.createTitledBorder("Ordenes de Compra"));
@@ -152,6 +179,11 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                 tablePurchaseOrdersMouseClicked(evt);
             }
         });
+        tablePurchaseOrders.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tablePurchaseOrdersKeyPressed(evt);
+            }
+        });
         scrollPane.setViewportView(tablePurchaseOrders);
 
         javax.swing.GroupLayout panelPurchaseOrdersLayout = new javax.swing.GroupLayout(panelPurchaseOrders);
@@ -167,7 +199,7 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
             panelPurchaseOrdersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPurchaseOrdersLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -180,18 +212,18 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelBuy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelPurchaseOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(labelTotal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(labelTotalRows)
                 .addGap(21, 21, 21))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelBuy, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelPurchaseOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,32 +231,51 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(panelBuy, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelPurchaseOrders, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelPurchaseOrders, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelTotal)
                     .addComponent(labelTotalRows))
-                .addContainerGap())
+                .addGap(13, 13, 13))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    @Override
-    public void setVisible(boolean b) {
-        if (b) {
-            comboBoxCustomer.setModel(
-                    new javax.swing.DefaultComboBoxModel<>(
-                            new java.util.Vector<>(customerBusiness.all())));
+    /**
+     * Fills the screen from the database without blocking the Event Dispatch Thread: four
+     * independent queries, one worker each, so the combos do not wait on the orders table,
+     * which reads every order in the database through a join.
+     * <p>
+     * {@code JFrameMain} calls this once, when it displays the screen. Loading from
+     * {@link #setVisible(boolean)} instead would put four queries in front of a method whose
+     * job is to show the frame, which is what the frame no longer overrides.
+     */
+    void loadDataAsync() {
+        BackgroundTask.run(customerBusiness::all,
+                customers -> comboBoxCustomer.setModel(
+                        new javax.swing.DefaultComboBoxModel<>(customers.toArray(new Customer[0]))));
 
-            comboBoxProduct.setModel(
-                    new javax.swing.DefaultComboBoxModel<>(
-                            new java.util.Vector<>(productBusiness.all())));
+        BackgroundTask.run(this::productCodeOptions,
+                productCodes -> comboBoxProductCode.setModel(
+                        new javax.swing.DefaultComboBoxModel<>(productCodes.toArray(new ProductCode[0]))));
 
-            refreshDataTable(purchaseOrderBusiness.all());
-        }
+        // setModel() fires no ItemEvent, so the product combo is loaded here as well, and by
+        // comboBoxProductCodeItemStateChanged from then on.
+        filterProductsByProductCode();
 
-        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
+        reloadPurchaseOrders();
+    }
+
+    private List<ProductCode> productCodeOptions() {
+        List<ProductCode> productCodes = new ArrayList<>();
+        productCodes.add(noProductCodeFilter());
+        productCodes.addAll(productCodeBusiness.all());
+        return productCodes;
+    }
+
+    private void reloadPurchaseOrders() {
+        BackgroundTask.run(purchaseOrderBusiness::all, this::refreshDataTable);
     }
 
     private void refreshDataTable(Collection<PurchaseOrder> purchaseOrders) {
@@ -245,58 +296,141 @@ public class JInternalFramePurchaseOrders extends javax.swing.JInternalFrame {
         labelTotalRows.setText(String.valueOf(purchaseOrders.size()));
     }
 
+    /**
+     * First entry of comboBoxProductCode: a {@link ProductCode} carrying no code at all,
+     * which stands for "do not filter". Without it the first real code would select itself
+     * as the screen opens and silently hide every product outside it.
+     */
+    private static ProductCode noProductCodeFilter() {
+        ProductCode noFilter = new ProductCode();
+        noFilter.setDescription("-- Todos --");
+        return noFilter;
+    }
+
+    /**
+     * Refills comboBoxProduct with the products of the selected product code. Both the
+     * no-filter entry and an empty combo answer a null code, which means "every code".
+     */
+    private void filterProductsByProductCode() {
+        ProductCode productCode = comboBoxProductCode.getItemAt(comboBoxProductCode.getSelectedIndex());
+        String prodCode = productCode == null ? null : productCode.getProdCode();
+
+        if (productsLoader != null) {
+            productsLoader.cancel(false);
+        }
+
+        productsLoader = BackgroundTask.run(() -> productBusiness.getProductsByProductCode(prodCode),
+                products -> comboBoxProduct.setModel(
+                        new javax.swing.DefaultComboBoxModel<>(products.toArray(new Product[0]))));
+    }
+
     private void buttonBuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBuyActionPerformed
         LOG.trace(evt.paramString());
 
-        if (catchingData()) {
-            JDialogPurchaseOrderForm purchaseOrderForm = new JDialogPurchaseOrderForm(
-                    javax.swing.JOptionPane.getFrameForComponent(this), purchaseOrder);
-            purchaseOrderForm.setVisible(true);
-
-            if (purchaseOrderForm.isActionPerformed()) {
-                LOG.info("Purchase order has been register, showing data");
-                refreshDataTable(purchaseOrderBusiness.all());
-            } else {
-                LOG.debug("No action has performed");
-            }
-        } else {
+        PurchaseOrder purchaseOrder = catchingData();
+        if (purchaseOrder == null) {
             javax.swing.JOptionPane.showMessageDialog(this,
                     "Ingrese correctamente los datos de compra",
                     getTitle(), javax.swing.JOptionPane.WARNING_MESSAGE);
+        } else {
+            processPurchaseOrder(purchaseOrder);
         }
     }//GEN-LAST:event_buttonBuyActionPerformed
 
-    private boolean catchingData() {
-        int quantity = AppUtils.toInteger(String.valueOf(spinnerQuantity.getValue()));
+    private PurchaseOrder catchingData() {
+        Customer customer = comboBoxCustomer.getItemAt(comboBoxCustomer.getSelectedIndex());
+        Product product = comboBoxProduct.getItemAt(comboBoxProduct.getSelectedIndex());
 
-        if (quantity == AppUtils.ERROR_NUMBER || quantity == 0) {
-            spinnerQuantity.requestFocus();
-            return false;
+        // Nothing selected, or nothing to select: getItemAt(-1) answers null, and the
+        // caller already knows how to report a null order.
+        if (customer == null || product == null) {
+            return null;
         }
-        purchaseOrder = new PurchaseOrder();
-        purchaseOrder.setCustomer(comboBoxCustomer.getItemAt(comboBoxCustomer.getSelectedIndex()));
-        purchaseOrder.setProduct(comboBoxProduct.getItemAt(comboBoxProduct.getSelectedIndex()));
-        purchaseOrder.setQuantity(quantity);
-        return true;
+
+        PurchaseOrder purchaseOrder = new PurchaseOrder();
+        purchaseOrder.setCustomer(customer);
+        purchaseOrder.setProduct(product);
+        return purchaseOrder;
     }
 
     private void tablePurchaseOrdersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablePurchaseOrdersMouseClicked
         if (evt.getClickCount() == 2) {
             javax.swing.JTable target = (javax.swing.JTable) evt.getSource();
             int row = target.getSelectedRow();
-            System.out.println(" double click " + row);
+
             DefaultTableModel dtm = (DefaultTableModel) target.getModel();
 
-            // TODO Complete
-            System.out.println(dtm.getValueAt(row, 0));
+            Integer purchaseOrderNum = (Integer) dtm.getValueAt(row, 0);
+            LOG.debug("Getting purchase order number {}", purchaseOrderNum);
+
+            PurchaseOrder purchaseOrder = purchaseOrderBusiness.findById(purchaseOrderNum);
+            processPurchaseOrder(purchaseOrder);
         }
     }//GEN-LAST:event_tablePurchaseOrdersMouseClicked
+
+    private void tablePurchaseOrdersKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tablePurchaseOrdersKeyPressed
+        int selectedRow = tablePurchaseOrders.getSelectedRow();
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_DELETE && selectedRow != -1) {
+
+            Integer purchaseOrderNum = (Integer) tablePurchaseOrders.getValueAt(selectedRow, 0);
+            deletePurchaseOrderAction(purchaseOrderNum);
+        }
+    }//GEN-LAST:event_tablePurchaseOrdersKeyPressed
+
+    private void comboBoxProductCodeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxProductCodeItemStateChanged
+        LOG.trace(evt.paramString());
+
+        // A combo change fires twice, DESELECTED then SELECTED, so react to one of them only.
+        if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+            filterProductsByProductCode();
+        }
+    }//GEN-LAST:event_comboBoxProductCodeItemStateChanged
+
+    private void deletePurchaseOrderAction(final int purchaseOrderNum) {
+        int optionChosen = javax.swing.JOptionPane.showConfirmDialog(this,
+                "Seguro que desea eliminar la orden de compra?", getTitle(),
+                javax.swing.JOptionPane.YES_NO_OPTION,
+                javax.swing.JOptionPane.QUESTION_MESSAGE);
+
+        if (javax.swing.JOptionPane.YES_OPTION == optionChosen) {
+
+            if (purchaseOrderBusiness.delete(purchaseOrderNum)) {
+                LOG.info("Purchase order {} has been deleted, showing data", purchaseOrderNum);
+                reloadPurchaseOrders();
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(this,
+                        "No se pudo borrar la orden de compra.", getTitle(),
+                        javax.swing.JOptionPane.WARNING_MESSAGE);
+            }
+        }
+    }
+
+    private void processPurchaseOrder(final PurchaseOrder purchaseOrder) {
+        if (purchaseOrder == null) {
+            javax.swing.JOptionPane.showMessageDialog(this,
+                    "La orden de compra ya no existe.", getTitle(),
+                    javax.swing.JOptionPane.WARNING_MESSAGE);
+            reloadPurchaseOrders();
+            return;
+        }
+
+        JDialogPurchaseOrderForm purchaseOrderForm = new JDialogPurchaseOrderForm(
+                javax.swing.JOptionPane.getFrameForComponent(this), purchaseOrder);
+        purchaseOrderForm.setVisible(true);
+
+        if (purchaseOrderForm.isActionPerformed()) {
+            LOG.info("Purchase order has been register, showing data");
+            reloadPurchaseOrders();
+        } else {
+            LOG.debug("No action has performed");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<Customer> comboBoxCustomer;
     private javax.swing.JComboBox<Product> comboBoxProduct;
+    private javax.swing.JComboBox<ProductCode> comboBoxProductCode;
     private javax.swing.JLabel labelTotalRows;
-    private javax.swing.JSpinner spinnerQuantity;
     private javax.swing.JTable tablePurchaseOrders;
     // End of variables declaration//GEN-END:variables
 }

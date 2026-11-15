@@ -13,13 +13,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import pe.edu.unmsm.fisi.market.dao.CompleteCrudDAO;
 
 /**
  * Created on 14/06/2018.
  *
  * @author Cesardl
  */
-public class ProductCodeDAO implements MasterCrudDAO<ProductCode> {
+public class ProductCodeDAO implements CompleteCrudDAO<ProductCode> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductCodeDAO.class);
 
@@ -29,8 +30,7 @@ public class ProductCodeDAO implements MasterCrudDAO<ProductCode> {
 
         LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
-        try (Connection conn = ConnectionUtils.openConnection();
-             Statement s = conn.createStatement()) {
+        try (Connection conn = ConnectionUtils.openConnection(); Statement s = conn.createStatement()) {
             s.execute(sql);
 
             try (ResultSet rs = s.getResultSet()) {
@@ -50,5 +50,30 @@ public class ProductCodeDAO implements MasterCrudDAO<ProductCode> {
             LOG.error(ex.getMessage(), ex);
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public boolean save(ProductCode t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean update(ProductCode t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Collection<ProductCode> buscarNombre(String description) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean delete(ProductCode t) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public ProductCode findById(int identifier) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

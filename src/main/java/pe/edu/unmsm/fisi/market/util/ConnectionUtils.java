@@ -64,7 +64,7 @@ public final class ConnectionUtils {
             conn.setSchema(schema);
             return conn;
         } catch (ClassNotFoundException cnfe) {
-            LOG.error("Derby driver not found.", cnfe);
+            LOG.error("JDBC driver not found.", cnfe);
         } catch (SQLException sqle) {
             LOG.error("Error when trying to open a connection.", sqle);
         }

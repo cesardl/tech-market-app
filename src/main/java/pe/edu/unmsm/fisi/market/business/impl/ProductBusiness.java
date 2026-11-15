@@ -27,12 +27,14 @@ public class ProductBusiness extends TemplateBusiness<Product> {
 
     private static final ProductBusiness INSTANCE = new ProductBusiness();
 
+    private final ProductDAO productDAO;
     private final ProductCodeDAO productCodeDAO;
     private final ManufacturerDAO manufacturerDAO;
 
     //private constructor to avoid client applications to use constructor
     private ProductBusiness() {
-        setDao(new ProductDAO());
+        productDAO = new ProductDAO();
+        setDao(productDAO);
         productCodeDAO = new ProductCodeDAO();
         manufacturerDAO = new ManufacturerDAO();
         setIdentifierSize(6);
@@ -51,6 +53,15 @@ public class ProductBusiness extends TemplateBusiness<Product> {
     public Collection<ProductCode> getProductCodes() {
         LOG.info("Getting all product codes");
         return productCodeDAO.getAll();
+    }
+
+    /**
+     * The products the purchase order screen may offer for one product code, or for every
+     * code when {@code prodCode} is {@code null}.
+     */
+    public Collection<Product> getProductsByProductCode(final String prodCode) {
+        LOG.info("Getting sellable products for product code: {}", prodCode);
+        return productDAO.findByProductCode(prodCode);
     }
 
     public Collection<Manufacturer> getManufacturers() {

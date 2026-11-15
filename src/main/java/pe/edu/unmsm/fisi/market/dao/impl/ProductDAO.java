@@ -22,6 +22,17 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductDAO.class);
 
+    /**
+     * The whole product graph: every PRODUCT column the POJO carries, plus the manufacturer
+     * and the product code the row points at. {@link #parseProduct(ResultSet)} maps it.
+     * Callers append their own WHERE clause.
+     */
+    private static final String SELECT_PRODUCT_GRAPH =
+            "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.MARKUP, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
+                    + "FROM PRODUCT P "
+                    + "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID "
+                    + "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE ";
+
     @Override
     public Collection<Product> getAll() {
         String sql = "SELECT PRODUCT_ID, DESCRIPTION FROM PRODUCT WHERE QUANTITY_ON_HAND <> 0 AND AVAILABLE = TRUE";
@@ -111,11 +122,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
     @Override
     public Product findById(final int identifier) {
-        String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.MARKUP, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
-                + "FROM PRODUCT P "
-                + "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID "
-                + "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE "
-                + "WHERE PRODUCT_ID = ?";
+        String sql = SELECT_PRODUCT_GRAPH + "WHERE PRODUCT_ID = ?";
 
         LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
@@ -138,11 +145,7 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
 
     @Override
     public Collection<Product> buscarNombre(final String description) {
-        String sql = "SELECT P.PRODUCT_ID, P.DESCRIPTION, P.PURCHASE_COST, P.QUANTITY_ON_HAND, P.MARKUP, P.AVAILABLE, M.MANUFACTURER_ID, M.NAME, PC.PROD_CODE "
-                + "FROM PRODUCT P "
-                + "INNER JOIN MANUFACTURER M on P.MANUFACTURER_ID = M.MANUFACTURER_ID "
-                + "INNER JOIN PRODUCT_CODE PC on P.PRODUCT_CODE = PC.PROD_CODE "
-                + "WHERE UPPER(P.DESCRIPTION) LIKE ?";
+        String sql = SELECT_PRODUCT_GRAPH + "WHERE UPPER(P.DESCRIPTION) LIKE ?";
 
         LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
 
@@ -206,5 +209,80 @@ public class ProductDAO implements CompleteCrudDAO<Product> {
         p.setProductCode(pc);
 
         return p;
+    }
+
+    /**
+     * Takes {@code quantity} units off a product's stock, or puts them back when it is
+     * negative, and keeps AVAILABLE in step with what is left -- the same rule
+     * {@code ProductBusiness.saveOrUpdate} applies, here as SQL because the row is never
+     * read into a POJO.
+     * <p>
+     * One statement, so the check and the subtraction cannot be separated: no row is touched
+     * when the stock on hand is below what was asked, and two orders cannot both be told
+     * there is enough. Reading the stock first and updating it afterwards is what a
+     * framework's optimistic locking would be protecting you from.
+     *
+     * @param connection the caller's transaction, so this commits with the order that caused it.
+     * @return false when the product is gone or its stock is short, which is the caller's
+     *         signal to roll the unit of work back.
+     */
+    public boolean takeStock(final Connection connection, final int productId, final int quantity) throws SQLException {
+        String sql = "UPDATE PRODUCT SET QUANTITY_ON_HAND = QUANTITY_ON_HAND - ?, AVAILABLE = (QUANTITY_ON_HAND - ? <> 0) "
+                + "WHERE PRODUCT_ID = ? AND QUANTITY_ON_HAND >= ?";
+
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, quantity);
+            ps.setInt(2, quantity);
+            ps.setInt(3, productId);
+            ps.setInt(4, quantity);
+
+            int result = ps.executeUpdate();
+
+            LOG.info("Taking {} units of product {} out of stock: {} rows", quantity, productId, result);
+            return result == 1;
+        }
+    }
+
+    /**
+     * Every product that can still be sold, optionally narrowed to one product code. It feeds
+     * the product combo of the purchase order screen, so unlike {@link #getAll()} it returns
+     * the full graph -- QUANTITY_ON_HAND included, which is what any stock check needs.
+     *
+     * @param prodCode the PRODUCT_CODE.PROD_CODE to filter by, or {@code null} for every
+     *                 code. Rows out of stock or flagged unavailable are left out either
+     *                 way, the same ones {@link #getAll()} hides.
+     */
+    public Collection<Product> findByProductCode(final String prodCode) {
+        String sql = SELECT_PRODUCT_GRAPH
+                + "WHERE P.QUANTITY_ON_HAND <> 0 AND P.AVAILABLE = TRUE "
+                + (prodCode == null ? "" : "AND PC.PROD_CODE = ? ")
+                + "ORDER BY P.DESCRIPTION";
+
+        LOG.debug(ConnectionUtils.SQL_LOG_TEMPLATE, sql);
+
+        try (Connection conn = ConnectionUtils.openConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            if (prodCode != null) {
+                ps.setString(1, prodCode);
+            }
+
+            Collection<Product> products = new ArrayList<>();
+
+            try (ResultSet rs = ps.executeQuery()) {
+
+                while (rs.next()) {
+                    products.add(parseProduct(rs));
+                }
+            }
+
+            LOG.info("Loading {} products for product code {}", products.size(), prodCode);
+            return products;
+        } catch (SQLException ex) {
+            LOG.error(ex.getMessage(), ex);
+        }
+        return Collections.emptyList();
     }
 }

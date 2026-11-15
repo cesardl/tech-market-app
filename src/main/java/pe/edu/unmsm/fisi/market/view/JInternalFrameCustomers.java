@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pe.edu.unmsm.fisi.market.business.impl.CustomerBusiness;
 import pe.edu.unmsm.fisi.market.model.Customer;
+import pe.edu.unmsm.fisi.market.util.BackgroundTask;
 
 import java.util.Collection;
 
@@ -29,6 +30,7 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
      */
     public JInternalFrameCustomers() {
         customerBusiness = CustomerBusiness.getInstance();
+
         initComponents();
     }
 
@@ -152,13 +154,16 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    @Override
-    public void setVisible(boolean b) {
-        if (b) {
-            refreshDataTable(customerBusiness.all());
-        }
-
-        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * Fills the table from the database without blocking the Event Dispatch Thread, and
+     * refills it after a customer is added, edited or deleted.
+     * <p>
+     * {@code JFrameMain} calls this once, when it displays the screen. Loading from
+     * {@link #setVisible(boolean)} instead would put a query in front of a method whose job
+     * is to show the frame, which is what the frame no longer overrides.
+     */
+    void loadDataAsync() {
+        BackgroundTask.run(customerBusiness::all, this::refreshDataTable);
     }
 
     private void refreshDataTable(Collection<Customer> customers) {
@@ -186,9 +191,8 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
         customerForm.setVisible(true);
 
         if (customerForm.isActionPerformed()) {
-            Collection<Customer> customers = customerBusiness.all();
             LOG.info("Customer has been saved, showing data");
-            refreshDataTable(customers);
+            loadDataAsync();
         } else {
             LOG.debug("No action has performed");
         }
@@ -227,9 +231,8 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
         productForm.setVisible(true);
 
         if (productForm.isActionPerformed()) {
-            Collection<Customer> customers = customerBusiness.all();
             LOG.info("Product has been updated, showing data");
-            refreshDataTable(customers);
+            loadDataAsync();
         } else {
             LOG.debug("No action has performed");
         }
@@ -244,9 +247,8 @@ public class JInternalFrameCustomers extends javax.swing.JInternalFrame {
         if (javax.swing.JOptionPane.YES_OPTION == optionChosen) {
 
             if (customerBusiness.delete(customerId)) {
-                Collection<Customer> customers = customerBusiness.all();
                 LOG.info("Customer has been deleted, showing data");
-                refreshDataTable(customers);
+                loadDataAsync();
             } else {
                 javax.swing.JOptionPane.showMessageDialog(this,
                         "No se pudo borrar el cliente.", getTitle(),

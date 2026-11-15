@@ -102,7 +102,7 @@ public class CustomerBusinessTest {
     public void getDiscountCodesTest() {
         Collection<DiscountCode> result = customerBusiness.getDiscountCodes();
         assertFalse(result.isEmpty());
-        assertEquals(2, result.size());
+        assertEquals(3, result.size());
     }
 
     @Test
